@@ -27,6 +27,9 @@
 
         <x-site-services />
 
-        
+        <x-site-projects />
+
+        <x-site-testimonials />
+
     </body>
 </html>
