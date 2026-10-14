@@ -1,13 +1,11 @@
 {{--
-    Image: upload the photo to resources/images/ (e.g. resources/images/about-us.jpg), then pass it in welcome.blade.php:
-    <x-site-AboutUs :image="Vite::asset('resources/images/about-us.jpg')" />
+    Image: upload the photo to resources/images/ (e.g. resources/images/about-us.png), then pass it in welcome.blade.php:
+    <x-site-AboutUs :image="Vite::asset('resources/images/about-us.png')" />
     Run `npm run build` (or keep `npm run dev` running) so Vite picks up the new file.
 --}}
 @props([
     'image' => null,
-    'imageAlt' => 'Engineer reviewing a CAD drawing on a monitor',
-    'statValue' => 'TBA',
-    'statLabel' => 'Years delivering engineering excellence',
+    'imageAlt' => 'AVX Engineering Solutions logo — Aviation, UAV, Systems',
 ])
 
 @php
@@ -21,18 +19,22 @@
 
 <section id="about" class="overflow-hidden bg-white">
     <div class="mx-auto grid max-w-7xl items-center gap-16 px-4 py-16 sm:px-8 lg:grid-cols-2 lg:gap-20 lg:py-28">
-        <div class="relative mr-6 sm:mr-10">
-            <div class="aspect-[4/5] bg-slate-800">
-                @if ($image)
-                    <img src="{{ $image }}" alt="{{ $imageAlt }}" class="size-full object-cover">
-                @endif
-            </div>
+        @if ($image)
+            <div class="relative mr-4 mb-4 sm:mr-6 sm:mb-6">
+                <div class="absolute inset-0 translate-x-4 translate-y-4 border-2 border-brand sm:translate-x-6 sm:translate-y-6" aria-hidden="true"></div>
 
-            <div class="absolute -right-6 -bottom-10 bg-brand px-8 py-7 shadow-xl sm:-right-10 sm:min-w-64">
-                <p class="font-display text-5xl font-extrabold text-white">{{ $statValue }}</p>
-                <p class="mt-2 max-w-44 leading-relaxed text-blue-100">{{ $statLabel }}</p>
+                <div class="relative aspect-square overflow-hidden border border-blue-100 bg-white bg-gradient-to-br from-white via-blue-50/60 to-blue-100/70 p-8 shadow-2xl shadow-slate-900/10 sm:p-12">
+                    <div class="absolute top-0 left-0 h-1 w-20 bg-brand" aria-hidden="true"></div>
+                    <div class="absolute top-0 left-0 h-20 w-1 bg-brand" aria-hidden="true"></div>
+                    <div class="absolute right-0 bottom-0 h-1 w-20 bg-brand" aria-hidden="true"></div>
+                    <div class="absolute right-0 bottom-0 h-20 w-1 bg-brand" aria-hidden="true"></div>
+
+                    <img src="{{ $image }}" alt="{{ $imageAlt }}" class="relative size-full object-contain mix-blend-multiply">
+                </div>
             </div>
-        </div>
+        @else
+            <div class="aspect-[4/5] bg-slate-800"></div>
+        @endif
 
         <div>
             <p class="font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">About Us</p>

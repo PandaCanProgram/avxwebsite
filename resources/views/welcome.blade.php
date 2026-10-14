@@ -23,13 +23,19 @@
 
         <x-site-scoring />
 
-        <x-site-AboutUs />
+        <x-site-AboutUs :image="Vite::asset('resources/images/about-us.png')" />
 
         <x-site-services />
 
         <x-site-projects />
 
         <x-site-testimonials />
+
+        <x-site-faq />
+
+        <x-site-contact />
+
+        <x-site-footer :logo="Vite::asset('resources/images/AVXlogo.png')" />
 
     </body>
 </html>
