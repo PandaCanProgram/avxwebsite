@@ -9,4 +9,11 @@ document.querySelectorAll('[data-nav-toggle]').forEach((toggle) => {
         toggle.setAttribute('aria-expanded', String(!isExpanded));
         menu.classList.toggle('hidden', isExpanded);
     });
+
+    menu.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', () => {
+            toggle.setAttribute('aria-expanded', 'false');
+            menu.classList.add('hidden');
+        });
+    });
 });

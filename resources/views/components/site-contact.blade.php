@@ -56,7 +56,7 @@
             </ul>
         </div>
 
-        <form id="quote" action="#" method="POST" class="scroll-mt-24 bg-white p-6 shadow-sm sm:p-10">
+        <form id="quote" action="#" method="POST" class="bg-white p-6 shadow-sm sm:p-10">
             <div class="grid gap-6 sm:grid-cols-2">
                 <div>
                     <label for="contact-name" class="{{ $labelClasses }}">Full Name</label>

@@ -1,7 +1,7 @@
 @props([
     'image' => null,
     'imageAlt' => 'White quadcopter drone flying over a forest',
-    'statValue' => 'TBA',
+    'statValue' => '50+',
     'statLabel' => 'Successful Projects',
 ])
 
