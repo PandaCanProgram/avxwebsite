@@ -4,10 +4,10 @@
 
 @php
     $navLinks = [
-        ['label' => 'About', 'href' => '#about'],
-        ['label' => 'Services', 'href' => '#services'],
-        ['label' => 'Projects', 'href' => '#projects'],
-        ['label' => 'Contact', 'href' => '#contact'],
+        ['label' => 'About', 'href' => route('home').'#about'],
+        ['label' => 'Services', 'href' => route('home').'#services'],
+        ['label' => 'Projects', 'href' => route('home').'#projects'],
+        ['label' => 'Contact', 'href' => route('home').'#contact'],
     ];
 @endphp
 
@@ -29,7 +29,7 @@
                 <a href="{{ $navLink['href'] }}" class="text-[17px] text-gray-500 transition-colors hover:text-slate-900">{{ $navLink['label'] }}</a>
             @endforeach
 
-            <a href="#quote" class="ml-2 bg-brand px-6 py-3 text-[17px] font-medium text-white transition-colors hover:bg-brand-dark">Get a Quote</a>
+            <a href="{{ route('home') }}#quote" class="ml-2 bg-brand px-6 py-3 text-[17px] font-medium text-white transition-colors hover:bg-brand-dark">Get a Quote</a>
         </nav>
 
         <button type="button" class="p-2 text-slate-900 md:hidden" aria-controls="mobile-nav" aria-expanded="false" aria-label="Toggle navigation" data-nav-toggle>
@@ -44,7 +44,7 @@
             <a href="{{ $navLink['href'] }}" class="block py-3 text-gray-500 hover:text-slate-900">{{ $navLink['label'] }}</a>
         @endforeach
 
-        <a href="#quote" class="mt-2 block bg-brand px-6 py-3 text-center font-medium text-white hover:bg-brand-dark">Get a Quote</a>
+        <a href="{{ route('home') }}#quote" class="mt-2 block bg-brand px-6 py-3 text-center font-medium text-white hover:bg-brand-dark">Get a Quote</a>
     </nav>
 
 </header>

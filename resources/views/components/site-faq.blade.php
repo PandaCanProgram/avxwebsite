@@ -1,24 +1,28 @@
 @php
     $faqs = [
         [
-            'question' => 'What simulation tools do you use?',
-            'answer' => 'We run CFD in ANSYS Fluent and OpenFOAM, structural FEA in ANSYS Mechanical, and build CAD models in SolidWorks and CATIA — the same industry-standard tools used in academic and professional aerospace work.',
+            'question' => 'What kinds of drones can you build?',
+            'answer' => 'Both multirotor and fixed-wing UAVs. Multirotors are stable and versatile for aerial photography, inspection, mapping, surveillance, and research. Fixed-wing platforms offer long range and high endurance for surveying, monitoring, agriculture, and delivery. Our portfolio includes the F450 and F500 platforms.',
         ],
         [
-            'question' => 'Can you help with thesis or capstone projects?',
-            'answer' => 'Absolutely. We provide full technical consultation for undergraduate and graduate theses — from simulation setup to data analysis, report writing, and panel preparation.',
+            'question' => 'Can you set up the autopilot and payload too?',
+            'answer' => 'Yes. Beyond fabrication, we handle system integration and autopilot setup, payload and mission planning, flight performance analysis, and prototype testing and validation, so your drone is ready for its mission.',
+        ],
+        [
+            'question' => 'What kind of software do you build?',
+            'answer' => 'Business websites, management systems, AI applications, UAV and aviation software, research platforms, industrial automation, educational systems, and custom web applications. We work with HTML, CSS, Tailwind CSS, JavaScript, TypeScript, React, Next.js, FastAPI, and Figma, plus Python and PyTorch for AI and machine learning.',
+        ],
+        [
+            'question' => 'Is consultation limited?',
+            'answer' => 'No. Consultation is unlimited, so you can talk your project through with us as much as you need before and during development.',
         ],
         [
             'question' => 'How long does a typical project take?',
-            'answer' => 'It depends on scope. A focused simulation or CAD task usually takes one to two weeks, while full UAV builds or multi-stage research support can run several weeks. We agree on a timeline before any work begins.',
-        ],
-        [
-            'question' => 'Do you work with international clients?',
-            'answer' => 'Yes. We work remotely with clients worldwide and coordinate through online meetings, shared files, and regular progress updates across time zones.',
+            'answer' => 'It depends on scope. We review your requirements first and agree on a timeline before any work begins.',
         ],
         [
             'question' => 'How do I get a quote?',
-            'answer' => 'Send us a short description of your project, deliverables, and deadline. We\'ll review the requirements and reply with a scope, timeline, and quote — free and with no obligation.',
+            'answer' => 'Send us a short description of your project, deliverables, and deadline through the form below, by email, or by phone. We\'ll review the requirements and reply with a scope, timeline, and quote.',
         ],
     ];
 @endphp

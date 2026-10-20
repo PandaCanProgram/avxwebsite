@@ -1,8 +1,8 @@
 @props([
     'image' => null,
     'imageAlt' => 'White quadcopter drone flying over a forest',
-    'statValue' => '50+',
-    'statLabel' => 'Successful Projects',
+    'statValue' => 'F450 · F500',
+    'statLabel' => 'Drone Platforms Built',
 ])
 
 @php
@@ -25,13 +25,13 @@
             </p>
 
             <h1 class="mt-12 font-display text-6xl leading-[0.95] font-extrabold text-slate-900 uppercase sm:text-7xl lg:text-[6rem]">
-                Engineering
-                <span class="block text-brand">The Future</span>
-                <span class="block">Of Aviation</span>
+                We Build
+                <span class="block text-brand">Your Ideas</span>
+                <span class="block">And Take Flight</span>
             </h1>
 
             <p class="mt-12 max-w-xl text-lg leading-relaxed text-gray-500 sm:text-[22px]">
-                AVX Engineering Solutions delivers cost-effective simulation, UAV development, and technical consultation — built for researchers, students, and aviation professionals.
+                Precision in the air begins with precision in engineering. AVX Engineering Solutions designs and fabricates custom multirotor and fixed-wing UAVs, and builds modern software — from full-stack web applications to AI-powered systems.
             </p>
 
             <div class="mt-14 flex flex-wrap gap-5">

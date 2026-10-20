@@ -4,12 +4,11 @@
 
 @php
     $navLinks = [
-        ['label' => 'About', 'href' => '#about'],
-        ['label' => 'Services', 'href' => '#services'],
-        ['label' => 'Projects', 'href' => '#projects'],
-        ['label' => 'Testimonials', 'href' => '#testimonials'],
-        ['label' => 'FAQ', 'href' => '#faq'],
-        ['label' => 'Contact', 'href' => '#contact'],
+        ['label' => 'About', 'href' => route('home').'#about'],
+        ['label' => 'Services', 'href' => route('home').'#services'],
+        ['label' => 'Projects', 'href' => route('home').'#projects'],
+        ['label' => 'FAQ', 'href' => route('home').'#faq'],
+        ['label' => 'Contact', 'href' => route('home').'#contact'],
     ];
 @endphp
 
@@ -28,7 +27,7 @@
                     </span>
                 </a>
 
-                <p class="mt-6 max-w-sm leading-relaxed">Delivering cost-effective engineering solutions for the next generation of aerospace innovation.</p>
+                <p class="mt-6 max-w-sm leading-relaxed">Drone fabrication, UAV systems, and software development — engineered for performance, reliability, and scalability.</p>
             </div>
 
             <div>
@@ -48,7 +47,7 @@
 
                 <ul class="mt-6 space-y-3">
                     <li><a href="mailto:avxengineeringsolutions@gmail.com" class="break-all text-gray-200 transition-colors hover:text-white">avxengineeringsolutions@gmail.com</a></li>
-                    <li><a href="tel:09933619061" class="text-gray-200 transition-colors hover:text-white">09933619061</a></li>
+                    <li><a href="tel:+639933619061" class="text-gray-200 transition-colors hover:text-white">+63 993 361 9061</a></li>
                     <li>Philippines — worldwide</li>
                 </ul>
             </div>

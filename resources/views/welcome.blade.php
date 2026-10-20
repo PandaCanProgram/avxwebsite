@@ -1,41 +1,17 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-pt-20 motion-safe:scroll-smooth">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<x-site-layout>
+    <main>
+        <x-site-hero image="{{ Vite::asset('resources/images/AVXDrone.png') }}" />
+    </main>
 
-        <title>{{ config('app.name', 'Laravel') }} AVX</title>
+    <x-site-scoring />
 
-        <link rel="icon" type="image/png" href="{{ Vite::asset('resources/images/AVXblack.png') }}">
+    <x-site-AboutUs :image="Vite::asset('resources/images/about-us.png')" />
 
-        @fonts
+    <x-site-services />
 
-        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @endif
-    </head>
-    <body class="bg-white font-sans antialiased">
-        <x-site-header :logo="Vite::asset('resources/images/AVXblack.png')" />
+    <x-site-projects />
 
-        <main>
-            <x-site-hero image="{{ Vite::asset('resources/images/AVXDrone.png') }}" />
-        </main>
+    <x-site-faq />
 
-        <x-site-scoring />
-
-        <x-site-AboutUs :image="Vite::asset('resources/images/about-us.png')" />
-
-        <x-site-services />
-
-        <x-site-projects />
-
-        <x-site-testimonials />
-
-        <x-site-faq />
-
-        <x-site-contact />
-
-        <x-site-footer :logo="Vite::asset('resources/images/AVXlogo.png')" />
-
-    </body>
-</html>
+    <x-site-contact />
+</x-site-layout>

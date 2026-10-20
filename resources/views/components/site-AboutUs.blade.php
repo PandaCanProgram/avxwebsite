@@ -10,10 +10,10 @@
 
 @php
     $highlights = [
-        ['title' => 'CFD & FEA Expertise', 'description' => 'Industry-grade simulation for aerodynamics and structures'],
-        ['title' => 'UAV Innovation', 'description' => 'Full-cycle drone design from concept to flight test'],
-        ['title' => 'Research Support', 'description' => 'Thesis, capstone, and patent consultation'],
-        ['title' => 'Technical Precision', 'description' => 'Documented, repeatable, peer-reviewed methodology'],
+        ['title' => 'Modern Technologies', 'description' => 'Industry-standard tools and frameworks for scalable systems'],
+        ['title' => 'Efficient Development', 'description' => 'Clean, maintainable, and optimized engineering'],
+        ['title' => 'End-to-End Solutions', 'description' => 'From concept and design to integration and deployment'],
+        ['title' => 'Technical Support', 'description' => 'Continuous assistance through development, testing, and launch'],
     ];
 @endphp
 
@@ -46,10 +46,10 @@
 
             <div class="mt-8 space-y-6 text-lg leading-relaxed text-gray-500 sm:text-xl">
                 <p>
-                    AVX Engineering Solutions is a specialized firm focused on aviation, UAV systems, and computational analysis. We combine deep technical expertise with practical field experience to deliver results that matter.
+                    AVX Engineering Solutions designs, develops, and manufactures custom unmanned vehicle systems for diverse mission requirements — from multirotor UAVs to fixed-wing platforms.
                 </p>
                 <p>
-                    Our team works with university students, independent researchers, and industry professionals — providing CFD/FEA simulations, drone prototyping, CAD services, and comprehensive technical consultation.
+                    We also build the software side: business websites, management systems, AI applications, and UAV &amp; aviation software. Modern technology, end-to-end development, and reliable engineering solutions.
                 </p>
             </div>
 

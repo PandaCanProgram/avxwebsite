@@ -8,8 +8,8 @@
         ],
         [
             'label' => 'Phone / Viber',
-            'value' => '09933619061',
-            'href' => 'tel:09933619061',
+            'value' => '+63 993 361 9061',
+            'href' => 'tel:+639933619061',
             'icon' => 'M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z',
         ],
         [
@@ -31,7 +31,7 @@
 
             <h2 class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">Start Your Project Today</h2>
 
-            <p class="mt-8 max-w-xl text-lg leading-relaxed text-gray-500">Whether you need a simulation report, a custom drone, or guidance on your thesis — we're ready to help. Reach out for a free 30-minute consultation.</p>
+            <p class="mt-8 max-w-xl text-lg leading-relaxed text-gray-500">Have a project in mind? Whether it's your next unmanned system or your next digital solution, let's engineer it together. Consultation is unlimited.</p>
 
             <ul class="mt-10 space-y-6">
                 @foreach ($contactDetails as $contactDetail)
@@ -70,7 +70,7 @@
 
                 <div class="sm:col-span-2">
                     <label for="contact-subject" class="{{ $labelClasses }}">Subject</label>
-                    <input id="contact-subject" name="subject" type="text" required placeholder="CFD Simulation for Thesis" class="{{ $inputClasses }}">
+                    <input id="contact-subject" name="subject" type="text" required placeholder="Custom Drone Fabrication" class="{{ $inputClasses }}">
                 </div>
 
                 <div class="sm:col-span-2">
