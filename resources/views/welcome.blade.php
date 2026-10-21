@@ -11,6 +11,8 @@
 
     <x-site-projects />
 
+    <x-site-testimonials :testimonials="$testimonials" />
+
     <x-site-faq />
 
     <x-site-contact />

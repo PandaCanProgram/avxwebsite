@@ -10,13 +10,15 @@ return [
     | Every project shown on the site. Projects marked "featured" appear on
     | the homepage; all of them appear on the projects page, grouped by
     | category. Images are paths under resources/images and are resolved
-    | through Vite, so leave "image" as null to show a placeholder.
+    | through Vite, so leave "image" as null to show a placeholder. An
+    | optional "gallery" lists extra images shown when the card is opened.
     |
     */
 
     'categories' => [
         'Drone Fabrication',
         'Simulation & Analysis',
+        'Product Design & Rendering',
         'Web Development',
     ],
 
@@ -35,6 +37,21 @@ return [
             'description' => 'Larger-frame multirotor with GPS and telemetry, suited to surveillance and industrial payloads.',
             'image' => 'resources/images/portfolio-f500.jpg',
             'imageFit' => 'object-cover',
+        ],
+        [
+            'category' => 'Drone Fabrication',
+            'title' => 'Camera Drone CAD Design',
+            'description' => 'Complete 3D CAD model of a carbon-frame X-quadcopter with a gimbal-mounted camera, including an exploded view of the frame, arms, motors, and propellers.',
+            'image' => 'resources/images/projects/quadcopter-design-1.jpg',
+            'imageFit' => 'object-cover',
+            'gallery' => [
+                'resources/images/projects/quadcopter-design-1.jpg',
+                'resources/images/projects/quadcopter-design-2.jpg',
+                'resources/images/projects/quadcopter-design-3.jpg',
+                'resources/images/projects/quadcopter-design-4.jpg',
+                'resources/images/projects/quadcopter-design-5.jpg',
+                'resources/images/projects/quadcopter-design-6.jpg',
+            ],
         ],
         [
             'category' => 'Simulation & Analysis',
@@ -62,8 +79,16 @@ return [
             'category' => 'Simulation & Analysis',
             'title' => 'Air-Dryer Chamber Thermal Analysis',
             'description' => 'CFD and thermal optimization of a 3-tray induction-heated dryer, tuned to hold 40–55 °C at 5 CFM and 500 W, delivered with a sensor and controller BOM and system block diagram.',
-            'image' => 'resources/images/portfolio-air-dryer.jpg',
+            'image' => 'resources/images/projects/air-dryer-1.jpg',
             'imageFit' => 'object-cover',
+            'gallery' => [
+                'resources/images/projects/air-dryer-1.jpg',
+                'resources/images/projects/air-dryer-2.jpg',
+                'resources/images/projects/air-dryer-3.jpg',
+                'resources/images/projects/air-dryer-4.jpg',
+                'resources/images/projects/air-dryer-5.jpg',
+                'resources/images/projects/air-dryer-6.jpg',
+            ],
         ],
         [
             'category' => 'Simulation & Analysis',
@@ -78,6 +103,23 @@ return [
             'description' => 'Ansys Fluent study of a vehicle body at 0–15° flow angles and 60–100 kph, mapping pressure, velocity streamlines, turbulent kinetic energy, and wake profile for each case.',
             'image' => 'resources/images/portfolio-vehicle-aero.jpg',
             'imageFit' => 'object-cover',
+        ],
+        [
+            'category' => 'Product Design & Rendering',
+            'title' => 'Service Robot Design',
+            'description' => 'Product design of an indoor service robot with a touchscreen, sensor head, drawer compartments, and a LiDAR-equipped wheeled base, rendered with exploded views of its internal components.',
+            'image' => 'resources/images/projects/service-robot-1.jpg',
+            'imageFit' => 'object-cover',
+            'gallery' => [
+                'resources/images/projects/service-robot-1.jpg',
+                'resources/images/projects/service-robot-2.jpg',
+                'resources/images/projects/service-robot-3.jpg',
+                'resources/images/projects/service-robot-4.jpg',
+                'resources/images/projects/service-robot-5.jpg',
+                'resources/images/projects/service-robot-6.jpg',
+                'resources/images/projects/service-robot-7.jpg',
+                'resources/images/projects/service-robot-8.jpg',
+            ],
         ],
         [
             'category' => 'Web Development',

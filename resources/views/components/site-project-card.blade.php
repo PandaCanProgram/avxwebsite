@@ -2,9 +2,24 @@
     'project',
 ])
 
+@php
+    $galleryImages = collect($project['gallery'] ?? [])->map(fn (string $image): string => Vite::asset($image));
+@endphp
+
 <article>
-    <div class="flex aspect-[4/3] w-full items-center justify-center overflow-hidden bg-slate-800">
-        @if ($project['image'])
+    <div class="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden bg-slate-800">
+        @if ($galleryImages->isNotEmpty())
+            <button type="button" class="group size-full cursor-zoom-in" data-gallery-open data-gallery-title="{{ $project['title'] }}" data-gallery-images='@json($galleryImages)' aria-label="View {{ $galleryImages->count() }} photos of {{ $project['title'] }}">
+                <img src="{{ Vite::asset($project['image']) }}" alt="{{ $project['title'] }}" loading="lazy" class="size-full transition-transform duration-500 group-hover:scale-105 {{ $project['imageFit'] }}">
+
+                <span class="absolute right-3 bottom-3 inline-flex items-center gap-1.5 bg-slate-900/75 px-2.5 py-1.5 font-display text-xs font-semibold tracking-[0.15em] text-white uppercase backdrop-blur-sm transition-colors group-hover:bg-brand">
+                    <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                    </svg>
+                    {{ $galleryImages->count() }} Photos
+                </span>
+            </button>
+        @elseif ($project['image'])
             <img src="{{ Vite::asset($project['image']) }}" alt="{{ $project['title'] }}" loading="lazy" class="size-full {{ $project['imageFit'] }}">
         @else
             <div class="flex flex-col items-center gap-3 text-slate-400" aria-hidden="true">

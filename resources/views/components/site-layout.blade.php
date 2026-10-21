@@ -24,5 +24,7 @@
         {{ $slot }}
 
         <x-site-footer :logo="Vite::asset('resources/images/AVXlogo.png')" />
+
+        <x-site-gallery />
     </body>
 </html>
