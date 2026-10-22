@@ -9,51 +9,65 @@
     $taglines = ['Aviation', 'UAV', 'Systems'];
 @endphp
 
-<section class="overflow-hidden bg-white">
-    <div class="mx-auto grid max-w-7xl items-center gap-16 px-4 py-16 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:py-28">
-        <div>
-            <p class="flex items-center gap-4 font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">
-                <span class="h-0.5 w-8 bg-brand" aria-hidden="true"></span>
+<section id="intro" class="hero-scene" data-scene data-scene-label="Introduction">
+    <div class="hero-stage">
+        <div class="scene-grid hero-grid" aria-hidden="true" data-parallax="-0.12"></div>
+        <div class="hero-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
 
-                @foreach ($taglines as $tagline)
-                    @if (! $loop->first)
-                        <span aria-hidden="true">|</span>
-                    @endif
+        <div class="hero-content mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-8 lg:grid-cols-2 lg:gap-8">
+            <div class="hero-copy">
+                <p data-reveal class="hero-eyebrow flex items-center gap-4 font-display text-sm font-semibold tracking-[0.35em] uppercase">
+                    <span class="h-0.5 w-8 bg-brand" aria-hidden="true"></span>
 
-                    <span>{{ $tagline }}</span>
-                @endforeach
-            </p>
+                    @foreach ($taglines as $tagline)
+                        @if (! $loop->first)
+                            <span aria-hidden="true">|</span>
+                        @endif
 
-            <h1 class="mt-12 font-display text-6xl leading-[0.95] font-extrabold text-slate-900 uppercase sm:text-7xl lg:text-[6rem]">
-                We Build
-                <span class="block text-brand">Your Ideas</span>
-                <span class="block">And Take Flight</span>
-            </h1>
+                        <span>{{ $tagline }}</span>
+                    @endforeach
+                </p>
 
-            <p class="mt-12 max-w-xl text-lg leading-relaxed text-gray-500 sm:text-[22px]">
-                Precision in the air begins with precision in engineering. AVX Engineering Solutions designs and fabricates custom multirotor and fixed-wing UAVs, and builds modern software — from full-stack web applications to AI-powered systems.
-            </p>
+                <h1 class="hero-title font-display font-extrabold uppercase">
+                    <span class="hero-line"><span data-reveal>We Build</span></span>
+                    <span class="hero-line"><span data-reveal class="hero-highlight">Your Ideas</span></span>
+                    <span class="hero-line"><span data-reveal>And Take Flight</span></span>
+                </h1>
 
-            <div class="mt-14 flex flex-wrap gap-5">
-                <a href="#services" class="bg-brand px-10 py-4 text-lg font-medium text-white transition-colors hover:bg-brand-dark">Our Services</a>
-                <a href="#quote" class="border border-brand px-10 py-4 text-lg text-brand transition-colors hover:bg-brand hover:text-white">Request a Quote</a>
-            </div>
-        </div>
+                <p data-reveal class="hero-description max-w-xl text-lg leading-relaxed">
+                    Precision in the air begins with precision in engineering. AVX Engineering Solutions designs and fabricates custom multirotor and fixed-wing UAVs, and builds modern software — from full-stack web applications to AI-powered systems.
+                </p>
 
-        <div class="relative mx-auto w-full max-w-xl lg:mr-0">
-            <div class="absolute -top-8 -right-4 bottom-1/4 left-1/4 bg-brand/5 sm:-right-8" aria-hidden="true"></div>
-            <div class="absolute top-1/2 -bottom-8 -left-8 w-2/5 border border-gray-200" aria-hidden="true"></div>
-
-            <div class="relative aspect-[37/40] bg-slate-800">
-                @if ($image)
-                    <img src="{{ $image }}" alt="{{ $imageAlt }}" class="size-full object-cover">
-                @endif
-
-                <div class="absolute bottom-8 left-8 bg-gray-100 px-6 py-5 sm:min-w-48">
-                    <p class="font-display text-3xl font-bold text-brand">{{ $statValue }}</p>
-                    <p class="mt-1 text-gray-500">{{ $statLabel }}</p>
+                <div data-reveal class="hero-actions flex flex-wrap gap-4">
+                    <a href="#services" class="bg-brand px-10 py-4 text-lg font-medium text-white transition-colors hover:bg-brand-dark">Our Services</a>
+                    <a href="#quote" class="border border-brand px-10 py-4 text-lg text-brand transition-colors hover:bg-brand hover:text-white">Request a Quote</a>
                 </div>
             </div>
+
+            <div class="hero-visual" data-reveal="right">
+                <div class="hero-pointer-stage" data-hero-pointer>
+                    <div class="hero-image-frame" data-hero-frame>
+                        @if ($image)
+                            <img src="{{ $image }}" alt="{{ $imageAlt }}" fetchpriority="high" width="1110" height="1200" class="hero-image size-full object-cover">
+                        @endif
+
+                        <div class="hero-image-shade" aria-hidden="true"></div>
+                        <div class="hero-reticle" aria-hidden="true"></div>
+                        <div class="hero-stat">
+                            <span class="hero-stat-mark" aria-hidden="true"></span>
+                            <div>
+                                <p class="font-display text-3xl font-bold text-white">{{ $statValue }}</p>
+                                <p class="mt-1 text-sm text-blue-100">{{ $statLabel }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-pointer-sheen" aria-hidden="true"></div>
+                </div>
+                <span class="hero-frame-corner hero-frame-corner-start" aria-hidden="true"></span>
+                <span class="hero-frame-corner hero-frame-corner-end" aria-hidden="true"></span>
+            </div>
         </div>
+
+        <a href="#strengths" class="hero-scroll"><span class="hero-scroll-line" aria-hidden="true"></span>Scroll to explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v18m-6-6 6 6 6-6" /></svg></a>
     </div>
 </section>

@@ -1,3 +1,6 @@
+import './flight-intro';
+import './story';
+
 import.meta.glob(['../images/**'], { eager: true });
 
 document.querySelectorAll('[data-nav-toggle]').forEach((toggle) => {

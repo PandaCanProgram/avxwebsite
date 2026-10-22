@@ -27,15 +27,15 @@
     ];
 @endphp
 
-<section id="faq" class="bg-white">
+<section id="faq" class="faq-scene scene-panel bg-white" data-scene data-scene-label="FAQ">
     <div class="mx-auto max-w-3xl px-4 py-16 sm:px-8 lg:py-28">
-        <p class="font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">Common Questions</p>
+        <p data-reveal class="scene-eyebrow font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">Common Questions</p>
 
-        <h2 class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">FAQ</h2>
+        <h2 data-reveal class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">FAQ</h2>
 
         <div class="mt-16 divide-y divide-gray-100">
             @foreach ($faqs as $faq)
-                <details class="group py-6" @if ($loop->index === 1) open @endif>
+                <details data-reveal class="group py-6" @if ($loop->index === 1) open @endif>
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-6 [&::-webkit-details-marker]:hidden">
                         <h3 class="font-display text-lg font-bold text-slate-900 uppercase">{{ $faq['question'] }}</h3>
 

@@ -17,19 +17,22 @@
     ];
 @endphp
 
-<section id="about" class="overflow-hidden bg-white">
+<section id="about" class="about-scene scene-panel overflow-hidden bg-white" data-scene data-scene-label="About Us">
+    <div class="scene-grid" aria-hidden="true" data-parallax="-0.08"></div>
     <div class="mx-auto grid max-w-7xl items-center gap-16 px-4 py-16 sm:px-8 lg:grid-cols-2 lg:gap-20 lg:py-28">
         @if ($image)
-            <div class="relative mr-4 mb-4 sm:mr-6 sm:mb-6">
-                <div class="absolute inset-0 translate-x-4 translate-y-4 border-2 border-brand sm:translate-x-6 sm:translate-y-6" aria-hidden="true"></div>
+            <div class="about-visual relative mr-4 mb-4 sm:mr-6 sm:mb-6" data-reveal="left">
+                <div data-parallax="0.08">
+                    <div class="absolute inset-0 translate-x-4 translate-y-4 border-2 border-brand sm:translate-x-6 sm:translate-y-6" aria-hidden="true"></div>
 
-                <div class="relative aspect-square overflow-hidden border border-blue-100 bg-white bg-gradient-to-br from-white via-blue-50/60 to-blue-100/70 p-8 shadow-2xl shadow-slate-900/10 sm:p-12">
-                    <div class="absolute top-0 left-0 h-1 w-20 bg-brand" aria-hidden="true"></div>
-                    <div class="absolute top-0 left-0 h-20 w-1 bg-brand" aria-hidden="true"></div>
-                    <div class="absolute right-0 bottom-0 h-1 w-20 bg-brand" aria-hidden="true"></div>
-                    <div class="absolute right-0 bottom-0 h-20 w-1 bg-brand" aria-hidden="true"></div>
+                    <div class="relative aspect-square overflow-hidden border border-blue-100 bg-white bg-gradient-to-br from-white via-blue-50/60 to-blue-100/70 p-8 shadow-2xl shadow-slate-900/10 sm:p-12">
+                        <div class="absolute top-0 left-0 h-1 w-20 bg-brand" aria-hidden="true"></div>
+                        <div class="absolute top-0 left-0 h-20 w-1 bg-brand" aria-hidden="true"></div>
+                        <div class="absolute right-0 bottom-0 h-1 w-20 bg-brand" aria-hidden="true"></div>
+                        <div class="absolute right-0 bottom-0 h-20 w-1 bg-brand" aria-hidden="true"></div>
 
-                    <img src="{{ $image }}" alt="{{ $imageAlt }}" class="relative size-full object-contain mix-blend-multiply">
+                        <img src="{{ $image }}" alt="{{ $imageAlt }}" class="relative size-full object-contain mix-blend-multiply">
+                    </div>
                 </div>
             </div>
         @else
@@ -37,14 +40,14 @@
         @endif
 
         <div>
-            <p class="font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">About Us</p>
+            <p data-reveal class="scene-eyebrow font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">About Us</p>
 
-            <h2 class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">
+            <h2 data-reveal class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">
                 Precision Engineering
                 <span class="block">You Can Trust</span>
             </h2>
 
-            <div class="mt-8 space-y-6 text-lg leading-relaxed text-gray-500 sm:text-xl">
+            <div data-reveal class="mt-8 space-y-6 text-lg leading-relaxed text-gray-500 sm:text-xl">
                 <p>
                     AVX Engineering Solutions designs, develops, and manufactures custom unmanned vehicle systems for diverse mission requirements — from multirotor UAVs to fixed-wing platforms.
                 </p>
@@ -55,7 +58,7 @@
 
             <div class="mt-12 grid gap-4 sm:grid-cols-2">
                 @foreach ($highlights as $highlight)
-                    <div class="border-l-2 border-brand bg-gray-50 px-5 py-6">
+                    <div data-reveal class="highlight-card border-l-2 border-brand bg-gray-50 px-5 py-6">
                         <h3 class="font-display text-sm font-semibold tracking-[0.2em] text-slate-900 uppercase">{{ $highlight['title'] }}</h3>
                         <p class="mt-2 text-gray-500">{{ $highlight['description'] }}</p>
                     </div>

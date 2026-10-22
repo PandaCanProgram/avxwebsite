@@ -60,49 +60,54 @@
 @endphp
 
 <section id="services" class="bg-gray-50">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-8 lg:py-28">
-        <p class="font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">What We Do</p>
+    @foreach ($serviceGroups as $serviceGroup)
+        <div id="{{ $loop->first ? 'drone-services' : 'programming' }}" class="service-scene scene-panel {{ $loop->first ? '' : 'scene-dark' }}" data-scene data-chapter-id="{{ $loop->first ? 'services' : 'programming' }}" data-scene-label="{{ $loop->first ? 'Drone & UAV' : 'Programming' }}">
+            <div class="scene-grid" aria-hidden="true" data-parallax="-0.06"></div>
+            <div class="scene-watermark" aria-hidden="true" data-parallax="0.1">{{ $loop->first ? 'UAV' : 'CODE' }}</div>
+            <div class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-8 lg:py-24">
+                @if ($loop->first)
+                    <p data-reveal class="scene-eyebrow font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">What We Do</p>
+                    <h2 data-reveal class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">Our Services</h2>
+                @endif
 
-        <h2 class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">Our Services</h2>
+                <div class="{{ $loop->first ? 'mt-12' : '' }}">
+                    <div class="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-12">
+                        <div data-reveal>
+                            <h3 class="font-display text-3xl font-extrabold text-slate-900 uppercase sm:text-4xl">{{ $serviceGroup['title'] }}</h3>
+                            <p class="mt-4 text-lg leading-relaxed text-gray-500">{{ $serviceGroup['description'] }}</p>
+                        </div>
 
-        @foreach ($serviceGroups as $serviceGroup)
-            <div class="mt-16 {{ $loop->first ? '' : 'border-t border-gray-200 pt-16' }}">
-                <div class="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-12">
-                    <div>
-                        <h3 class="font-display text-3xl font-extrabold text-slate-900 uppercase sm:text-4xl">{{ $serviceGroup['title'] }}</h3>
-                        <p class="mt-4 text-lg leading-relaxed text-gray-500">{{ $serviceGroup['description'] }}</p>
+                        <ul data-reveal class="flex flex-wrap gap-2 lg:justify-end" aria-label="{{ $serviceGroup['title'] }} applications">
+                            @foreach ($serviceGroup['applications'] as $application)
+                                <li class="border border-brand/30 bg-white px-3 py-1.5 text-sm text-brand">{{ $application }}</li>
+                            @endforeach
+                        </ul>
                     </div>
 
-                    <ul class="flex flex-wrap gap-2 lg:justify-end" aria-label="{{ $serviceGroup['title'] }} applications">
-                        @foreach ($serviceGroup['applications'] as $application)
-                            <li class="border border-brand/30 bg-white px-3 py-1.5 text-sm text-brand">{{ $application }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+                    <div class="mt-10 grid gap-6 sm:grid-cols-2 {{ count($serviceGroup['services']) > 2 ? 'lg:grid-cols-3' : '' }}">
+                        @foreach ($serviceGroup['services'] as $service)
+                            <div data-reveal class="service-card bg-white p-10">
+                                <div class="flex size-14 items-center justify-center bg-brand/10 text-brand">
+                                    <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        {!! $service['icon'] !!}
+                                    </svg>
+                                </div>
 
-                <div class="mt-10 grid gap-6 sm:grid-cols-2 {{ count($serviceGroup['services']) > 2 ? 'lg:grid-cols-3' : '' }}">
-                    @foreach ($serviceGroup['services'] as $service)
-                        <div class="bg-white p-10">
-                            <div class="flex size-14 items-center justify-center bg-brand/10 text-brand">
-                                <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    {!! $service['icon'] !!}
-                                </svg>
+                                <h4 class="mt-10 font-display text-xl font-bold text-slate-900 uppercase">{{ $service['title'] }}</h4>
+                                <p class="mt-3 text-lg leading-relaxed text-gray-400">{{ $service['description'] }}</p>
+
+                                @isset($service['technologies'])
+                                    <ul class="mt-6 flex flex-wrap gap-2" aria-label="{{ $service['title'] }} technologies">
+                                        @foreach ($service['technologies'] as $technology)
+                                            <li class="bg-gray-100 px-2.5 py-1 font-display text-xs font-semibold tracking-[0.15em] text-slate-700 uppercase">{{ $technology }}</li>
+                                        @endforeach
+                                    </ul>
+                                @endisset
                             </div>
-
-                            <h4 class="mt-10 font-display text-xl font-bold text-slate-900 uppercase">{{ $service['title'] }}</h4>
-                            <p class="mt-3 text-lg leading-relaxed text-gray-400">{{ $service['description'] }}</p>
-
-                            @isset($service['technologies'])
-                                <ul class="mt-6 flex flex-wrap gap-2" aria-label="{{ $service['title'] }} technologies">
-                                    @foreach ($service['technologies'] as $technology)
-                                        <li class="bg-gray-100 px-2.5 py-1 font-display text-xs font-semibold tracking-[0.15em] text-slate-700 uppercase">{{ $technology }}</li>
-                                    @endforeach
-                                </ul>
-                            @endisset
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
             </div>
-        @endforeach
-    </div>
+        </div>
+    @endforeach
 </section>

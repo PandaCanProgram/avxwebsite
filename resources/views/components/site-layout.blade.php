@@ -1,5 +1,6 @@
 @props([
     'title' => null,
+    'immersive' => false,
 ])
 
 <!DOCTYPE html>
@@ -18,7 +19,10 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="bg-white font-sans antialiased">
+    <body @class(['bg-white font-sans antialiased', 'story-page' => $immersive])>
+        @if ($immersive)
+            <a href="#main-content" class="story-skip">Skip to content</a>
+        @endif
         <x-site-header :logo="Vite::asset('resources/images/AVXblack.png')" />
 
         {{ $slot }}

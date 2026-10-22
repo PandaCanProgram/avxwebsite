@@ -9,9 +9,9 @@
     $starPath = 'M12 2.5l2.94 5.96 6.56.95-4.75 4.63 1.12 6.54L12 17.5l-5.87 3.08 1.12-6.54L2.5 9.41l6.56-.95L12 2.5z';
 @endphp
 
-<section id="testimonials" class="bg-blue-50">
+<section id="testimonials" class="testimonials-scene scene-panel bg-blue-50" data-scene data-scene-label="Client Feedback">
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-8 lg:py-28">
-        <div class="text-center">
+        <div data-reveal class="text-center">
             <p class="font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">Client Feedback</p>
 
             <h2 class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">What They Say</h2>

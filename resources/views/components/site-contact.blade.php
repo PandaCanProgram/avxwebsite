@@ -48,9 +48,9 @@
     $labelClasses = 'font-display text-xs font-semibold tracking-[0.2em] text-gray-400 uppercase';
 @endphp
 
-<section id="contact" class="bg-slate-50">
+<section id="contact" class="contact-scene scene-panel bg-slate-50" data-scene data-scene-label="Get in Touch">
     <div class="mx-auto grid max-w-7xl gap-16 px-4 py-16 sm:px-8 lg:grid-cols-2 lg:items-center lg:gap-20 lg:py-28">
-        <div>
+        <div data-reveal>
             <p class="font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">Get in Touch</p>
 
             <h2 class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">Start Your Project Today</h2>
@@ -80,7 +80,7 @@
             </ul>
         </div>
 
-        <form id="quote" action="mailto:avxengineeringsolutions@gmail.com" method="POST" enctype="text/plain" class="bg-white p-6 shadow-sm sm:p-10" data-quote-form data-validate>
+        <form id="quote" action="mailto:avxengineeringsolutions@gmail.com" method="POST" enctype="text/plain" class="bg-white p-6 shadow-sm sm:p-10" data-reveal data-quote-form data-validate>
             <div class="grid gap-6 sm:grid-cols-2">
                 <div>
                     <label for="contact-name" class="{{ $labelClasses }}">Full Name</label>
