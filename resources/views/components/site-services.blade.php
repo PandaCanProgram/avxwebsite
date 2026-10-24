@@ -64,14 +64,14 @@
         <div id="{{ $loop->first ? 'drone-services' : 'programming' }}" class="service-scene scene-panel {{ $loop->first ? '' : 'scene-dark' }}" data-scene data-chapter-id="{{ $loop->first ? 'services' : 'programming' }}" data-scene-label="{{ $loop->first ? 'Drone & UAV' : 'Programming' }}">
             <div class="scene-grid" aria-hidden="true" data-parallax="-0.06"></div>
             <div class="scene-watermark" aria-hidden="true" data-parallax="0.1">{{ $loop->first ? 'UAV' : 'CODE' }}</div>
-            <div class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-8 lg:py-24">
+            <div class="service-content mx-auto w-full max-w-7xl px-4 py-16 sm:px-8 lg:py-24">
                 @if ($loop->first)
                     <p data-reveal class="scene-eyebrow font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">What We Do</p>
-                    <h2 data-reveal class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">Our Services</h2>
+                    <h2 data-reveal class="service-title mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">Our Services</h2>
                 @endif
 
-                <div class="{{ $loop->first ? 'mt-12' : '' }}">
-                    <div class="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-12">
+                <div class="service-group {{ $loop->first ? 'mt-12' : '' }}">
+                    <div class="service-overview grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-12">
                         <div data-reveal>
                             <h3 class="font-display text-3xl font-extrabold text-slate-900 uppercase sm:text-4xl">{{ $serviceGroup['title'] }}</h3>
                             <p class="mt-4 text-lg leading-relaxed text-gray-500">{{ $serviceGroup['description'] }}</p>
@@ -84,10 +84,10 @@
                         </ul>
                     </div>
 
-                    <div class="mt-10 grid gap-6 sm:grid-cols-2 {{ count($serviceGroup['services']) > 2 ? 'lg:grid-cols-3' : '' }}">
+                    <div class="service-cards mt-10 grid gap-6 sm:grid-cols-2 {{ count($serviceGroup['services']) > 2 ? 'lg:grid-cols-3' : '' }}">
                         @foreach ($serviceGroup['services'] as $service)
                             <div data-reveal class="service-card bg-white p-10">
-                                <div class="flex size-14 items-center justify-center bg-brand/10 text-brand">
+                                <div class="service-card-icon flex size-14 items-center justify-center bg-brand/10 text-brand">
                                     <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                         {!! $service['icon'] !!}
                                     </svg>

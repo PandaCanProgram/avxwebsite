@@ -1,5 +1,9 @@
+import './gallery';
 import './flight-intro';
 import './story';
+import './project-showcase';
+import './project-collection';
+import { allowsEngagementMotion, openSendDialog, closeSendDialog } from './engagement';
 
 import.meta.glob(['../images/**'], { eager: true });
 
@@ -26,9 +30,10 @@ document.querySelectorAll('[data-carousel]').forEach((carousel) => {
     const slides = [...carousel.querySelectorAll('[data-carousel-slide]')];
     const dots = [...carousel.querySelectorAll('[data-carousel-dot]')];
     const autoplayDelay = 6000;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let currentIndex = 0;
     let autoplayTimer = null;
+    let isVisible = false;
 
     if (slides.length < 2) {
         return;
@@ -60,7 +65,8 @@ document.querySelectorAll('[data-carousel]').forEach((carousel) => {
     };
 
     const startAutoplay = () => {
-        if (prefersReducedMotion || autoplayTimer) {
+        if (!allowsEngagementMotion() || autoplayTimer || !isVisible
+            || document.hidden || carousel.matches(':hover') || carousel.contains(document.activeElement)) {
             return;
         }
 
@@ -97,12 +103,21 @@ document.querySelectorAll('[data-carousel]').forEach((carousel) => {
     }, { passive: true });
 
     track.addEventListener('touchend', (event) => {
+        if (touchStartX === null) {
+            return;
+        }
+
         const swipeDistance = event.changedTouches[0].clientX - touchStartX;
 
         if (Math.abs(swipeDistance) > 50) {
             showSlide(currentIndex + (swipeDistance < 0 ? 1 : -1));
         }
 
+        touchStartX = null;
+        startAutoplay();
+    });
+
+    track.addEventListener('touchcancel', () => {
         touchStartX = null;
         startAutoplay();
     });
@@ -117,6 +132,18 @@ document.querySelectorAll('[data-carousel]').forEach((carousel) => {
     });
 
     showSlide(0);
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(([entry]) => {
+            isVisible = entry.isIntersecting;
+            restartAutoplay();
+        }, { threshold: 0.15 }).observe(carousel);
+    } else {
+        isVisible = true;
+    }
+
+    document.addEventListener('visibilitychange', restartAutoplay);
+    reducedMotion.addEventListener('change', restartAutoplay);
+    new MutationObserver(restartAutoplay).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     startAutoplay();
 });
 
@@ -126,9 +153,7 @@ document.querySelectorAll('[data-feedback-form]').forEach((feedbackForm) => {
             return;
         }
 
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        feedbackForm.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+        feedbackForm.scrollIntoView({ behavior: allowsEngagementMotion() ? 'smooth' : 'auto', block: 'start' });
         feedbackForm.querySelector('input:not([type="hidden"]):not([tabindex="-1"])')?.focus({ preventScroll: true });
     });
 });
@@ -242,7 +267,7 @@ document.querySelectorAll('[data-quote-form]').forEach((quoteForm) => {
 
         preview.textContent = message;
         status.classList.add('hidden');
-        dialog.showModal();
+        openSendDialog(dialog);
         copyMessage();
     });
 
@@ -277,11 +302,21 @@ document.querySelectorAll('[data-quote-form]').forEach((quoteForm) => {
             : 'Copying is blocked by your browser. Select the preview text and copy it manually.');
     });
 
-    dialog.querySelector('[data-send-via-close]').addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-send-via-close]').addEventListener('click', () => closeSendDialog(dialog));
+
+    dialog.addEventListener('cancel', (event) => {
+        event.preventDefault();
+        closeSendDialog(dialog);
+    });
 
     dialog.addEventListener('click', (event) => {
         if (event.target === dialog) {
-            dialog.close();
+            const bounds = dialog.getBoundingClientRect();
+
+            if (event.clientX < bounds.left || event.clientX > bounds.right
+                || event.clientY < bounds.top || event.clientY > bounds.bottom) {
+                closeSendDialog(dialog);
+            }
         }
     });
 });
@@ -398,92 +433,3 @@ document.querySelectorAll('[data-validate]').forEach((form) => {
         field.addEventListener('change', clearWhenFixed);
     });
 });
-
-const galleryDialog = document.querySelector('[data-gallery-dialog]');
-
-if (galleryDialog) {
-    const galleryImage = galleryDialog.querySelector('[data-gallery-image]');
-    const galleryTitle = galleryDialog.querySelector('[data-gallery-title]');
-    const galleryCounter = galleryDialog.querySelector('[data-gallery-counter]');
-    const galleryThumbnails = galleryDialog.querySelector('[data-gallery-thumbnails]');
-    let galleryImages = [];
-    let galleryIndex = 0;
-    let galleryTouchStartX = null;
-
-    const showGalleryImage = (index) => {
-        galleryIndex = (index + galleryImages.length) % galleryImages.length;
-        galleryImage.src = galleryImages[galleryIndex];
-        galleryImage.alt = `${galleryTitle.textContent}, photo ${galleryIndex + 1}`;
-        galleryCounter.textContent = `Photo ${galleryIndex + 1} of ${galleryImages.length}`;
-
-        [...galleryThumbnails.children].forEach((thumbnail, thumbnailIndex) => {
-            const isActive = thumbnailIndex === galleryIndex;
-
-            thumbnail.classList.toggle('opacity-100', isActive);
-            thumbnail.classList.toggle('border-brand', isActive);
-            thumbnail.classList.toggle('opacity-50', !isActive);
-            thumbnail.classList.toggle('border-transparent', !isActive);
-
-            if (isActive) {
-                thumbnail.setAttribute('aria-current', 'true');
-                thumbnail.scrollIntoView({ block: 'nearest', inline: 'center' });
-            } else {
-                thumbnail.removeAttribute('aria-current');
-            }
-        });
-    };
-
-    document.querySelectorAll('[data-gallery-open]').forEach((trigger) => {
-        trigger.addEventListener('click', () => {
-            galleryImages = JSON.parse(trigger.dataset.galleryImages);
-            galleryTitle.textContent = trigger.dataset.galleryTitle;
-
-            galleryThumbnails.replaceChildren(...galleryImages.map((source, index) => {
-                const thumbnail = document.createElement('button');
-                const thumbnailImage = document.createElement('img');
-
-                thumbnail.type = 'button';
-                thumbnail.className = 'h-14 w-20 shrink-0 overflow-hidden border-2 transition-opacity hover:opacity-100 sm:h-16 sm:w-24';
-                thumbnail.setAttribute('aria-label', `Show photo ${index + 1}`);
-                thumbnail.addEventListener('click', () => showGalleryImage(index));
-
-                thumbnailImage.src = source;
-                thumbnailImage.alt = '';
-                thumbnailImage.className = 'size-full object-cover';
-                thumbnail.append(thumbnailImage);
-
-                return thumbnail;
-            }));
-
-            galleryDialog.showModal();
-            document.documentElement.classList.add('overflow-hidden');
-            showGalleryImage(0);
-        });
-    });
-
-    galleryDialog.querySelector('[data-gallery-prev]').addEventListener('click', () => showGalleryImage(galleryIndex - 1));
-    galleryDialog.querySelector('[data-gallery-next]').addEventListener('click', () => showGalleryImage(galleryIndex + 1));
-    galleryDialog.querySelector('[data-gallery-close]').addEventListener('click', () => galleryDialog.close());
-
-    galleryDialog.addEventListener('close', () => document.documentElement.classList.remove('overflow-hidden'));
-
-    galleryDialog.addEventListener('keydown', (event) => {
-        if (event.key === 'ArrowLeft') {
-            showGalleryImage(galleryIndex - 1);
-        } else if (event.key === 'ArrowRight') {
-            showGalleryImage(galleryIndex + 1);
-        }
-    });
-
-    galleryImage.addEventListener('touchstart', (event) => {
-        galleryTouchStartX = event.touches[0].clientX;
-    }, { passive: true });
-
-    galleryImage.addEventListener('touchend', (event) => {
-        const swipeDistance = event.changedTouches[0].clientX - galleryTouchStartX;
-
-        if (Math.abs(swipeDistance) > 50) {
-            showGalleryImage(galleryIndex + (swipeDistance < 0 ? 1 : -1));
-        }
-    });
-}

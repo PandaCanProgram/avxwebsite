@@ -28,23 +28,34 @@
 @endphp
 
 <section id="faq" class="faq-scene scene-panel bg-white" data-scene data-scene-label="FAQ">
-    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-8 lg:py-28">
+    <div class="engagement-atmosphere" aria-hidden="true">
+        <div class="engagement-grid" data-parallax="0.045"></div>
+        <div class="engagement-orbit faq-orbit" data-parallax="-0.09"><span></span><span></span></div>
+    </div>
+    <div class="faq-layout mx-auto max-w-7xl px-4 py-16 sm:px-8 lg:py-28">
+        <div class="faq-heading">
         <p data-reveal class="scene-eyebrow font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">Common Questions</p>
 
         <h2 data-reveal class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">FAQ</h2>
+        <p data-reveal class="faq-intro">A little clarity before takeoff.</p>
+        <a data-reveal href="{{ route('home') }}#contact" class="faq-contact-link">Have another question? <span aria-hidden="true">↗</span></a>
+        </div>
 
-        <div class="mt-16 divide-y divide-gray-100">
+        <div class="faq-list">
             @foreach ($faqs as $faq)
-                <details data-reveal class="group py-6" @if ($loop->index === 1) open @endif>
+                <details data-reveal data-faq-item class="faq-item group" @if ($loop->index === 1) open @endif>
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-6 [&::-webkit-details-marker]:hidden">
+                        <span class="faq-number" aria-hidden="true">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                         <h3 class="font-display text-lg font-bold text-slate-900 uppercase">{{ $faq['question'] }}</h3>
 
-                        <svg class="size-5 shrink-0 text-brand transition-transform duration-200 group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <svg class="faq-toggle size-5 shrink-0 text-brand transition-transform duration-200 group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
                             <path d="M12 5v14M5 12h14" />
                         </svg>
                     </summary>
 
-                    <p class="mt-4 pr-10 text-lg leading-relaxed text-gray-400">{{ $faq['answer'] }}</p>
+                    <div class="faq-answer" data-faq-answer>
+                        <p>{{ $faq['answer'] }}</p>
+                    </div>
                 </details>
             @endforeach
         </div>

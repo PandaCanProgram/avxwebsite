@@ -23,23 +23,18 @@
     ],
 ])
 
-<section id="strengths" class="strengths-scene scene-panel relative isolate overflow-hidden bg-gradient-to-br from-brand to-brand-dark" data-scene data-scene-label="Our Strengths">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgb(255_255_255/0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255_255_255/0.06)_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-32 -left-32 -z-10 size-96 rounded-full bg-white/10 blur-3xl"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-40 -z-10 size-[28rem] rounded-full bg-sky-300/15 blur-3xl"></div>
-
-    <dl class="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-10 sm:px-8 lg:grid-cols-4 lg:py-12">
+<section id="strengths" class="hero-strengths" aria-label="Our strengths">
+    <dl class="grid grid-cols-2 gap-3">
         @foreach ($strengths as $strength)
-            <div data-reveal class="strength-card group relative flex flex-col items-center overflow-hidden border border-white/15 bg-white/[0.06] px-4 py-5 text-center backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-white/30 hover:bg-white/10 sm:py-6">
+            <div data-reveal class="strength-card group relative overflow-hidden border border-white/15 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-white/30">
                 <span aria-hidden="true" class="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-white transition-transform duration-300 group-hover:scale-x-100"></span>
 
-                <span aria-hidden="true" class="mb-3 flex size-9 items-center justify-center border border-white/20 bg-white/10 text-white transition duration-300 group-hover:bg-white group-hover:text-brand">
+                <span aria-hidden="true" class="strength-icon flex items-center justify-center border border-white/20 bg-white/10 text-white transition duration-300 group-hover:bg-white group-hover:text-brand">
                     <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">{!! $strength['icon'] !!}</svg>
                 </span>
 
-                <dt class="font-display text-xl font-extrabold text-white uppercase sm:text-2xl">{{ $strength['title'] }}</dt>
-                <dd class="mt-1 text-xs text-blue-100 sm:text-sm">{{ $strength['description'] }}</dd>
-                <span aria-hidden="true" class="mt-3 h-px w-8 bg-white/40 transition-all duration-300 group-hover:w-12 group-hover:bg-white"></span>
+                <dt class="font-display font-bold text-white uppercase">{{ $strength['title'] }}</dt>
+                <dd>{{ $strength['description'] }}</dd>
             </div>
         @endforeach
     </dl>

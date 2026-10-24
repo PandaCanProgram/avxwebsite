@@ -10,9 +10,14 @@
 @endphp
 
 <section id="testimonials" class="testimonials-scene scene-panel bg-blue-50" data-scene data-scene-label="Client Feedback">
+    <div class="engagement-atmosphere" aria-hidden="true">
+        <div class="engagement-grid" data-parallax="0.06"></div>
+        <div class="engagement-orbit feedback-orbit" data-parallax="-0.12"><span></span><span></span></div>
+        <div class="engagement-watermark" data-parallax="0.1">AVX</div>
+    </div>
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-8 lg:py-28">
         <div data-reveal class="text-center">
-            <p class="font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">Client Feedback</p>
+            <p class="engagement-kicker font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">Client Feedback</p>
 
             <h2 class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">What They Say</h2>
         </div>
@@ -24,12 +29,13 @@
         @if ($testimonials->isEmpty())
             <p class="mx-auto mt-16 max-w-xl text-center text-lg text-gray-500">No feedback yet. Worked with us? Be the first to share your experience.</p>
         @else
-            <div class="relative mx-auto mt-16 max-w-4xl" data-carousel aria-roledescription="carousel" aria-label="Client feedback">
+            <div class="feedback-carousel relative mx-auto mt-16 max-w-4xl" data-reveal data-carousel aria-roledescription="carousel" aria-label="Client feedback">
                 <div class="overflow-hidden">
                     <div class="flex transition-transform duration-700 ease-out motion-reduce:transition-none" data-carousel-track>
                         @foreach ($testimonials as $testimonial)
                             <figure class="w-full shrink-0 px-1 sm:px-16" data-carousel-slide aria-roledescription="slide" aria-label="{{ $loop->iteration }} of {{ $loop->count }}">
-                                <div class="relative h-full border border-blue-100 bg-white px-8 py-12 text-center sm:px-14 sm:py-14">
+                                <div class="feedback-card relative h-full border border-blue-100 bg-white px-8 py-12 text-center sm:px-14 sm:py-14">
+                                    <span class="feedback-index" aria-hidden="true">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }} / {{ str_pad($loop->count, 2, '0', STR_PAD_LEFT) }}</span>
                                     <svg class="absolute top-6 left-6 size-10 text-brand/10 sm:size-14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                         <path d="M9.5 6C6.46 6 4 8.46 4 11.5V18h6v-6H6.5A3 3 0 0 1 9.5 9V6Zm10 0C16.46 6 14 8.46 14 11.5V18h6v-6h-3.5a3 3 0 0 1 3-3V6Z" />
                                     </svg>
@@ -42,9 +48,9 @@
                                         @endfor
                                     </div>
 
-                                    <blockquote class="mt-8 text-xl leading-relaxed whitespace-pre-line text-gray-500 italic sm:text-2xl">"{{ $testimonial->message }}"</blockquote>
+                                    <blockquote class="feedback-quote mt-8 text-xl leading-relaxed whitespace-pre-line text-gray-500 italic sm:text-2xl">"{{ $testimonial->message }}"</blockquote>
 
-                                    <figcaption class="mt-10">
+                                    <figcaption class="feedback-author mt-10">
                                         <span class="mx-auto mb-5 block h-0.5 w-10 bg-brand" aria-hidden="true"></span>
                                         <p class="font-display text-xl font-bold text-slate-900 uppercase">{{ $testimonial->name }}</p>
 
@@ -71,7 +77,7 @@
                         </svg>
                     </button>
 
-                    <div class="mt-8 flex justify-center gap-2">
+                    <div class="feedback-controls mt-8 flex items-center justify-center gap-2">
                         @foreach ($testimonials as $testimonial)
                             <button type="button" class="h-2 w-2 bg-brand/25 transition-all duration-300 hover:bg-brand/50 aria-[current=true]:w-8 aria-[current=true]:bg-brand" data-carousel-dot aria-label="Show feedback {{ $loop->iteration }}" @if ($loop->first) aria-current="true" @endif></button>
                         @endforeach
@@ -80,7 +86,7 @@
             </div>
         @endif
 
-        <details class="group mt-12 text-center" data-feedback-form @if ($feedbackErrors->any()) open @endif>
+        <details class="feedback-entry group mt-12 text-center" data-feedback-form @if ($feedbackErrors->any()) open @endif>
             <summary class="inline-flex cursor-pointer list-none items-center gap-3 bg-brand px-8 py-3.5 font-medium text-white transition-colors hover:bg-brand-dark [&::-webkit-details-marker]:hidden">
                 <svg class="size-5 transition-transform duration-200 group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
                     <path d="M12 5v14M5 12h14" />

@@ -13,7 +13,7 @@
 
 <header class="sticky top-0 z-50 border-b border-gray-100 bg-white">
     <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-4 sm:px-8">
-        <a href="{{ url('/') }}" class="flex items-center gap-3">
+        <a href="{{ route('home') }}#intro" class="flex items-center gap-3" data-home-link>
             @if ($logo)
                 <img src="{{ $logo }}" alt="AVX Engineering Solutions" class="size-12 translate-y-0.5">
             @endif

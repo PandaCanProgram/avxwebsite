@@ -16,28 +16,30 @@
 
             <h1 class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">All Projects</h1>
 
-            <nav class="mt-10 flex flex-wrap gap-3" aria-label="Project categories">
+            <div data-project-collection-content>
+                <nav class="mt-10 flex flex-wrap gap-3" aria-label="Project categories">
+                    @foreach (config('portfolio.categories') as $category)
+                        <a href="#{{ Str::slug($category) }}" class="border border-gray-200 px-4 py-2 text-gray-500 transition-colors hover:border-brand hover:text-brand">
+                            {{ $category }}
+                            <span class="ml-1 text-gray-400">({{ $projectsByCategory->get($category, collect())->count() }})</span>
+                        </a>
+                    @endforeach
+                </nav>
+
                 @foreach (config('portfolio.categories') as $category)
-                    <a href="#{{ Str::slug($category) }}" class="border border-gray-200 px-4 py-2 text-gray-500 transition-colors hover:border-brand hover:text-brand">
-                        {{ $category }}
-                        <span class="ml-1 text-gray-400">({{ $projectsByCategory->get($category, collect())->count() }})</span>
-                    </a>
+                    @if ($projectsByCategory->has($category))
+                        <section id="{{ Str::slug($category) }}" class="mt-20 border-t border-gray-100 pt-16">
+                            <h2 class="font-display text-3xl font-extrabold text-slate-900 uppercase sm:text-4xl">{{ $category }}</h2>
+
+                            <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                                @foreach ($projectsByCategory->get($category) as $project)
+                                    <x-site-project-card :project="$project" />
+                                @endforeach
+                            </div>
+                        </section>
+                    @endif
                 @endforeach
-            </nav>
-
-            @foreach (config('portfolio.categories') as $category)
-                @if ($projectsByCategory->has($category))
-                    <section id="{{ Str::slug($category) }}" class="mt-20 border-t border-gray-100 pt-16">
-                        <h2 class="font-display text-3xl font-extrabold text-slate-900 uppercase sm:text-4xl">{{ $category }}</h2>
-
-                        <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                            @foreach ($projectsByCategory->get($category) as $project)
-                                <x-site-project-card :project="$project" />
-                            @endforeach
-                        </div>
-                    </section>
-                @endif
-            @endforeach
+            </div>
         </div>
     </main>
 

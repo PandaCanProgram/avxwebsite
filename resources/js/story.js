@@ -7,12 +7,7 @@ if (story && controls && 'IntersectionObserver' in window) {
     const desktopMotion = window.matchMedia('(min-width: 1100px) and (min-height: 760px)');
     const scenes = [...story.querySelectorAll('[data-scene]')];
     const chapterLinks = [...controls.querySelectorAll('[data-chapter-link]')];
-    const previousButton = controls.querySelector('[data-chapter-prev]');
-    const nextButton = controls.querySelector('[data-chapter-next]');
-    const motionButton = controls.querySelector('[data-motion-toggle]');
     const progressBar = controls.querySelector('[data-story-progress]');
-    const positionLabel = controls.querySelector('[data-story-position]');
-    const chapterLabel = controls.querySelector('[data-story-current]');
     const hero = story.querySelector('.hero-scene');
     const heroFrame = story.querySelector('[data-hero-frame]');
     const heroSurface = hero?.querySelector('.hero-visual');
@@ -25,7 +20,6 @@ if (story && controls && 'IntersectionObserver' in window) {
     let frame = null;
     let scrollRange = 1;
     let animationsEnabled = !reducedMotion.matches;
-    let savedMotion = null;
     let pointerFrame = null;
     let pointerPosition = null;
 
@@ -36,23 +30,12 @@ if (story && controls && 'IntersectionObserver' in window) {
         heroPointer?.removeAttribute('style');
     };
 
-    try {
-        savedMotion = sessionStorage.getItem('avx-scroll-motion');
-    } catch {
-        // The page remains usable when browser storage is unavailable.
-    }
-
     const setActiveChapter = (index) => {
         if (activeIndex === index) {
             return;
         }
 
         activeIndex = index;
-        positionLabel.textContent = String(index + 1).padStart(2, '0');
-        chapterLabel.textContent = scenes[index].dataset.sceneLabel;
-        previousButton.disabled = index === 0;
-        nextButton.disabled = index === scenes.length - 1;
-
         chapterLinks.forEach((link) => {
             if (link.hash === `#${chapterId(scenes[index])}`) {
                 link.setAttribute('aria-current', 'step');
@@ -118,12 +101,8 @@ if (story && controls && 'IntersectionObserver' in window) {
     };
 
     const applyMotionPreference = () => {
-        animationsEnabled = !reducedMotion.matches && savedMotion !== 'off';
+        animationsEnabled = !reducedMotion.matches;
         root.classList.toggle('story-motion-enabled', animationsEnabled);
-        motionButton.setAttribute('aria-pressed', String(animationsEnabled));
-        motionButton.disabled = reducedMotion.matches;
-        motionButton.title = reducedMotion.matches ? 'Reduced motion is enabled in your device settings' : 'Toggle scroll animations';
-        controls.querySelector('[data-motion-label]').textContent = animationsEnabled ? 'Motion on' : 'Motion off';
 
         if (!animationsEnabled) {
             resetHeroPointer();
@@ -192,8 +171,17 @@ if (story && controls && 'IntersectionObserver' in window) {
         target.focus({ preventScroll: true });
     };
 
-    previousButton.addEventListener('click', () => goToChapter(activeIndex - 1));
-    nextButton.addEventListener('click', () => goToChapter(activeIndex + 1));
+    document.querySelector('[data-home-link]')?.addEventListener('click', (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
+            return;
+        }
+
+        event.preventDefault();
+        document.querySelector('[data-nav-toggle]')?.setAttribute('aria-expanded', 'false');
+        document.getElementById('mobile-nav')?.classList.add('hidden');
+        history.replaceState(history.state, '', `${window.location.pathname}${window.location.search}`);
+        goToChapter(0);
+    });
 
     chapterLinks.forEach((link) => {
         link.addEventListener('click', (event) => {
@@ -208,18 +196,6 @@ if (story && controls && 'IntersectionObserver' in window) {
                 goToChapter(index);
             }
         });
-    });
-
-    motionButton.addEventListener('click', () => {
-        savedMotion = animationsEnabled ? 'off' : 'on';
-
-        try {
-            sessionStorage.setItem('avx-scroll-motion', savedMotion);
-        } catch {
-            // Motion controls also work for the current page without storage.
-        }
-
-        applyMotionPreference();
     });
 
     story.addEventListener('focusin', (event) => {

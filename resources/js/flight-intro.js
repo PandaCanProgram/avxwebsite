@@ -1,7 +1,8 @@
 const flightIntro = document.querySelector('[data-flight-intro]');
 const navigation = performance.getEntriesByType('navigation')[0];
+const isReload = navigation?.type === 'reload';
 
-if (flightIntro && typeof flightIntro.showModal === 'function' && !window.location.hash && navigation?.type !== 'back_forward') {
+if (flightIntro && typeof flightIntro.showModal === 'function' && (isReload || !window.location.hash) && navigation?.type !== 'back_forward') {
     const root = document.documentElement;
     const startButton = flightIntro.querySelector('[data-flight-start]');
     const skipButton = flightIntro.querySelector('[data-flight-skip]');
@@ -10,12 +11,9 @@ if (flightIntro && typeof flightIntro.showModal === 'function' && !window.locati
     let isStarting = false;
     let launchAnimation = null;
     let takeoffTimer;
-    let motionDisabled = reducedMotion.matches;
 
-    try {
-        motionDisabled ||= sessionStorage.getItem('avx-scroll-motion') === 'off';
-    } catch {
-        // The entrance also works when browser storage is unavailable.
+    if (isReload && window.location.hash) {
+        history.replaceState(history.state, '', `${window.location.pathname}${window.location.search}`);
     }
 
     const enterWebsite = () => {
@@ -36,7 +34,7 @@ if (flightIntro && typeof flightIntro.showModal === 'function' && !window.locati
         startButton.disabled = true;
         window.scrollTo({ top: 0, behavior: 'instant' });
 
-        if (motionDisabled || reducedMotion.matches) {
+        if (reducedMotion.matches) {
             enterWebsite();
 
             return;
@@ -74,25 +72,30 @@ if (flightIntro && typeof flightIntro.showModal === 'function' && !window.locati
     flightIntro.addEventListener('close', () => {
         root.classList.remove('flight-intro-open');
         clearTimeout(takeoffTimer);
+        window.scrollTo({ top: 0, behavior: 'instant' });
         window.dispatchEvent(new Event('avx:intro-complete'));
 
-        const heading = document.querySelector('[data-story] h1');
-        heading?.setAttribute('tabindex', '-1');
-        heading?.focus({ preventScroll: true });
+        const introduction = document.querySelector('[data-story] #intro');
+        introduction?.setAttribute('tabindex', '-1');
+        introduction?.focus({ preventScroll: true });
     }, { once: true });
 
     reducedMotion.addEventListener('change', () => {
-        if (reducedMotion.matches) {
-            flightIntro.dataset.motion = 'off';
+        flightIntro.dataset.motion = reducedMotion.matches ? 'off' : 'on';
 
-            if (isStarting) {
-                enterWebsite();
-            }
+        if (reducedMotion.matches && isStarting) {
+            enterWebsite();
         }
     });
 
-    flightIntro.dataset.motion = motionDisabled ? 'off' : 'on';
+    flightIntro.dataset.motion = reducedMotion.matches ? 'off' : 'on';
     flightIntro.showModal();
     root.classList.add('flight-intro-open');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.addEventListener('pageshow', () => {
+        if (flightIntro.open) {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+    }, { once: true });
     startButton.focus({ preventScroll: true });
 }

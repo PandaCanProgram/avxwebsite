@@ -49,15 +49,19 @@
 @endphp
 
 <section id="contact" class="contact-scene scene-panel bg-slate-50" data-scene data-scene-label="Get in Touch">
+    <div class="engagement-atmosphere" aria-hidden="true">
+        <div class="engagement-grid" data-parallax="0.06"></div>
+        <div class="engagement-orbit contact-orbit" data-parallax="-0.1"><span></span><span></span></div>
+    </div>
     <div class="mx-auto grid max-w-7xl gap-16 px-4 py-16 sm:px-8 lg:grid-cols-2 lg:items-center lg:gap-20 lg:py-28">
         <div data-reveal>
-            <p class="font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">Get in Touch</p>
+            <p class="scene-eyebrow font-display text-sm font-semibold tracking-[0.35em] text-brand uppercase">Get in Touch</p>
 
             <h2 class="mt-6 font-display text-5xl leading-[1.05] font-extrabold text-slate-900 uppercase sm:text-6xl">Start Your Project Today</h2>
 
             <p class="mt-8 max-w-xl text-lg leading-relaxed text-gray-500">Have a project in mind? Whether it's your next unmanned system or your next digital solution, let's engineer it together. Consultation is unlimited.</p>
 
-            <ul class="mt-10 space-y-6">
+            <ul class="contact-channels mt-10 space-y-6">
                 @foreach ($contactDetails as $contactDetail)
                     <li class="flex items-center gap-4">
                         <span class="flex size-10 shrink-0 items-center justify-center bg-blue-100 text-brand">
@@ -66,7 +70,7 @@
                             </svg>
                         </span>
 
-                        <div>
+                        <div class="min-w-0">
                             <p class="font-display text-xs font-semibold tracking-[0.2em] text-gray-400 uppercase">{{ $contactDetail['label'] }}</p>
 
                             @if ($contactDetail['href'])
@@ -80,7 +84,11 @@
             </ul>
         </div>
 
-        <form id="quote" action="mailto:avxengineeringsolutions@gmail.com" method="POST" enctype="text/plain" class="bg-white p-6 shadow-sm sm:p-10" data-reveal data-quote-form data-validate>
+        <form id="quote" action="mailto:avxengineeringsolutions@gmail.com" method="POST" enctype="text/plain" class="contact-brief bg-white p-6 shadow-sm sm:p-10" data-reveal="right" data-quote-form data-validate>
+            <div class="contact-brief-heading">
+                <p class="font-display text-xs font-semibold tracking-[0.25em] uppercase">Your project brief</p>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" /></svg>
+            </div>
             <div class="grid gap-6 sm:grid-cols-2">
                 <div>
                     <label for="contact-name" class="{{ $labelClasses }}">Full Name</label>
@@ -103,36 +111,36 @@
                 </div>
             </div>
 
-            <button type="submit" class="mt-6 w-full bg-brand px-6 py-3.5 font-semibold text-white transition-colors hover:bg-brand-dark">Send Message</button>
+            <button type="submit" class="contact-send mt-6 w-full bg-brand px-6 py-3.5 font-semibold text-white transition-colors hover:bg-brand-dark"><span>Send Message</span><span aria-hidden="true">↗</span></button>
         </form>
 
-        <dialog class="m-auto w-[calc(100%-2rem)] max-w-lg bg-white p-0 shadow-2xl backdrop:bg-slate-900/60 backdrop:backdrop-blur-sm" aria-labelledby="send-via-title" data-send-via-dialog>
-            <div class="p-6 sm:p-8">
+        <dialog class="send-dialog m-auto w-[calc(100%-2rem)] max-w-lg p-0 shadow-2xl" aria-labelledby="send-via-title" aria-describedby="send-via-description" data-send-via-dialog>
+            <div class="send-dialog-panel p-6 sm:p-8">
                 <div class="flex items-start justify-between gap-4">
                     <div>
-                        <p class="font-display text-xs font-semibold tracking-[0.3em] text-brand uppercase">Almost done</p>
-                        <h3 id="send-via-title" class="mt-2 font-display text-3xl font-extrabold text-slate-900 uppercase">Where should we send it?</h3>
+                        <p class="send-dialog-kicker font-display text-xs font-semibold tracking-[0.3em] uppercase">Almost done</p>
+                        <h3 id="send-via-title" class="mt-2 font-display text-3xl font-extrabold uppercase">Where should we send it?</h3>
                     </div>
 
-                    <button type="button" class="p-1 text-gray-400 transition-colors hover:text-slate-900" aria-label="Close" data-send-via-close>
+                    <button type="button" class="send-dialog-close" aria-label="Close send options" data-send-via-close autofocus>
                         <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
 
-                <p class="mt-3 text-gray-500">Pick an app. We'll open it with your message ready so you just hit send.</p>
+                <p id="send-via-description" class="send-dialog-description mt-3">Choose an app to continue. Review your message there, then send it when you're ready.</p>
 
                 <div class="mt-6 grid gap-3">
                     @foreach ($sendOptions as $sendOption)
-                        <a href="#" target="_blank" rel="noopener" class="group flex items-center gap-4 border border-gray-200 p-4 transition-colors hover:border-brand hover:bg-blue-50/50" data-send-via="{{ $sendOption['key'] }}">
+                        <a href="#" target="_blank" rel="noopener" class="send-channel group flex items-center gap-4 p-4" style="--channel-color: {{ $sendOption['color'] }}" data-send-via="{{ $sendOption['key'] }}">
                             <span class="flex size-11 shrink-0 items-center justify-center text-white" style="background-color: {{ $sendOption['color'] }}" aria-hidden="true">
                                 <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">{!! $sendOption['icon'] !!}</svg>
                             </span>
 
                             <span class="flex-1">
-                                <span class="block font-display text-lg font-bold tracking-wide text-slate-900 uppercase">{{ $sendOption['label'] }}</span>
-                                <span class="block text-sm text-gray-500">{{ $sendOption['description'] }}</span>
+                                <span class="block font-display text-lg font-bold tracking-wide uppercase">{{ $sendOption['label'] }}</span>
+                                <span class="send-channel-description block text-sm">{{ $sendOption['description'] }}</span>
                             </span>
 
                             <svg class="size-5 text-gray-300 transition-transform group-hover:translate-x-1 group-hover:text-brand" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -142,14 +150,14 @@
                     @endforeach
                 </div>
 
-                <p class="mt-4 hidden border-l-2 border-brand bg-blue-50 px-4 py-3 text-sm text-slate-900" role="status" data-send-via-status></p>
+                <p class="send-dialog-status mt-4 hidden px-4 py-3 text-sm" role="status" data-send-via-status></p>
 
-                <details class="mt-6">
-                    <summary class="cursor-pointer font-display text-xs font-semibold tracking-[0.2em] text-gray-400 uppercase">Preview your message</summary>
+                <details class="send-preview mt-6">
+                    <summary class="cursor-pointer font-display text-xs font-semibold tracking-[0.2em] uppercase">Preview your message</summary>
 
-                    <pre class="mt-3 max-h-48 overflow-auto bg-gray-50 p-4 font-sans text-sm whitespace-pre-wrap text-slate-700" data-send-via-preview></pre>
+                    <pre class="mt-3 max-h-48 overflow-auto p-4 font-sans text-sm whitespace-pre-wrap" data-send-via-preview></pre>
 
-                    <button type="button" class="mt-3 font-medium text-brand hover:text-brand-dark" data-send-via-copy>Copy message</button>
+                    <button type="button" class="mt-3 font-medium" data-send-via-copy>Copy message</button>
                 </details>
             </div>
         </dialog>

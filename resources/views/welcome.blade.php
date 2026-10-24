@@ -6,8 +6,6 @@
     <main id="main-content" tabindex="-1" data-story>
         <x-site-hero image="{{ Vite::asset('resources/images/AVXDrone.png') }}" />
 
-        <x-site-scoring />
-
         <x-site-AboutUs :image="Vite::asset('resources/images/about-us.png')" />
 
         <x-site-services />

@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 @import './story.css';
 @import './flight-intro.css';
+@import './project-showcase.css';
+@import './gallery.css';
+@import './engagement.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
