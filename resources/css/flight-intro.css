@@ -1,0 +1,150 @@
+html.flight-intro-open {
+    overflow: hidden;
+    scroll-snap-type: none;
+}
+
+.flight-intro {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 48px 24px;
+    border: 0;
+    color: #e5f3ff;
+    background: #071321;
+    overflow: auto;
+    isolation: isolate;
+}
+
+.flight-intro::backdrop { background: #071321; transition: background 400ms ease; }
+.flight-intro:not([open]) { display: none; }
+
+.flight-intro[open] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+}
+
+.flight-intro-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 55%, rgb(36 116 167 / 20%), transparent 55%);
+}
+
+.flight-intro-glow::after {
+    content: '';
+    position: absolute;
+    width: min(70vw, 560px);
+    aspect-ratio: 1;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(130 217 255 / 20%), transparent 65%);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+}
+
+.preloader-brand { display: flex; flex-direction: column; align-items: center; }
+.preloader-brand img { width: 72px; height: 72px; object-fit: contain; }
+.preloader-name { margin-top: 10px; font-family: var(--font-display); font-size: 26px; font-weight: 800; line-height: 1; letter-spacing: 0.16em; padding-left: 0.16em; }
+.preloader-detail { margin-top: 8px; color: #a6bdcf; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; }
+.flight-start-stage { position: relative; display: grid; place-items: center; width: 240px; height: 240px; margin-top: 24px; }
+.flight-start-ring { position: absolute; inset: 12px; border: 1px solid rgb(130 217 255 / 20%); border-radius: 50%; pointer-events: none; }
+.flight-start-ring::after { content: ''; position: absolute; inset: 7px; border: 1px dashed rgb(130 217 255 / 12%); border-radius: 50%; }
+
+.flight-start-button {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 174px;
+    aspect-ratio: 1;
+    border: 5px solid #163042;
+    border-radius: 50%;
+    color: #f0faff;
+    background: radial-gradient(circle at 50% 38%, #267fb5, #12628e 60%, #062237 100%);
+    box-shadow: 0 0 0 1px #668fa6, inset 0 3px 8px rgb(202 242 255 / 30%), inset 0 -6px 12px rgb(0 0 0 / 40%), 0 12px 40px rgb(0 0 0 / 35%);
+    cursor: pointer;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+}
+
+.flight-start-button svg { width: 25px; height: 25px; color: #b4e8ff; }
+.flight-start-button span { font-size: 21px; line-height: 1.15; font-weight: 500; text-transform: uppercase; }
+.flight-start-button:hover { transform: scale(1.035); box-shadow: 0 0 0 1px #b4e8ff, inset 0 3px 8px rgb(202 242 255 / 40%), inset 0 -6px 12px rgb(0 0 0 / 40%), 0 0 48px rgb(90 198 249 / 20%); }
+.flight-start-button:active { transform: scale(0.97); }
+.story-page .flight-intro button:focus-visible { outline: 2px solid #82d9ff; outline-offset: 8px; }
+.flight-start-prompt { min-height: 20px; color: #a6bdcf; font-size: 12px; letter-spacing: 0.08em; }
+.flight-start-skip { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 14px; color: #b7cddd; font-size: 11px; cursor: pointer; }
+.flight-start-skip:hover { color: #82d9ff; }
+
+.preloader-flight { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; gap: 24px; pointer-events: none; color: #82d9ff; opacity: 0; }
+.preloader-drone { width: 74px; height: 74px; }
+.preloader-rotor { transform-box: fill-box; transform-origin: center; }
+.preloader-shadow { width: 38px; height: 4px; border-radius: 50%; background: rgb(130 217 255 / 20%); }
+.flight-intro.is-starting .flight-start-button { animation: flight-button-press 300ms ease-out both; }
+.flight-intro.is-starting .preloader-flight { animation: flight-drone-reveal 250ms 150ms ease-out both; }
+.flight-intro.is-starting .preloader-rotor { animation: flight-rotor-spin 260ms linear infinite; }
+.flight-intro.is-starting .preloader-rotor:nth-of-type(even) { animation-direction: reverse; }
+.flight-intro.is-starting .flight-start-ring { animation: flight-ring-expand 1200ms 200ms ease-out both; }
+.flight-intro.is-starting .flight-intro-glow::after { animation: flight-glow 1400ms ease-out both; }
+.flight-intro.is-airborne .preloader-drone { animation: flight-takeoff 650ms cubic-bezier(0.4, 0, 0.2, 1) both; }
+.flight-intro.is-airborne .preloader-rotor { animation-duration: 110ms; }
+.flight-intro.is-airborne .preloader-shadow { animation: flight-shadow-fade 500ms ease-out both; }
+.flight-intro.is-airborne::backdrop { background: transparent; }
+.flight-intro[data-motion="off"] * { animation: none !important; transition: none !important; }
+
+@keyframes flight-button-press {
+    to { opacity: 0; transform: scale(0.88); }
+}
+
+@keyframes flight-drone-reveal {
+    from { opacity: 0; transform: translateY(8px) scale(0.8); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes flight-rotor-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes flight-takeoff {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    35% { transform: translateY(-10px) scale(1.06); opacity: 1; }
+    100% { transform: translateY(-150px) scale(0.75); opacity: 0; }
+}
+
+@keyframes flight-ring-expand {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(1.9); opacity: 0; }
+}
+
+@keyframes flight-glow {
+    0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+    40% { opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
+@keyframes flight-shadow-fade {
+    to { transform: scaleX(0.3); opacity: 0; }
+}
+
+@media (max-height: 660px) {
+    .flight-intro[open] { gap: 16px; padding-block: 24px; }
+    .preloader-brand img { width: 52px; height: 52px; }
+    .flight-start-stage { width: 200px; height: 200px; margin-top: 12px; }
+    .flight-start-button { width: 150px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .flight-intro *, .flight-intro::backdrop { animation: none !important; transition: none !important; }
+}

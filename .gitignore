@@ -5,6 +5,8 @@
 .env.production
 .phpactor.json
 .phpunit.result.cache
+/.agents/
+/app/reports/
 /.claude/skills/
 /.codex
 /.cursor/
@@ -26,3 +28,4 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+.claude
