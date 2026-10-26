@@ -6,6 +6,7 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#0b1d31">
     <title>Coming Soon | AVX Engineering Solutions</title>
+    <link rel="icon" type="image/png" href="{{ asset('avx-logo.png') }}">
     <style>
         :root {
             color-scheme: light;
@@ -23,6 +24,7 @@
         .shell { width: min(1140px, calc(100% - 48px)); margin-inline: auto; }
         .header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 30px; border-bottom: 1px solid var(--line); }
         .brand { display: flex; align-items: center; gap: 16px; }
+        .brand-logo { width: 48px; height: 48px; object-fit: contain; flex: none; }
         .brand-mark { font-size: 34px; font-weight: 800; letter-spacing: -.06em; line-height: 1; }
         .brand-name { padding-left: 16px; border-left: 1px solid var(--line); font-size: 10px; font-weight: 700; line-height: 1.6; letter-spacing: .16em; text-transform: uppercase; }
         .header-note { color: var(--muted); font-size: 12px; letter-spacing: .06em; }
@@ -69,6 +71,7 @@
     <div class="page">
         <header class="shell header">
             <div class="brand" aria-label="AVX Engineering Solutions">
+                <img class="brand-logo" src="{{ asset('avx-logo.png') }}" alt="" width="48" height="48">
                 <span class="brand-mark" aria-hidden="true">AVX</span>
                 <span class="brand-name" aria-hidden="true">Engineering<br>Solutions</span>
             </div>

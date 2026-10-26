@@ -8,6 +8,8 @@ Route::get('/', HomeController::class)->name('home');
 
 Route::view('/projects', 'projects')->name('projects');
 
+Route::view('/investment', 'investment')->name('investment');
+
 Route::post('/testimonials', [TestimonialController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('testimonials.store');

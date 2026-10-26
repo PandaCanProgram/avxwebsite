@@ -8,6 +8,7 @@
         'testimonials' => 'Client Feedback',
         'faq' => 'FAQ',
         'contact' => 'Get in Touch',
+        'investment' => 'Investment',
     ];
 @endphp
 

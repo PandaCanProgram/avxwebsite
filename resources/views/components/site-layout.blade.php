@@ -1,17 +1,30 @@
 @props([
     'title' => null,
     'immersive' => false,
+    'pageClass' => null,
+    'description' => null,
 ])
+
+@php
+    $pageDescription = $description ?? config('seo.descriptions.'.(request()->route()?->getName() ?? 'home'), config('seo.descriptions.home'));
+    $metaKeywords = collect(config('seo.keywords', []))->flatten()->unique()->implode(', ');
+@endphp
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-pt-20 motion-safe:scroll-smooth">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        @if ($pageDescription)
+            <meta name="description" content="{{ $pageDescription }}">
+        @endif
+        @if ($metaKeywords !== '')
+            <meta name="keywords" content="{{ $metaKeywords }}">
+        @endif
 
-        <title>{{ $title ? $title.' | ' : '' }}{{ config('app.name', 'Laravel') }} AVX</title>
+        <title>{{ $title ? $title.' | ' : '' }}AVX Engineering Solutions</title>
 
-        <link rel="icon" type="image/png" href="{{ Vite::asset('resources/images/AVXblack.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('avx-logo.png') }}">
 
         @fonts
 
@@ -19,15 +32,15 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body @class(['bg-white font-sans antialiased', 'story-page' => $immersive])>
+    <body @class(['bg-white font-sans antialiased', 'story-page' => $immersive, $pageClass])>
         @if ($immersive)
             <a href="#main-content" class="story-skip">Skip to content</a>
         @endif
-        <x-site-header :logo="Vite::asset('resources/images/AVXblack.png')" />
+        <x-site-header :logo="asset('avx-logo.png')" />
 
         {{ $slot }}
 
-        <x-site-footer :logo="Vite::asset('resources/images/AVXlogo.png')" />
+        <x-site-footer :logo="asset('avx-logo.png')" />
 
         <x-site-gallery />
     </body>

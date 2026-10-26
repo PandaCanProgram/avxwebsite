@@ -10,6 +10,7 @@
         ['label' => 'Testimonials', 'href' => route('home').'#testimonials'],
         ['label' => 'FAQ', 'href' => route('home').'#faq'],
         ['label' => 'Contact', 'href' => route('home').'#contact'],
+        ['label' => 'Investment', 'href' => route('home').'#investment'],
     ];
 @endphp
 
@@ -19,12 +20,12 @@
             <div>
                 <a href="{{ url('/') }}" class="flex items-center gap-3">
                     @if ($logo)
-                        <img src="{{ $logo }}" alt="AVX Engineering Solutions" class="size-10">
+                        <img src="{{ $logo }}" alt="AVX Engineering Solutions" class="size-10 object-contain">
                     @endif
 
                     <span class="flex flex-col leading-none">
                         <span class="font-display text-xl font-extrabold tracking-[0.15em] text-white">AVX</span>
-                        <span class="mt-1 text-[10px] font-medium tracking-[0.25em] text-blue-200/70 uppercase">Engineering Solutions</span>
+                        <span class="mt-1 text-[10px] font-medium tracking-[0.25em] text-gray-400 uppercase">Engineering Solutions</span>
                     </span>
                 </a>
 

@@ -1,7 +1,5 @@
 {{--
-    Image: upload the photo to resources/images/ (e.g. resources/images/about-us.png), then pass it in welcome.blade.php:
-    <x-site-AboutUs :image="Vite::asset('resources/images/about-us.png')" />
-    Run `npm run build` (or keep `npm run dev` running) so Vite picks up the new file.
+    Use the same black-and-blue AVX mark as the header, footer, intro, and favicon.
 --}}
 @props([
     'image' => null,
@@ -31,7 +29,7 @@
                         <div class="absolute right-0 bottom-0 h-1 w-20 bg-brand" aria-hidden="true"></div>
                         <div class="absolute right-0 bottom-0 h-20 w-1 bg-brand" aria-hidden="true"></div>
 
-                        <img src="{{ $image }}" alt="{{ $imageAlt }}" class="relative size-full object-contain mix-blend-multiply">
+                        <img src="{{ $image }}" alt="{{ $imageAlt }}" class="relative size-full object-contain">
                     </div>
                 </div>
             </div>
@@ -49,10 +47,10 @@
 
             <div data-reveal class="mt-8 space-y-6 text-lg leading-relaxed text-gray-500 sm:text-xl">
                 <p>
-                    AVX Engineering Solutions designs, develops, and manufactures custom unmanned vehicle systems for diverse mission requirements — from multirotor UAVs to fixed-wing platforms.
+                    AVX Engineering Solutions in the Philippines designs and fabricates unmanned aircraft systems (UAS), remotely piloted aircraft systems (RPAS), unmanned surface vehicles (USV), and unmanned ground vehicles (UGV), including boats and rovers.
                 </p>
                 <p>
-                    We also build the software side: business websites, management systems, AI applications, and UAV &amp; aviation software. Modern technology, end-to-end development, and reliable engineering solutions.
+                    Our engineering and design work spans CFD simulation, finite element analysis, 3D CAD design, and product rendering. We also develop business websites, management systems, AI applications, and UAV and aviation software.
                 </p>
             </div>
 

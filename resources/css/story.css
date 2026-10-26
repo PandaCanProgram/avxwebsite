@@ -20,7 +20,6 @@
 }
 
 .story-page header .text-gray-400 { color: #a6b9cb; }
-.story-page header a > img { filter: brightness(0) invert(1); }
 .story-page header [aria-current="true"] { color: var(--story-accent); }
 .story-page #mobile-nav { border-color: var(--story-line); }
 .story-page #mobile-nav > a:not(.bg-brand) { color: #d3e3f3; }

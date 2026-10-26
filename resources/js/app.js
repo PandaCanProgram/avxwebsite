@@ -4,6 +4,7 @@ import './story';
 import './project-showcase';
 import './project-collection';
 import { allowsEngagementMotion, openSendDialog, closeSendDialog } from './engagement';
+import './investment';
 
 import.meta.glob(['../images/**'], { eager: true });
 
@@ -187,8 +188,8 @@ if (navSections.length > 0) {
     navSections.forEach((section) => sectionObserver.observe(section));
 }
 
-document.querySelectorAll('[data-quote-form]').forEach((quoteForm) => {
-    const dialog = quoteForm.parentElement.querySelector('[data-send-via-dialog]');
+document.querySelectorAll('[data-quote-form], [data-investment-form]').forEach((inquiryForm) => {
+    const dialog = inquiryForm.parentElement.querySelector('[data-send-via-dialog]');
 
     if (!dialog) {
         return;
@@ -230,23 +231,34 @@ document.querySelectorAll('[data-quote-form]').forEach((quoteForm) => {
         };
     };
 
-    quoteForm.addEventListener('submit', (event) => {
+    inquiryForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        if (!quoteForm.checkValidity()) {
+        if (!inquiryForm.checkValidity()) {
             return;
         }
 
-        const formData = new FormData(quoteForm);
+        const formData = new FormData(inquiryForm);
         const field = (name) => String(formData.get(name) ?? '').trim();
+        const isInvestmentInquiry = inquiryForm.hasAttribute('data-investment-form');
 
-        subject = `Quote Request: ${field('subject')}`;
+        subject = isInvestmentInquiry
+            ? `Investment Inquiry: ${field('name')}`
+            : `Quote Request: ${field('subject')}`;
+        const inquiryDetails = isInvestmentInquiry
+            ? [
+                ...(field('phone') ? [`Phone: ${field('phone')}`] : []),
+                `Area of interest: ${field('interest')}`,
+            ]
+            : [`Subject: ${field('subject')}`];
         message = [
             'Hi AVX Engineering Solutions!',
             '',
+            ...(isInvestmentInquiry ? ['I would like to discuss investing in AVX.', ''] : []),
             `Name: ${field('name')}`,
             `Email: ${field('email')}`,
-            `Subject: ${field('subject')}`,
+            ...(field('organization') ? [`Company / Organization: ${field('organization')}`] : []),
+            ...inquiryDetails,
             '',
             field('message'),
         ].join('\n');

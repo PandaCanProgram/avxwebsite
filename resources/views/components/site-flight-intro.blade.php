@@ -1,7 +1,7 @@
 <dialog class="flight-intro" aria-label="Welcome to AVX Engineering Solutions" aria-describedby="flight-intro-description" data-flight-intro tabindex="-1">
     <div class="flight-intro-glow" aria-hidden="true"></div>
     <div class="preloader-brand">
-        <img src="{{ Vite::asset('resources/images/AVXlogo.png') }}" alt="AVX Engineering Solutions" width="88" height="88" fetchpriority="high">
+        <img src="{{ asset('avx-logo.png') }}" alt="AVX Engineering Solutions" width="88" height="88" fetchpriority="high">
         <span class="preloader-name" aria-hidden="true">AVX</span>
         <span class="preloader-detail" aria-hidden="true">Engineering Solutions</span>
     </div>
