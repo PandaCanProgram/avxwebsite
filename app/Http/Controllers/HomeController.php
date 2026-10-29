@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Testimonial;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
     /**
-     * Show the homepage with the latest client feedback.
+     * Show the homepage with the curated, static client feedback.
      */
     public function __invoke(): View
     {
         return view('welcome', [
-            'testimonials' => Testimonial::latest()->take(6)->get(),
+            'testimonials' => collect(config('testimonials.items', []))
+                ->map(fn (array $testimonial): object => (object) $testimonial),
         ]);
     }
 }

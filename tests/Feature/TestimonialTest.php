@@ -10,25 +10,35 @@ class TestimonialTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_homepage_shows_empty_state_when_there_is_no_feedback(): void
+    public function test_homepage_shows_static_feedback_when_database_has_no_feedback(): void
     {
         $response = $this->get(route('home'));
 
         $response->assertOk();
-        $response->assertSee('No feedback yet');
-        $response->assertSee('Add Your Feedback');
+        $response->assertSee('Zsann');
+        $response->assertSee('Excellent support in custom drone flight controls integration and system optimization.');
+        $response->assertSee('Aeronautical Engineering Student');
+        $response->assertSee('Joshua');
+        $response->assertSee('Highly recommended for FEA and thesis consultation.');
+        $response->assertSee('Mechanical Engineering Student');
+        $response->assertDontSee('Client feedback will be shared here soon.');
+        $response->assertDontSee('Add Your Feedback');
+        $response->assertDontSee('data-feedback-form', false);
+        $this->assertDatabaseCount('testimonials', 0);
     }
 
-    public function test_homepage_shows_submitted_feedback(): void
+    public function test_homepage_keeps_static_feedback_when_database_feedback_exists(): void
     {
-        $testimonial = Testimonial::factory()->create(['role' => 'Drone Client']);
+        $testimonial = Testimonial::factory()->create(['name' => 'Database-only reviewer', 'role' => 'Drone Client']);
 
         $response = $this->get(route('home'));
 
-        $response->assertSee($testimonial->name);
-        $response->assertSee($testimonial->message);
-        $response->assertSee('Drone Client');
-        $response->assertDontSee('No feedback yet');
+        $response->assertOk();
+        $response->assertSee('Zsann');
+        $response->assertSee('Joshua');
+        $response->assertDontSee($testimonial->name);
+        $response->assertDontSee($testimonial->message);
+        $response->assertDontSee('Add Your Feedback');
     }
 
     public function test_visitor_can_submit_feedback(): void
