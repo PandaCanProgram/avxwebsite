@@ -32,15 +32,15 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body @class(['bg-white font-sans antialiased', 'story-page' => $immersive, $pageClass])>
+    <body @class(['bg-white font-sans antialiased', 'story-page' => $immersive, $pageClass]) data-investor-url="{{ route('investment') }}">
         @if ($immersive)
             <a href="#main-content" class="story-skip">Skip to content</a>
         @endif
-        <x-site-header :logo="asset('avx-logo.png')" />
+        <x-site-header :logo="asset('avx-logo.webp')" />
 
         {{ $slot }}
 
-        <x-site-footer :logo="asset('avx-logo.png')" />
+        <x-site-footer :logo="asset('avx-logo.webp')" />
 
         <x-site-gallery />
     </body>

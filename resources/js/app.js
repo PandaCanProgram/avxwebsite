@@ -5,8 +5,10 @@ import './project-showcase';
 import './project-collection';
 import { allowsEngagementMotion, openSendDialog, closeSendDialog } from './engagement';
 import './investment';
+import './portfolio';
+import './page-transitions';
 
-import.meta.glob(['../images/**'], { eager: true });
+import.meta.glob(['../images/**/*.webp', '../images/portfolio-*.jpg'], { eager: true });
 
 document.querySelectorAll('[data-nav-toggle]').forEach((toggle) => {
     const menu = document.getElementById(toggle.getAttribute('aria-controls'));

@@ -1,3 +1,5 @@
+import { allowsEngagementMotion } from './engagement';
+
 const collectionToggle = document.querySelector('[data-project-collection-toggle]');
 const collection = document.querySelector('[data-project-collection]');
 
@@ -9,7 +11,7 @@ if (collectionToggle && collection) {
     const status = collection.querySelector('[data-project-collection-status]');
     const retryButton = collection.querySelector('[data-project-collection-retry]');
     const bottom = collection.querySelector('[data-project-collection-bottom]');
-    const heading = collection.querySelector('#project-collection-title');
+    const heading = collection.querySelector('[data-project-collection-heading]');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const itemAnimations = new Set();
     let expanded = false;
@@ -20,7 +22,7 @@ if (collectionToggle && collection) {
     let scrollFrame = null;
     let finishScroll = null;
 
-    const allowsMotion = () => !reducedMotion.matches && root.classList.contains('story-motion-enabled');
+    const allowsMotion = allowsEngagementMotion;
     const revealObserver = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (!entry.isIntersecting) {
@@ -150,6 +152,7 @@ if (collectionToggle && collection) {
                 }
 
                 mount.replaceChildren(imported);
+                mount.dispatchEvent(new CustomEvent('avx:portfolio-loaded', { bubbles: true }));
                 loaded = true;
                 loading.hidden = true;
                 bottom.hidden = false;

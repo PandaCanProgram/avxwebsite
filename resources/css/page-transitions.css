@@ -1,0 +1,41 @@
+@view-transition {
+    navigation: auto;
+}
+
+body > header { view-transition-name: avx-header; }
+::view-transition-group(root) { animation-duration: 380ms; }
+::view-transition-old(root) { animation: avx-page-out 200ms ease-out both; mix-blend-mode: normal; }
+::view-transition-new(root) { animation: avx-page-in 380ms cubic-bezier(0.16, 1, 0.3, 1) both; mix-blend-mode: normal; }
+::view-transition-group(avx-header) { animation-duration: 280ms; }
+::view-transition-old(avx-header) { animation: none; opacity: 0; }
+::view-transition-new(avx-header) { animation: none; }
+
+.investor-route-leaving body::after {
+    content: '';
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    background: #071321;
+    pointer-events: none;
+    animation: avx-route-cover 180ms ease-out both;
+}
+
+@keyframes avx-page-out {
+    to { opacity: 0; transform: translateY(-10px); }
+}
+
+@keyframes avx-page-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes avx-route-cover {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition { navigation: none; }
+    ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+    .investor-route-leaving body::after { display: none; }
+}

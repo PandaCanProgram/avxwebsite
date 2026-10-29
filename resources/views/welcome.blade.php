@@ -4,9 +4,9 @@
     @endif
 
     <main id="main-content" tabindex="-1" data-story>
-        <x-site-hero image="{{ Vite::asset('resources/images/AVXDrone.png') }}" />
+        <x-site-hero image="{{ Vite::asset('resources/images/AVXDrone.webp') }}" />
 
-        <x-site-AboutUs :image="asset('avx-logo.png')" />
+        <x-site-AboutUs :image="asset('avx-logo.webp')" />
 
         <x-site-services />
 

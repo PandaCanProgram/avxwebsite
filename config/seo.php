@@ -46,6 +46,6 @@ return [
     'descriptions' => [
         'home' => 'AVX Engineering Solutions in the Philippines designs UAV, USV and UGV platforms, provides engineering analysis, and develops custom software and AI applications.',
         'projects' => 'Explore AVX Philippines projects in custom drones, CFD simulation, finite element analysis, 3D CAD design, product rendering, and web development.',
-        'investment' => 'Connect with AVX Engineering Solutions about investment opportunities in unmanned systems, engineering design, custom software, and AI development.',
+        'investment' => 'Explore AVX Philippines and potential projects in agricultural drones, defense support, cargo hauling, surveillance, mapping, and unmanned systems. Discuss investing.',
     ],
 ];

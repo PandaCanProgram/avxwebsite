@@ -110,7 +110,8 @@
 .project-archive-categories li::before { content: ''; width: 3px; height: 3px; background: #82d9ff; }
 .story-page .project-showcase :is(a, button):focus-visible { outline-color: #82d9ff; }
 
-.story-ready.project-collection-expanded { scroll-snap-type: none; overflow-anchor: none; }
+.project-collection-expanded { overflow-anchor: none; }
+.story-ready.project-collection-expanded { scroll-snap-type: none; }
 .project-archive-link[aria-expanded="true"] { color: #82d9ff; }
 .project-archive-link[aria-expanded="true"] .project-archive-arrow { transform: rotate(90deg); background: rgb(130 217 255 / 7%); }
 .project-collection { overflow: clip; scroll-margin-top: 16px; }

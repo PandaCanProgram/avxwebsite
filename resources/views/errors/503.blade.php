@@ -71,7 +71,7 @@
     <div class="page">
         <header class="shell header">
             <div class="brand" aria-label="AVX Engineering Solutions">
-                <img class="brand-logo" src="{{ asset('avx-logo.png') }}" alt="" width="48" height="48">
+                <img class="brand-logo" src="{{ asset('avx-logo.webp') }}" alt="" width="48" height="48">
                 <span class="brand-mark" aria-hidden="true">AVX</span>
                 <span class="brand-name" aria-hidden="true">Engineering<br>Solutions</span>
             </div>

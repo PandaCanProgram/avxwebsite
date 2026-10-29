@@ -8,11 +8,11 @@
     $galleryImages = collect($project['gallery'] ?? [])->map(fn (string $image): string => Vite::asset($image));
 @endphp
 
-<article @class(['project-feature-card' => $showcase])>
+<article {{ $attributes->class(['project-feature-card' => $showcase]) }}>
     <div @class(['relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden bg-slate-800', 'project-feature-media' => $showcase, 'project-media-cutout' => $project['cutout'] ?? false]) @if ($project['cutout'] ?? false) data-project-cutout @endif>
         @if ($galleryImages->isNotEmpty())
             <button type="button" class="group size-full cursor-zoom-in" data-gallery-open data-gallery-title="{{ $project['title'] }}" data-gallery-images='@json($galleryImages)' @if ($project['cutout'] ?? false) data-gallery-cutout @endif aria-label="View {{ $galleryImages->count() }} photos of {{ $project['title'] }}">
-                <img src="{{ Vite::asset($project['image']) }}" alt="{{ $project['title'] }}" loading="lazy" class="size-full transition-transform duration-500 group-hover:scale-105 {{ $project['imageFit'] }}">
+                <img src="{{ Vite::asset($project['image']) }}" alt="{{ $project['title'] }}" loading="lazy" decoding="async" class="size-full transition-transform duration-500 group-hover:scale-105 {{ $project['imageFit'] }}">
 
                 <span class="absolute right-3 bottom-3 inline-flex items-center gap-1.5 bg-slate-900/75 px-2.5 py-1.5 font-display text-xs font-semibold tracking-[0.15em] text-white uppercase backdrop-blur-sm transition-colors group-hover:bg-brand">
                     <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
@@ -23,10 +23,10 @@
             </button>
         @elseif ($project['panelMockup'] ?? false)
             <div class="project-mockup-panel" style="--project-panel-ratio: {{ $project['panelAspectRatio'] ?? '429 / 202' }}">
-                <img src="{{ Vite::asset($project['image']) }}" alt="{{ $project['title'] }}" loading="lazy" class="size-full object-contain">
+                <img src="{{ Vite::asset($project['image']) }}" alt="{{ $project['title'] }}" loading="lazy" decoding="async" class="size-full object-contain">
             </div>
         @elseif ($project['image'])
-            <img src="{{ Vite::asset($project['image']) }}" alt="{{ $project['title'] }}" loading="lazy" class="size-full {{ $project['imageFit'] }}">
+            <img src="{{ Vite::asset($project['image']) }}" alt="{{ $project['title'] }}" loading="lazy" decoding="async" class="size-full {{ $project['imageFit'] }}">
         @else
             <div class="flex flex-col items-center gap-3 text-slate-400" aria-hidden="true">
                 <svg class="size-10" fill="none" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">

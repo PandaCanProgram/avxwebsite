@@ -5,7 +5,38 @@ const investmentPage = document.querySelector('[data-investment-page]');
 if (investmentPage) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const reveals = [...investmentPage.querySelectorAll('[data-investment-reveal]')];
+    const sectionLinks = [...investmentPage.querySelectorAll('.investor-page-index a')];
+    const desktopMotion = window.matchMedia('(min-width: 1024px) and (pointer: fine)');
+    const parallaxScenes = new Map([...investmentPage.querySelectorAll('[data-investor-scene]')]
+        .map((scene) => [scene, [...scene.querySelectorAll('[data-investor-parallax]')]]));
+    const visibleScenes = new Set();
     let frame = null;
+    let scrollRange = 1;
+
+    if ('IntersectionObserver' in window && sectionLinks.length > 0) {
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+
+                sectionLinks.forEach((link) => {
+                    if (link.hash === `#${entry.target.id}`) {
+                        link.setAttribute('aria-current', 'location');
+                    } else {
+                        link.removeAttribute('aria-current');
+                    }
+                });
+            });
+        }, { rootMargin: '-15% 0px -55% 0px', threshold: 0 });
+
+        sectionLinks.forEach((link) => {
+            const section = investmentPage.querySelector(link.hash);
+            if (section) {
+                sectionObserver.observe(section);
+            }
+        });
+    }
 
     if (!reducedMotion.matches && 'IntersectionObserver' in window) {
         document.body.classList.add('investment-motion-ready');
@@ -39,18 +70,31 @@ if (investmentPage) {
     const renderParallax = () => {
         frame = null;
 
-        if (reducedMotion.matches || document.hidden) {
-            investmentPage.style.removeProperty('--investment-drift');
+        if (document.hidden) {
+            return;
+        }
+
+        investmentPage.style.setProperty('--investor-progress', String(Math.max(0, Math.min(1, window.scrollY / scrollRange))));
+
+        if (reducedMotion.matches || navigator.connection?.saveData) {
+            parallaxScenes.forEach((layers) => layers.forEach((layer) => layer.style.removeProperty('--investor-parallax-y')));
 
             return;
         }
 
-        const bounds = investmentPage.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const amplitude = desktopMotion.matches ? 1 : 0.24;
+        const measurements = [...visibleScenes].map((scene) => ({ scene, bounds: scene.getBoundingClientRect() }));
 
-        if (bounds.bottom > 0 && bounds.top < window.innerHeight) {
-            const distance = Math.max(-60, Math.min(60, -bounds.top * 0.1));
-            investmentPage.style.setProperty('--investment-drift', `${distance.toFixed(2)}px`);
-        }
+        measurements.forEach(({ scene, bounds }) => {
+            const distance = Math.max(-viewportHeight, Math.min(viewportHeight,
+                viewportHeight * 0.5 - bounds.top - Math.min(bounds.height, viewportHeight) * 0.5));
+
+            parallaxScenes.get(scene).forEach((layer) => {
+                const offset = Math.max(-64, Math.min(64, distance * Number(layer.dataset.investorParallax) * amplitude));
+                layer.style.setProperty('--investor-parallax-y', `${offset.toFixed(2)}px`);
+            });
+        });
     };
 
     const requestRender = () => {
@@ -59,12 +103,37 @@ if (investmentPage) {
         }
     };
 
+    const measurePage = () => {
+        scrollRange = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        requestRender();
+    };
+
+    if ('IntersectionObserver' in window) {
+        const parallaxObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    visibleScenes.add(entry.target);
+                } else {
+                    visibleScenes.delete(entry.target);
+                }
+            });
+            requestRender();
+        }, { rootMargin: '180px 0px' });
+        parallaxScenes.forEach((layers, scene) => parallaxObserver.observe(scene));
+    }
+
     window.addEventListener('scroll', requestRender, { passive: true });
-    window.addEventListener('resize', requestRender, { passive: true });
-    window.addEventListener('pageshow', requestRender);
+    window.addEventListener('resize', measurePage, { passive: true });
+    window.addEventListener('pageshow', measurePage);
     reducedMotion.addEventListener('change', requestRender);
+    desktopMotion.addEventListener('change', requestRender);
+    navigator.connection?.addEventListener('change', requestRender);
     document.addEventListener('visibilitychange', requestRender);
-    requestRender();
+    if ('ResizeObserver' in window) {
+        new ResizeObserver(measurePage).observe(investmentPage);
+    }
+    document.fonts?.ready.then(measurePage);
+    measurePage();
 }
 
 const investmentDialog = document.querySelector('[data-investment-dialog]');
