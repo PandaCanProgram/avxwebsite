@@ -82,8 +82,9 @@ textarea.investment-input { resize: vertical; min-height: 116px; }
 .investment-fields [data-field-error] { color: #ffb0ac; }
 .investment-submit { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 16px; min-height: 50px; margin-top: 24px; padding: 14px 18px; background: var(--investment-accent); color: var(--investment-ink); font-size: 14px; font-weight: 600; transition: background 200ms; cursor: pointer; }
 .investment-submit svg { flex-shrink: 0; transition: transform 250ms ease; }
-.investment-submit:hover { background: #abe7ff; }
-.investment-submit:hover svg { transform: translateX(4px); }
+.investment-submit:enabled:hover { background: #abe7ff; }
+.investment-submit:enabled:hover svg { transform: translateX(4px); }
+.investment-submit:disabled { cursor: not-allowed; opacity: 0.5; }
 .investment-form-note { margin-top: 14px; font-size: 12px; line-height: 1.7; color: var(--investment-muted); }
 .investment-form-note a { text-decoration: underline; overflow-wrap: anywhere; }
 

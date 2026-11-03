@@ -2,7 +2,7 @@
     $faqs = [
         [
             'question' => 'What kinds of drones can you build?',
-            'answer' => 'Both multirotor and fixed-wing UAVs. Multirotors are stable and versatile for aerial photography, inspection, mapping, surveillance, and research. Fixed-wing platforms offer long range and high endurance for surveying, monitoring, agriculture, and delivery. Our portfolio includes the F450 and F500 platforms.',
+            'answer' => 'Both multirotor and fixed-wing UAVs and even unmanned rovers and unmanned boats. Multirotors are stable and versatile for aerial photography, inspection, mapping, surveillance, and research. Fixed-wing platforms offer long range and high endurance for surveying, monitoring, agriculture, and delivery. Our portfolio include various sizes from educational models, FPV, high performance lifters to 20kg payload agricultural drones.',
         ],
         [
             'question' => 'Can you set up the autopilot and payload too?',
@@ -43,7 +43,7 @@
 
         <div class="faq-list">
             @foreach ($faqs as $faq)
-                <details data-reveal data-faq-item class="faq-item group" @if ($loop->index === 1) open @endif>
+                <details data-reveal data-faq-item class="faq-item group">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-6 [&::-webkit-details-marker]:hidden">
                         <span class="faq-number" aria-hidden="true">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                         <h3 class="font-display text-lg font-bold text-slate-900 uppercase">{{ $faq['question'] }}</h3>

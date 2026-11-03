@@ -207,10 +207,10 @@
 .contact-brief :is(input, textarea):focus { box-shadow: 0 0 0 4px rgb(42 108 176 / 8%); }
 .contact-send { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px; overflow: hidden; min-height: 50px; }
 .contact-send::before { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 20%, rgb(255 255 255 / 18%), transparent 80%); transform: translateX(-120%); transition: transform 650ms ease; }
-.contact-send:hover::before { transform: translateX(120%); }
+.contact-send:enabled:hover::before { transform: translateX(120%); }
 .contact-send > span { position: relative; }
 .contact-send > span + span { display: flex; flex-shrink: 0; transition: transform 250ms; }
-.contact-send:hover > span + span { transform: translate(2px, -2px); }
+.contact-send:enabled:hover > span + span { transform: translate(2px, -2px); }
 
 html.send-via-open { overflow: hidden; scroll-snap-type: none; }
 
@@ -278,3 +278,28 @@ html.story-ready:not(.story-motion-enabled) .feedback-carousel [data-carousel-tr
     .send-dialog::backdrop { animation: none !important; transition: none !important; }
     .send-channel:hover { transform: none; }
 }
+.inquiry-honeypot {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.inquiry-status:not([hidden]) {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid currentColor;
+    border-left-width: 3px;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    color: #2466a4;
+}
+
+.inquiry-status[data-state="success"] { color: #13714f; }
+.inquiry-status[data-state="error"] { color: #b42335; }
+:is(.investment-page, .portfolio-page, .investment-dialog) .inquiry-status { color: #80dafa; }
+:is(.investment-page, .portfolio-page, .investment-dialog) .inquiry-status[data-state="success"] { color: #84e8be; }
+:is(.investment-page, .portfolio-page, .investment-dialog) .inquiry-status[data-state="error"] { color: #ffacac; }

@@ -1,8 +1,8 @@
 @props([
     'image' => null,
-    'imageAlt' => 'White quadcopter drone flying over a forest',
-    'statValue' => 'F450 · F500',
-    'statLabel' => 'Drone Platforms Built',
+    'imageAlt' => 'H800 multirotor platform with AI detection',
+    'statValue' => 'H800',
+    'statLabel' => 'Multirotor platform with AI detection',
 ])
 
 @php

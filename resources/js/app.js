@@ -3,7 +3,7 @@ import './flight-intro';
 import './story';
 import './project-showcase';
 import './project-collection';
-import { allowsEngagementMotion, openSendDialog, closeSendDialog } from './engagement';
+import { allowsEngagementMotion } from './engagement';
 import './investment';
 import './portfolio';
 import './page-transitions';
@@ -190,151 +190,6 @@ if (navSections.length > 0) {
     navSections.forEach((section) => sectionObserver.observe(section));
 }
 
-document.querySelectorAll('[data-quote-form], [data-investment-form]').forEach((inquiryForm) => {
-    const dialog = inquiryForm.parentElement.querySelector('[data-send-via-dialog]');
-
-    if (!dialog) {
-        return;
-    }
-
-    const businessEmail = 'avxengineeringsolutions@gmail.com';
-    const viberNumber = '+639933619061';
-    const facebookPage = 'avxengineeringsolutions';
-    const viberDraftLimit = 100;
-    const status = dialog.querySelector('[data-send-via-status]');
-    const preview = dialog.querySelector('[data-send-via-preview]');
-    let message = '';
-    let subject = '';
-
-    const showStatus = (text) => {
-        status.textContent = text;
-        status.classList.remove('hidden');
-    };
-
-    const copyMessage = async () => {
-        try {
-            await navigator.clipboard.writeText(message);
-
-            return true;
-        } catch {
-            return false;
-        }
-    };
-
-    const buildLinks = () => {
-        const encodedMessage = encodeURIComponent(message);
-
-        return {
-            viber: message.length <= viberDraftLimit
-                ? `viber://chat?number=${encodeURIComponent(viberNumber)}&draft=${encodedMessage}`
-                : `viber://chat?number=${encodeURIComponent(viberNumber)}`,
-            gmail: `https://mail.google.com/mail/?view=cm&fs=1&to=${businessEmail}&su=${encodeURIComponent(subject)}&body=${encodedMessage}`,
-            facebook: `https://m.me/${facebookPage}?text=${encodedMessage}`,
-        };
-    };
-
-    inquiryForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-
-        if (!inquiryForm.checkValidity()) {
-            return;
-        }
-
-        const formData = new FormData(inquiryForm);
-        const field = (name) => String(formData.get(name) ?? '').trim();
-        const isInvestmentInquiry = inquiryForm.hasAttribute('data-investment-form');
-
-        subject = isInvestmentInquiry
-            ? `Investment Inquiry: ${field('name')}`
-            : `Quote Request: ${field('subject')}`;
-        const inquiryDetails = isInvestmentInquiry
-            ? [
-                ...(field('phone') ? [`Phone: ${field('phone')}`] : []),
-                `Area of interest: ${field('interest')}`,
-            ]
-            : [`Subject: ${field('subject')}`];
-        message = [
-            'Hi AVX Engineering Solutions!',
-            '',
-            ...(isInvestmentInquiry ? ['I would like to discuss investing in AVX.', ''] : []),
-            `Name: ${field('name')}`,
-            `Email: ${field('email')}`,
-            ...(field('organization') ? [`Company / Organization: ${field('organization')}`] : []),
-            ...inquiryDetails,
-            '',
-            field('message'),
-        ].join('\n');
-
-        const links = buildLinks();
-
-        dialog.querySelectorAll('[data-send-via]').forEach((option) => {
-            const isAppLink = option.dataset.sendVia === 'viber';
-
-            option.href = links[option.dataset.sendVia];
-
-            if (isAppLink) {
-                option.removeAttribute('target');
-            } else {
-                option.target = '_blank';
-            }
-        });
-
-        preview.textContent = message;
-        status.classList.add('hidden');
-        openSendDialog(dialog);
-        copyMessage();
-    });
-
-    dialog.querySelectorAll('[data-send-via]').forEach((option) => {
-        option.addEventListener('click', async () => {
-            const platform = option.dataset.sendVia;
-
-            if (platform === 'gmail') {
-                showStatus('Opening Gmail with your message filled in. Just hit send.');
-
-                return;
-            }
-
-            const copied = await copyMessage();
-            const appName = platform === 'viber' ? 'Viber' : 'Messenger';
-
-            if (platform === 'viber' && message.length <= viberDraftLimit) {
-                showStatus('Opening Viber with your message filled in. Just hit send.');
-
-                return;
-            }
-
-            showStatus(copied
-                ? `Your full message is copied. In ${appName}, paste it into the chat (Ctrl+V, or long-press then Paste) and send.`
-                : `Opening ${appName}. Copy your message from the preview below and paste it there.`);
-        });
-    });
-
-    dialog.querySelector('[data-send-via-copy]').addEventListener('click', async () => {
-        showStatus(await copyMessage()
-            ? 'Message copied to your clipboard.'
-            : 'Copying is blocked by your browser. Select the preview text and copy it manually.');
-    });
-
-    dialog.querySelector('[data-send-via-close]').addEventListener('click', () => closeSendDialog(dialog));
-
-    dialog.addEventListener('cancel', (event) => {
-        event.preventDefault();
-        closeSendDialog(dialog);
-    });
-
-    dialog.addEventListener('click', (event) => {
-        if (event.target === dialog) {
-            const bounds = dialog.getBoundingClientRect();
-
-            if (event.clientX < bounds.left || event.clientX > bounds.right
-                || event.clientY < bounds.top || event.clientY > bounds.bottom) {
-                closeSendDialog(dialog);
-            }
-        }
-    });
-});
-
 const fieldErrorMessage = (field) => {
     const { validity } = field;
 
@@ -433,7 +288,16 @@ document.querySelectorAll('[data-validate]').forEach((form) => {
 
         firstInvalidField.focus({ preventScroll: true });
         (firstInvalidField.type === 'radio' ? firstInvalidField.closest('fieldset') : firstInvalidField)
-            .scrollIntoView({ behavior: 'smooth', block: 'center' });
+            .scrollIntoView({ behavior: allowsEngagementMotion() ? 'smooth' : 'auto', block: 'center' });
+    });
+
+    form.addEventListener('inquiry:validation-errors', (event) => {
+        fields.forEach((field) => setFieldError(field, event.detail[field.name]?.[0] ?? ''));
+        form.querySelector('[aria-invalid="true"]')?.focus();
+    });
+
+    form.addEventListener('reset', () => {
+        fields.forEach((field) => setFieldError(field, ''));
     });
 
     fields.forEach((field) => {
@@ -445,5 +309,84 @@ document.querySelectorAll('[data-validate]').forEach((form) => {
 
         field.addEventListener('input', clearWhenFixed);
         field.addEventListener('change', clearWhenFixed);
+    });
+});
+
+document.querySelectorAll('[data-inquiry-form]').forEach((form) => {
+    const button = form.querySelector('button[type="submit"]');
+    const label = button.querySelector('[data-submit-label]');
+    const originalLabel = label.textContent;
+    const fieldset = form.querySelector('fieldset');
+    const status = form.querySelector('[data-inquiry-status]');
+    let sending = false;
+
+    const showStatus = (message, state) => {
+        status.hidden = false;
+        status.dataset.state = state;
+        status.textContent = message;
+    };
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        if (sending || !form.checkValidity()) {
+            return;
+        }
+
+        const payload = new FormData(form);
+        sending = true;
+        button.disabled = true;
+        fieldset.disabled = true;
+        form.setAttribute('aria-busy', 'true');
+        label.textContent = 'Sending…';
+        showStatus('Submitting your inquiry…', 'pending');
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 30000);
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: payload,
+                headers: { Accept: 'application/json' },
+                credentials: 'same-origin',
+                signal: controller.signal,
+            });
+            const result = await response.json().catch(() => ({}));
+
+            if (response.ok && result.reference) {
+                form.reset();
+                fieldset.querySelectorAll('input, textarea, select').forEach((field) => {
+                    if (field.tagName === 'SELECT') {
+                        field.selectedIndex = 0;
+                    } else {
+                        field.value = '';
+                    }
+                });
+                const submissionId = form.elements.namedItem('submission_id');
+                submissionId.value = result.next_submission_id;
+                submissionId.defaultValue = result.next_submission_id;
+                showStatus(`${result.message} Reference: ${result.reference}`, 'success');
+            } else if (response.status === 422) {
+                fieldset.disabled = false;
+                form.dispatchEvent(new CustomEvent('inquiry:validation-errors', { detail: result.errors ?? {} }));
+                const firstError = Object.values(result.errors ?? {})[0]?.[0];
+                showStatus(firstError ?? 'Please review your details and try again.', 'error');
+            } else if (response.status === 429) {
+                showStatus('Too many inquiries were submitted. Please wait 10 minutes before trying again, or contact our team directly.', 'error');
+            } else if (response.status === 419) {
+                showStatus('Your session has expired. Please refresh this page before sending your inquiry.', 'error');
+            } else {
+                showStatus('We could not confirm receipt. Your details are still here; please retry, or email info@avxengineering.com.', 'error');
+            }
+        } catch {
+            showStatus('We could not confirm receipt. Please check your connection and retry. Your details have been kept.', 'error');
+        } finally {
+            window.clearTimeout(timeout);
+            sending = false;
+            button.disabled = false;
+            fieldset.disabled = false;
+            form.removeAttribute('aria-busy');
+            label.textContent = originalLabel;
+        }
     });
 });

@@ -117,7 +117,7 @@ if (portfolioPage) {
     }
 }
 
-const interactiveCardSelector = '.investor-work-grid article, [data-portfolio-project]';
+const interactiveCardSelector = '.investor-work-grid article:not(.project-card-panel), [data-portfolio-project]:not(.project-card-panel)';
 const interactiveCards = [...document.querySelectorAll(interactiveCardSelector)];
 
 if (interactiveCards.length > 0 || document.querySelector('[data-project-collection]')) {

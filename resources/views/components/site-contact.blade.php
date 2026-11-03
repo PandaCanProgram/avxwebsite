@@ -2,14 +2,14 @@
     $contactDetails = [
         [
             'label' => 'Email',
-            'value' => 'avxengineeringsolutions@gmail.com',
-            'href' => 'mailto:avxengineeringsolutions@gmail.com',
+            'value' => 'info@avxengineering.com',
+            'href' => 'mailto:info@avxengineering.com',
             'icon' => 'M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75',
         ],
         [
-            'label' => 'Phone / Viber',
-            'value' => '+63 993 361 9061',
-            'href' => 'tel:+639933619061',
+            'label' => 'Phone',
+            'value' => '0934 917 0567',
+            'href' => 'tel:+639349170567',
             'icon' => 'M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z',
         ],
         [
@@ -60,46 +60,57 @@
             </ul>
         </div>
 
-        <form id="quote" action="mailto:avxengineeringsolutions@gmail.com" method="POST" enctype="text/plain" class="contact-brief bg-white p-6 shadow-sm sm:p-10" data-reveal="right" data-quote-form data-validate>
+        <form id="quote" action="{{ route('inquiries.contact') }}" method="POST" class="contact-brief bg-white p-6 shadow-sm sm:p-10" aria-describedby="contact-delivery-note" data-reveal="right" data-quote-form data-inquiry-form data-validate>
+            @csrf
+            <input type="hidden" name="submission_id" value="{{ old('submission_id', (string) Illuminate\Support\Str::uuid()) }}">
+            <input type="hidden" name="source" value="{{ request()->routeIs('projects') ? 'projects' : 'home' }}">
+            <div class="inquiry-honeypot" aria-hidden="true"><label for="contact-website">Leave this empty</label><input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
             <div class="contact-brief-heading">
                 <p class="font-display text-xs font-semibold tracking-[0.25em] uppercase">Your project brief</p>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" /></svg>
             </div>
-            <div class="grid gap-6 sm:grid-cols-2">
+            <fieldset class="grid gap-6 sm:grid-cols-2">
+                <legend class="sr-only">Project details</legend>
                 <div>
                     <label for="contact-name" class="{{ $labelClasses }}">Full Name</label>
-                    <input id="contact-name" name="name" type="text" autocomplete="name" required data-required-message="Please enter your full name." placeholder="Juan dela Cruz" class="{{ $inputClasses }}">
+                    <input id="contact-name" name="name" type="text" autocomplete="name" required maxlength="100" value="{{ old('name') }}" data-required-message="Please enter your full name." placeholder="Juan dela Cruz" class="{{ $inputClasses }}">
                 </div>
 
                 <div>
                     <label for="contact-email" class="{{ $labelClasses }}">Email Address</label>
-                    <input id="contact-email" name="email" type="email" autocomplete="email" required data-required-message="Please enter your email address." placeholder="juan@email.com" class="{{ $inputClasses }}">
+                    <input id="contact-email" name="email" type="email" autocomplete="email" required maxlength="254" value="{{ old('email') }}" data-required-message="Please enter your email address." placeholder="juan@email.com" class="{{ $inputClasses }}">
                 </div>
 
                 <div>
                     <label for="contact-organization" class="{{ $labelClasses }}">Company / Organization <span class="normal-case tracking-normal">(optional)</span></label>
-                    <input id="contact-organization" name="organization" type="text" autocomplete="organization" maxlength="150" placeholder="Company or organization" class="{{ $inputClasses }}">
+                    <input id="contact-organization" name="organization" type="text" autocomplete="organization" maxlength="150" value="{{ old('organization') }}" placeholder="Company or organization" class="{{ $inputClasses }}">
                 </div>
 
                 <div>
                     <label for="contact-subject" class="{{ $labelClasses }}">Subject</label>
-                    <input id="contact-subject" name="subject" type="text" required data-required-message="Please enter a subject." placeholder="Custom Drone Fabrication" class="{{ $inputClasses }}">
+                    <input id="contact-subject" name="subject" type="text" required maxlength="160" value="{{ old('subject') }}" data-required-message="Please enter a subject." placeholder="Custom Drone Fabrication" class="{{ $inputClasses }}">
                 </div>
 
                 <div class="sm:col-span-2">
                     <label for="contact-message" class="{{ $labelClasses }}">Message</label>
-                    <textarea id="contact-message" name="message" rows="5" required data-required-message="Please tell us about your project." placeholder="Tell us about your project..." class="{{ $inputClasses }} resize-y"></textarea>
+                    <textarea id="contact-message" name="message" rows="5" required minlength="10" maxlength="5000" data-required-message="Please tell us about your project." placeholder="Tell us about your project..." class="{{ $inputClasses }} resize-y">{{ old('message') }}</textarea>
                 </div>
-            </div>
+            </fieldset>
 
-            <button type="submit" class="contact-send mt-6 w-full bg-brand px-6 py-3.5 font-semibold text-white transition-colors hover:bg-brand-dark">
-                <span>Send Message</span>
+            <button type="submit" class="contact-send mt-6 w-full bg-brand px-6 py-3.5 font-semibold text-white transition-colors enabled:hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50">
+                <span data-submit-label>Send Message</span>
                 <span aria-hidden="true">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M5 5h14v14" /></svg>
                 </span>
             </button>
+            <p id="contact-delivery-note" class="mt-4 text-sm leading-relaxed text-gray-500">Your inquiry goes directly to our team. We'll email you an acknowledgment after submission.</p>
+            <div class="inquiry-status" data-inquiry-status role="status" aria-live="polite" @if (! session('inquirySubmitted') && ! $errors->inquiry->any()) hidden @endif>
+                @if (session('inquirySubmitted'))
+                    {{ session('inquirySubmitted') }}
+                @elseif ($errors->inquiry->any())
+                    {{ $errors->inquiry->first() }} Please review your details and try again.
+                @endif
+            </div>
         </form>
-
-        <x-site-send-options />
     </div>
 </section>

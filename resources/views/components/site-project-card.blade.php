@@ -8,7 +8,7 @@
     $galleryImages = collect($project['gallery'] ?? [])->map(fn (string $image): string => Vite::asset($image));
 @endphp
 
-<article {{ $attributes->class(['project-feature-card' => $showcase]) }}>
+<article {{ $attributes->class(['project-feature-card' => $showcase, 'project-card-panel' => $project['panelMockup'] ?? false]) }}>
     <div @class(['relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden bg-slate-800', 'project-feature-media' => $showcase, 'project-media-cutout' => $project['cutout'] ?? false]) @if ($project['cutout'] ?? false) data-project-cutout @endif>
         @if ($galleryImages->isNotEmpty())
             <button type="button" class="group size-full cursor-zoom-in" data-gallery-open data-gallery-title="{{ $project['title'] }}" data-gallery-images='@json($galleryImages)' @if ($project['cutout'] ?? false) data-gallery-cutout @endif aria-label="View {{ $galleryImages->count() }} photos of {{ $project['title'] }}">

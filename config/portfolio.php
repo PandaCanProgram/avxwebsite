@@ -25,9 +25,9 @@ return [
     'projects' => [
         [
             'category' => 'Drone Fabrication',
-            'title' => 'F450 Quadcopter',
-            'description' => 'Customizable multirotor RPAS platform built for mapping, inspection, and research applications.',
-            'image' => 'resources/images/drone1.webp',
+            'title' => 'H800 Hexacopter',
+            'description' => 'Multirotor platform with AI detection.',
+            'image' => 'resources/images/h800.webp',
             'imageFit' => 'object-contain',
             'cutout' => true,
             'featured' => true,

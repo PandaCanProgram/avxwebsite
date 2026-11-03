@@ -47,10 +47,10 @@
 
             <div data-reveal class="mt-8 space-y-6 text-lg leading-relaxed text-gray-500 sm:text-xl">
                 <p>
-                    AVX Engineering Solutions in the Philippines designs and fabricates unmanned aircraft systems (UAS), remotely piloted aircraft systems (RPAS), unmanned surface vehicles (USV), and unmanned ground vehicles (UGV), including boats and rovers.
+                    AVX Engineering Solutions in the Philippines designs and fabricates unmanned aircraft systems (UAS), remotely piloted aircraft systems (RPAS), unmanned surface vehicles (USV), and unmanned ground vehicles (UGV), including beyond visual line of sight (BVLOS) boats and rovers.
                 </p>
                 <p>
-                    Our engineering and design work spans CFD simulation, finite element analysis, 3D CAD design, and product rendering. We also develop business websites, management systems, AI applications, and UAV and aviation software.
+                    Our engineering and design work spans conceptual design, 3D CAD design, CFD simulation, finite element analysis, product rendering and prototypes. We also develop business websites, management systems, AI applications, embedded systems, Unmanned Vehicles and Aviation software.
                 </p>
             </div>
 

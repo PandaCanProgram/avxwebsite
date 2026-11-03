@@ -256,12 +256,6 @@ if (investmentDialog && typeof investmentDialog.showModal === 'function') {
         isClosing = false;
         investmentDialog.removeAttribute('data-closing');
         root.classList.remove('investment-dialog-open');
-        const sendDialog = investmentDialog.querySelector('[data-send-via-dialog]');
-
-        if (sendDialog?.open) {
-            sendDialog.close();
-        }
-
         if (lastTrigger?.isConnected) {
             lastTrigger.focus({ preventScroll: true });
         }
@@ -272,4 +266,8 @@ if (investmentDialog && typeof investmentDialog.showModal === 'function') {
             clearAnimations();
         }
     });
+
+    if (investmentDialog.querySelector('[data-inquiry-restore]')) {
+        openInquiry(document.querySelector('[data-investment-open]'));
+    }
 }
