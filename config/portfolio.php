@@ -206,6 +206,10 @@ return [
             'description' => 'Retail e-commerce website and wholesale portal for a handcrafted headband brand, with a searchable product catalog, category and availability filters, a shopping bag, brand story, wholesale account applications, and partner sign-in.',
             'image' => 'resources/images/projects/maries-famous-headbands-1.webp',
             'imageFit' => 'object-contain',
+            'cutout' => true,
+            'panelMockup' => true,
+            'panelAspectRatio' => '3295 / 1460',
+            'panelFramedImage' => true,
             'galleryCutout' => false,
             'gallery' => [
                 'resources/images/projects/maries-famous-headbands-1.webp',
