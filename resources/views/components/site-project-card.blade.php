@@ -11,7 +11,7 @@
 <article {{ $attributes->class(['project-feature-card' => $showcase, 'project-card-panel' => $project['panelMockup'] ?? false]) }}>
     <div @class(['relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden bg-slate-800', 'project-feature-media' => $showcase, 'project-media-cutout' => $project['cutout'] ?? false]) @if ($project['cutout'] ?? false) data-project-cutout @endif>
         @if ($galleryImages->isNotEmpty())
-            <button type="button" class="group size-full cursor-zoom-in" data-gallery-open data-gallery-title="{{ $project['title'] }}" data-gallery-images='@json($galleryImages)' @if ($project['cutout'] ?? false) data-gallery-cutout @endif aria-label="View {{ $galleryImages->count() }} photos of {{ $project['title'] }}">
+            <button type="button" class="group size-full cursor-zoom-in" data-gallery-open data-gallery-title="{{ $project['title'] }}" data-gallery-images='@json($galleryImages)' @if ($project['galleryCutout'] ?? $project['cutout'] ?? false) data-gallery-cutout @endif aria-label="View {{ $galleryImages->count() }} photos of {{ $project['title'] }}">
                 <img src="{{ Vite::asset($project['image']) }}" alt="{{ $project['title'] }}" loading="lazy" decoding="async" class="size-full transition-transform duration-500 group-hover:scale-105 {{ $project['imageFit'] }}">
 
                 <span class="absolute right-3 bottom-3 inline-flex items-center gap-1.5 bg-slate-900/75 px-2.5 py-1.5 font-display text-xs font-semibold tracking-[0.15em] text-white uppercase backdrop-blur-sm transition-colors group-hover:bg-brand">

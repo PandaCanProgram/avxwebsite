@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use DOMDocument;
+use DOMXPath;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -47,5 +49,27 @@ class ProjectsPageTest extends TestCase
                 $response->assertSee('View '.count($project['gallery']).' photos of '.$project['title']);
             }
         }
+    }
+
+    public function test_rescue_drone_uses_a_cutout_cover_with_its_four_original_gallery_photos(): void
+    {
+        $response = $this->get(route('projects'));
+        $response->assertOk();
+        $response->assertSee('AeroTech 737R Pixhawk and Raspberry Pi-Based Rescue Drone');
+        $response->assertSee('FPV and thermal cameras for human detection');
+
+        $document = new DOMDocument;
+        $document->loadHTML($response->getContent(), LIBXML_NOERROR | LIBXML_NOWARNING);
+        $xpath = new DOMXPath($document);
+        $button = $xpath->query('//button[@data-gallery-open and starts-with(@data-gallery-title, "AeroTech 737R")]')->item(0);
+
+        $this->assertNotNull($button);
+        $this->assertStringStartsWith('View 4 photos of AeroTech 737R', $button->getAttribute('aria-label'));
+        $this->assertFalse($button->hasAttribute('data-gallery-cutout'));
+        $this->assertTrue($button->parentNode->hasAttribute('data-project-cutout'));
+        $this->assertCount(4, json_decode($button->getAttribute('data-gallery-images'), true, flags: JSON_THROW_ON_ERROR));
+
+        $existingCutoutGallery = $xpath->query('//button[@data-gallery-title="Camera Drone CAD Design"]')->item(0);
+        $this->assertTrue($existingCutoutGallery->hasAttribute('data-gallery-cutout'));
     }
 }
