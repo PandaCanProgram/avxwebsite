@@ -6,6 +6,7 @@
     $navLinks = [
         ['label' => 'About', 'href' => route('home').'#about'],
         ['label' => 'Services', 'href' => route('home').'#services'],
+        ['label' => 'Drone Packages', 'href' => route('drone-systems')],
         ['label' => 'Projects', 'href' => route('home').'#projects'],
         ['label' => 'Testimonials', 'href' => route('home').'#testimonials'],
         ['label' => 'FAQ', 'href' => route('home').'#faq'],

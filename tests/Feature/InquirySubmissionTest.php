@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Validator;
 use PHPUnit\Framework\Attributes\TestWith;
 use RuntimeException;
 use Tests\TestCase;
@@ -20,6 +21,13 @@ class InquirySubmissionTest extends TestCase
     {
         parent::setUp();
         Mail::fake();
+        Validator::fakeDnsLookups();
+    }
+
+    protected function tearDown(): void
+    {
+        Validator::fakeDnsLookups(false);
+        parent::tearDown();
     }
 
     public function test_contact_inquiry_is_saved_and_both_emails_are_queued(): void
@@ -86,6 +94,7 @@ class InquirySubmissionTest extends TestCase
     #[TestWith(['subject', "Quote\r\nBcc: other@example.test"])]
     #[TestWith(['message', 'Short'])]
     #[TestWith(['website', 'https://spam.example'])]
+    #[TestWith(['inquiry_extra', 'Spam content'])]
     #[TestWith(['submission_id', 'invalid-token'])]
     #[TestWith(['source', 'https://other.example'])]
     public function test_invalid_inquiries_do_not_save_or_send(string $field, mixed $value): void
@@ -109,11 +118,23 @@ class InquirySubmissionTest extends TestCase
         Queue::assertNothingPushed();
     }
 
+    public function test_empty_autofill_resistant_spam_field_accepts_a_legitimate_inquiry(): void
+    {
+        Queue::fake();
+
+        $this->postJson(route('inquiries.contact'), array_merge($this->contactPayload(), ['inquiry_extra' => '']))
+            ->assertCreated();
+
+        $this->assertDatabaseCount('inquiries', 1);
+        Queue::assertPushed(DeliverInquiryEmail::class, 2);
+        Mail::assertNothingSent();
+    }
+
     public function test_submission_rate_limit_rejects_excess_requests(): void
     {
         Queue::fake();
         for ($index = 0; $index < 5; $index++) {
-            $this->postJson(route('inquiries.contact'), array_merge($this->contactPayload(), ['email' => "visitor{$index}@example.test"]))
+            $this->postJson(route('inquiries.contact'), array_merge($this->contactPayload(), ['email' => "visitor{$index}@example.com"]))
                 ->assertCreated();
         }
 
@@ -178,8 +199,84 @@ class InquirySubmissionTest extends TestCase
     /** @return array<string, string> */
     private function contactPayload(): array
     {
-        return array_merge(Inquiry::factory()->make(['email' => 'visitor@example.test'])->only([
+        return array_merge(Inquiry::factory()->make(['email' => 'visitor@example.com'])->only([
             'submission_id', 'name', 'email', 'subject', 'message',
         ]), ['source' => 'home', 'organization' => 'Research organization']);
+    }
+
+    #[TestWith(['+63 917 123 4567'])]
+    #[TestWith(['(02) 8123-4567'])]
+    public function test_contact_phone_is_saved_and_queued_with_the_inquiry(string $phone): void
+    {
+        Queue::fake();
+
+        $this->postJson(route('inquiries.contact'), array_merge($this->contactPayload(), ['phone' => $phone]))
+            ->assertCreated();
+
+        $this->assertDatabaseHas('inquiries', ['phone' => $phone]);
+        Queue::assertPushed(DeliverInquiryEmail::class, 2);
+    }
+
+    #[TestWith(['call me'])]
+    #[TestWith(['123'])]
+    #[TestWith(['1234567890123456'])]
+    #[TestWith([['unexpected-array']])]
+    public function test_invalid_phone_is_rejected(mixed $phone): void
+    {
+        Queue::fake();
+
+        $this->postJson(route('inquiries.contact'), array_merge($this->contactPayload(), ['phone' => $phone]))
+            ->assertUnprocessable()->assertJsonValidationErrors('phone');
+
+        $this->assertDatabaseCount('inquiries', 0);
+        Queue::assertNothingPushed();
+    }
+
+    public function test_email_with_unreceivable_domain_cannot_submit_an_inquiry(): void
+    {
+        Queue::fake();
+
+        $this->postJson(route('inquiries.contact'), array_merge($this->contactPayload(), ['email' => 'visitor@no-mail.invalid']))
+            ->assertUnprocessable()->assertJsonValidationErrors('email');
+
+        $this->assertDatabaseCount('inquiries', 0);
+        Queue::assertNothingPushed();
+    }
+
+    public function test_live_email_check_accepts_valid_format_and_domain_without_submitting(): void
+    {
+        Queue::fake();
+
+        $this->postJson(route('inquiries.check-email'), ['email' => 'visitor@example.com'])
+            ->assertOk()->assertExactJson(['valid' => true]);
+
+        $this->assertDatabaseCount('inquiries', 0);
+        Queue::assertNothingPushed();
+        Mail::assertNothingSent();
+    }
+
+    #[TestWith(['not-an-email'])]
+    #[TestWith(['visitor@no-mail.invalid'])]
+    #[TestWith([['unexpected-array']])]
+    public function test_live_email_check_rejects_invalid_format_or_domain(mixed $email): void
+    {
+        Queue::fake();
+
+        $this->postJson(route('inquiries.check-email'), ['email' => $email])
+            ->assertUnprocessable()->assertJsonValidationErrors('email');
+
+        $this->assertDatabaseCount('inquiries', 0);
+        Queue::assertNothingPushed();
+        Mail::assertNothingSent();
+    }
+
+    public function test_live_email_checks_are_rate_limited(): void
+    {
+        for ($index = 0; $index < 30; $index++) {
+            $this->postJson(route('inquiries.check-email'), ['email' => 'visitor@example.com'])->assertOk();
+        }
+
+        $this->postJson(route('inquiries.check-email'), ['email' => 'visitor@example.com'])->assertTooManyRequests();
+        Mail::assertNothingSent();
     }
 }

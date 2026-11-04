@@ -6,6 +6,7 @@
     $navLinks = [
         ['label' => 'About', 'href' => route('home').'#about'],
         ['label' => 'Services', 'href' => route('home').'#services'],
+        ['label' => 'Drone Packages', 'href' => route('drone-systems'), 'page' => true],
         ['label' => 'Projects', 'href' => route('home').'#projects'],
         ['label' => 'Contact', 'href' => route('home').'#contact'],
     ];
@@ -24,11 +25,11 @@
             </span>
         </a>
 
-        <nav class="hidden items-center gap-4 lg:flex xl:gap-7" aria-label="Main">
+        <nav class="hidden items-center gap-5 xl:flex" aria-label="Main">
             @foreach ($navLinks as $navLink)
-                <a href="{{ $navLink['href'] }}" class="group relative py-2 font-display text-lg font-semibold tracking-[0.15em] text-slate-600 uppercase transition-colors hover:text-slate-900 aria-[current=true]:text-brand" data-nav-link>
+                <a href="{{ $navLink['href'] }}" class="group relative py-2 font-display text-lg font-semibold tracking-[0.12em] text-slate-600 uppercase transition-colors hover:text-slate-900 aria-[current=true]:text-brand aria-[current=page]:text-brand" @if ($navLink['page'] ?? false) @if (request()->routeIs('drone-systems')) aria-current="page" @endif @else data-nav-link @endif>
                     {{ $navLink['label'] }}
-                    <span class="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-brand transition-transform duration-300 group-hover:scale-x-100 group-aria-[current=true]:scale-x-100" aria-hidden="true"></span>
+                    <span class="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-brand transition-transform duration-300 group-hover:scale-x-100 group-aria-[current=true]:scale-x-100 group-aria-[current=page]:scale-x-100" aria-hidden="true"></span>
                 </a>
             @endforeach
 
@@ -45,16 +46,16 @@
             </a>
         </nav>
 
-        <button type="button" class="p-2 text-slate-900 lg:hidden" aria-controls="mobile-nav" aria-expanded="false" aria-label="Toggle navigation" data-nav-toggle>
+        <button type="button" class="p-2 text-slate-900 xl:hidden" aria-controls="mobile-nav" aria-expanded="false" aria-label="Toggle navigation" data-nav-toggle>
             <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
         </button>
     </div>
 
-    <nav id="mobile-nav" class="hidden border-t border-gray-100 px-4 pb-4 lg:hidden" aria-label="Mobile">
+    <nav id="mobile-nav" class="hidden border-t border-gray-100 px-4 pb-4 xl:hidden" aria-label="Mobile">
         @foreach ($navLinks as $navLink)
-            <a href="{{ $navLink['href'] }}" class="block border-l-2 border-transparent py-3 pl-3 font-display text-lg font-semibold tracking-[0.15em] text-slate-600 uppercase transition-colors hover:text-slate-900 aria-[current=true]:border-brand aria-[current=true]:text-brand" data-nav-link>{{ $navLink['label'] }}</a>
+            <a href="{{ $navLink['href'] }}" class="block border-l-2 border-transparent py-3 pl-3 font-display text-lg font-semibold tracking-[0.15em] text-slate-600 uppercase transition-colors hover:text-slate-900 aria-[current=true]:border-brand aria-[current=true]:text-brand aria-[current=page]:border-brand aria-[current=page]:text-brand" @if ($navLink['page'] ?? false) @if (request()->routeIs('drone-systems')) aria-current="page" @endif @else data-nav-link @endif>{{ $navLink['label'] }}</a>
         @endforeach
 
         <a href="{{ route('home') }}#quote" class="mt-2 block bg-brand px-6 py-3 text-center font-display text-lg font-semibold tracking-[0.15em] text-white uppercase hover:bg-brand-dark">Get a Quote</a>

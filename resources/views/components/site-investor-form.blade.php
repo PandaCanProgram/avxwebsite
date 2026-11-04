@@ -7,7 +7,7 @@
     @csrf
     <input type="hidden" name="submission_id" value="{{ old('submission_id', (string) Illuminate\Support\Str::uuid()) }}">
     <input type="hidden" name="source" value="investment">
-    <div class="inquiry-honeypot" aria-hidden="true"><label for="investor-website">Leave this empty</label><input id="investor-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+    <div class="inquiry-honeypot" aria-hidden="true"><label for="investor-extra">Leave this empty</label><input id="investor-extra" name="inquiry_extra" type="text" value="" readonly tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore></div>
     <div class="investment-form-header">
         <p class="investment-eyebrow">Let's connect</p>
         <span class="investment-form-mark" aria-hidden="true">
@@ -25,7 +25,7 @@
         </div>
         <div>
             <label for="investor-email">Email address <span aria-hidden="true">*</span></label>
-            <input id="investor-email" name="email" type="email" autocomplete="email" required maxlength="254" value="{{ old('email') }}" placeholder="you@example.com" data-required-message="Please enter your email address." class="{{ $inputClasses }}">
+            <input id="investor-email" name="email" type="email" autocomplete="email" required maxlength="254" value="{{ old('email') }}" placeholder="you@example.com" data-email-check-url="{{ route('inquiries.check-email') }}" data-required-message="Please enter your email address." class="{{ $inputClasses }}">
         </div>
         <div>
             <label for="investor-organization">Organization <span>(optional)</span></label>
@@ -33,7 +33,7 @@
         </div>
         <div>
             <label for="investor-phone">Phone number <span>(optional)</span></label>
-            <input id="investor-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" value="{{ old('phone') }}" placeholder="Include country code" class="{{ $inputClasses }}">
+            <input id="investor-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" minlength="7" maxlength="40" value="{{ old('phone') }}" placeholder="Include country code" class="{{ $inputClasses }}">
         </div>
         <div class="investment-field-wide">
             <label for="investor-interest">Area of interest</label>

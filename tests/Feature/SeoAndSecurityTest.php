@@ -32,6 +32,7 @@ class SeoAndSecurityTest extends TestCase
             'https://avx.example/',
             'https://avx.example/projects',
             'https://avx.example/investment',
+            'https://avx.example/drone-platforms',
         ], $urls);
     }
 
@@ -49,6 +50,7 @@ class SeoAndSecurityTest extends TestCase
     #[TestWith(['/'])]
     #[TestWith(['/projects'])]
     #[TestWith(['/investment'])]
+    #[TestWith(['/drone-platforms'])]
     #[TestWith(['/sitemap.xml'])]
     #[TestWith(['/robots.txt'])]
     public function test_public_responses_prevent_cross_origin_framing(string $path): void

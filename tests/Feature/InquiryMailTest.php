@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Jobs\DeliverInquiryEmail;
-use App\Mail\InquiryAcknowledgment;
 use App\Mail\InquiryNotification;
 use App\Models\Inquiry;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,8 +17,11 @@ class InquiryMailTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        config(['mail.from.address' => 'info@avxengineering.com', 'mail.from.name' => 'AVX Engineering Solutions']);
-        Mail::fake();
+        config([
+            'mail.from.address' => 'info@avxengineering.com',
+            'mail.from.name' => 'AVX Engineering Solutions',
+            'inquiries.mailer' => 'array',
+        ]);
     }
 
     public function test_team_notification_goes_to_avx_with_visitor_reply_to(): void
@@ -29,14 +31,13 @@ class InquiryMailTest extends TestCase
         $job->handle();
         $job->handle();
 
-        Mail::assertSent(InquiryNotification::class, function (InquiryNotification $mail) use ($inquiry): bool {
-            $this->assertSame('info@avxengineering.com', $mail->envelope()->from->address);
-            $this->assertSame($inquiry->email, $mail->envelope()->replyTo[0]->address);
-            $this->assertSame($inquiry->name, $mail->envelope()->replyTo[0]->name);
-
-            return $mail->hasTo('info@avxengineering.com') && $mail->inquiry->is($inquiry);
-        });
-        Mail::assertSentCount(1);
+        $messages = Mail::mailer('array')->getSymfonyTransport()->messages();
+        $this->assertCount(1, $messages);
+        $message = $messages->sole()->getOriginalMessage();
+        $this->assertSame('info@avxengineering.com', $message->getFrom()[0]->getAddress());
+        $this->assertSame('info@avxengineering.com', $message->getTo()[0]->getAddress());
+        $this->assertSame($inquiry->email, $message->getReplyTo()[0]->getAddress());
+        $this->assertSame($inquiry->name, $message->getReplyTo()[0]->getName());
         $this->assertNotNull($inquiry->fresh()->team_notified_at);
         $this->assertNull($inquiry->fresh()->acknowledged_at);
     }
@@ -48,17 +49,16 @@ class InquiryMailTest extends TestCase
         $job->handle();
         $job->handle();
 
-        Mail::assertSent(InquiryAcknowledgment::class, function (InquiryAcknowledgment $mail) use ($inquiry): bool {
-            $this->assertSame('info@avxengineering.com', $mail->envelope()->from->address);
-            $this->assertSame('info@avxengineering.com', $mail->envelope()->replyTo[0]->address);
-            $mail->assertSeeInHtml('We have received your inquiry');
-            $mail->assertSeeInHtml($inquiry->reference());
-            $mail->assertDontSeeInHtml($inquiry->message);
-            $mail->assertDontSeeInHtml('Laravel Logo');
-
-            return $mail->hasTo($inquiry->email);
-        });
-        Mail::assertSentCount(1);
+        $messages = Mail::mailer('array')->getSymfonyTransport()->messages();
+        $this->assertCount(1, $messages);
+        $message = $messages->sole()->getOriginalMessage();
+        $this->assertSame('info@avxengineering.com', $message->getFrom()[0]->getAddress());
+        $this->assertSame('info@avxengineering.com', $message->getReplyTo()[0]->getAddress());
+        $this->assertSame($inquiry->email, $message->getTo()[0]->getAddress());
+        $this->assertStringContainsString('We have received your inquiry', $message->getHtmlBody());
+        $this->assertStringContainsString($inquiry->reference(), $message->getHtmlBody());
+        $this->assertStringNotContainsString($inquiry->message, $message->getHtmlBody());
+        $this->assertStringNotContainsString('Laravel Logo', $message->getHtmlBody());
         $this->assertNotNull($inquiry->fresh()->acknowledged_at);
         $this->assertNull($inquiry->fresh()->team_notified_at);
     }
@@ -66,7 +66,7 @@ class InquiryMailTest extends TestCase
     public function test_mail_failure_keeps_delivery_pending_for_retry(): void
     {
         $inquiry = Inquiry::factory()->create();
-        Mail::shouldReceive('mailer')->with('smtp')->andReturnSelf();
+        Mail::shouldReceive('mailer')->with('array')->andReturnSelf();
         Mail::shouldReceive('to')->with('info@avxengineering.com')->andReturnSelf();
         Mail::shouldReceive('send')->once()->andThrow(new RuntimeException('SMTP unavailable'));
 
@@ -85,12 +85,14 @@ class InquiryMailTest extends TestCase
     {
         $inquiry = Inquiry::factory()->create([
             'organization' => 'Research organization',
+            'phone' => '+63 917 123 4567',
             'message' => '<img src=x onerror=alert(1)> Please discuss our drone project.',
         ]);
         $mail = new InquiryNotification($inquiry);
 
         $mail->assertSeeInHtml($inquiry->reference());
         $mail->assertSeeInHtml('Research organization');
+        $mail->assertSeeInHtml('+63 917 123 4567');
         $mail->assertSeeInHtml('&lt;img src=x onerror=alert(1)&gt;', false);
         $mail->assertDontSeeInHtml('<img src=x', false);
     }

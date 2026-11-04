@@ -7,6 +7,7 @@ import { allowsEngagementMotion } from './engagement';
 import './investment';
 import './portfolio';
 import './page-transitions';
+import './drone-packages';
 
 import.meta.glob(['../images/**/*.webp', '../images/portfolio-*.jpg'], { eager: true });
 
@@ -233,6 +234,7 @@ document.querySelectorAll('[data-validate]').forEach((form) => {
         errorElement.className = 'mt-2 text-sm text-red-600';
         errorElement.dataset.fieldError = field.name;
         errorElement.id = `${field.id || field.name}-error`;
+        errorElement.setAttribute('aria-live', 'polite');
         anchor.insertAdjacentElement('afterend', errorElement);
 
         return errorElement;
@@ -309,6 +311,88 @@ document.querySelectorAll('[data-validate]').forEach((form) => {
 
         field.addEventListener('input', clearWhenFixed);
         field.addEventListener('change', clearWhenFixed);
+
+        if (field.type !== 'email' || !field.dataset.emailCheckUrl) {
+            return;
+        }
+
+        let timer = null;
+        let controller = null;
+        let revision = 0;
+
+        const cancelEmailCheck = () => {
+            revision += 1;
+            window.clearTimeout(timer);
+            controller?.abort();
+            field.removeAttribute('aria-busy');
+        };
+
+        const checkEmail = async () => {
+            const email = field.value.trim();
+            if (!email) {
+                return;
+            }
+
+            if (!field.checkValidity()) {
+                setFieldError(field, fieldErrorMessage(field));
+                return;
+            }
+
+            const currentRevision = revision;
+            controller = new AbortController();
+            const activeController = controller;
+            const timeout = window.setTimeout(() => activeController.abort(), 8000);
+            field.setAttribute('aria-busy', 'true');
+
+            try {
+                const response = await fetch(field.dataset.emailCheckUrl, {
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        email,
+                        _token: form.elements.namedItem('_token').value,
+                    }),
+                    headers: { Accept: 'application/json' },
+                    credentials: 'same-origin',
+                    signal: activeController.signal,
+                });
+                const result = await response.json().catch(() => ({}));
+
+                if (currentRevision !== revision || email !== field.value.trim()) {
+                    return;
+                }
+
+                if (response.status === 422 && result.errors?.email?.[0]) {
+                    field.setCustomValidity(result.errors.email[0]);
+                    setFieldError(field, result.errors.email[0]);
+                } else if (response.ok && result.valid === true) {
+                    field.setCustomValidity('');
+                    setFieldError(field, '');
+                }
+            } catch {
+                // A network failure must not be reported as a nonexistent email address.
+            } finally {
+                window.clearTimeout(timeout);
+                if (currentRevision === revision) {
+                    field.removeAttribute('aria-busy');
+                }
+            }
+        };
+
+        field.addEventListener('input', () => {
+            cancelEmailCheck();
+            field.setCustomValidity('');
+            setFieldError(field, '');
+            timer = window.setTimeout(checkEmail, 700);
+        });
+        field.addEventListener('blur', () => {
+            cancelEmailCheck();
+            checkEmail();
+        });
+        form.addEventListener('submit', cancelEmailCheck);
+        form.addEventListener('reset', () => {
+            cancelEmailCheck();
+            field.setCustomValidity('');
+        });
     });
 });
 

@@ -10,7 +10,7 @@ class SeoController extends Controller
     {
         $urls = array_map(
             fn (string $routeName): string => $this->publicUrl($routeName),
-            ['home', 'projects', 'investment'],
+            ['home', 'projects', 'investment', 'drone-systems'],
         );
 
         return response()->view('sitemap', ['urls' => $urls], 200, [

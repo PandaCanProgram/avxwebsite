@@ -22,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('inquiry-email-checks', fn (Request $request): Limit => Limit::perMinute(30)->by($request->ip()));
+
         RateLimiter::for('inquiries', function (Request $request): array {
             $email = $request->input('email');
             $normalizedEmail = is_string($email) ? strtolower(trim($email)) : '';

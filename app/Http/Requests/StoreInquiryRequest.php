@@ -21,7 +21,11 @@ class StoreInquiryRequest extends FormRequest
             return route('investment').'#investor-interest';
         }
 
-        return route($this->input('source') === 'projects' ? 'projects' : 'home').'#contact';
+        return route(match ($this->input('source')) {
+            'projects' => 'projects',
+            'drone-systems' => 'drone-systems',
+            default => 'home',
+        }).'#contact';
     }
 
     protected function getRedirectUrl(): string
@@ -46,15 +50,16 @@ class StoreInquiryRequest extends FormRequest
     {
         return [
             'submission_id' => ['required', 'uuid'],
-            'source' => ['required', Rule::in($this->isInvestment() ? ['investment'] : ['home', 'projects'])],
+            'source' => ['required', Rule::in($this->isInvestment() ? ['investment'] : ['home', 'projects', 'drone-systems'])],
             'name' => ['required', 'string', 'max:100', 'not_regex:/[\r\n]/'],
-            'email' => ['required', 'string', 'email:rfc', 'max:254'],
+            'email' => ['bail', 'required', 'string', 'max:254', 'email:rfc,dns'],
             'organization' => ['nullable', 'string', 'max:150'],
             'subject' => [$this->isInvestment() ? 'prohibited' : 'required', 'string', 'max:160', 'not_regex:/[\r\n]/'],
-            'phone' => [$this->isInvestment() ? 'nullable' : 'prohibited', 'string', 'max:40'],
+            'phone' => ['bail', 'nullable', 'string', 'max:40', 'regex:/^\+?(?=(?:\D*\d){7,15}\D*$)[0-9 ().-]+$/D'],
             'interest' => [$this->isInvestment() ? 'required' : 'prohibited', Rule::in(config('inquiries.interest_areas'))],
             'message' => ['required', 'string', 'min:10', 'max:5000'],
             'website' => ['prohibited'],
+            'inquiry_extra' => ['prohibited'],
         ];
     }
 
@@ -62,7 +67,10 @@ class StoreInquiryRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'website.prohibited' => 'Your inquiry could not be submitted.',
+            'email.email' => CheckInquiryEmailRequest::INVALID_EMAIL_MESSAGE,
+            'phone.regex' => 'Please enter a phone number with 7 to 15 digits. You can include a country code, spaces, parentheses, or hyphens.',
+            'website.prohibited' => 'The spam check blocked this submission. Please reload the page and try again.',
+            'inquiry_extra.prohibited' => 'The spam check blocked this submission. Please reload the page and try again.',
             'submission_id.required' => 'Please refresh this page and try again.',
             'submission_id.uuid' => 'Please refresh this page and try again.',
             'name.not_regex' => 'Please enter your name on a single line.',

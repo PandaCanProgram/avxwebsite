@@ -12,6 +12,7 @@ class ContactFormTest extends TestCase
     #[TestWith(['/'])]
     #[TestWith(['/projects'])]
     #[TestWith(['/investment'])]
+    #[TestWith(['/drone-platforms'])]
     public function test_inquiries_submit_to_backend_without_the_channel_picker(string $path): void
     {
         $response = $this->get($path);
@@ -37,8 +38,11 @@ class ContactFormTest extends TestCase
             $this->assertSame(0, $xpath->query('.//button[@type="submit" and @disabled]', $form)->length);
             $this->assertSame(1, $xpath->query('.//input[@name="_token"]', $form)->length);
             $this->assertSame(1, $xpath->query('.//input[@name="submission_id" and string-length(@value) = 36]', $form)->length);
-            $this->assertSame(1, $xpath->query('.//input[@name="website" and @tabindex="-1"]', $form)->length);
+            $this->assertSame(0, $xpath->query('.//input[@name="website"]', $form)->length);
+            $this->assertSame(1, $xpath->query('.//input[@name="inquiry_extra" and @readonly and @autocomplete="off" and @tabindex="-1" and @value=""]', $form)->length);
             $this->assertSame(1, $xpath->query('.//*[@data-inquiry-status and @role="status"]', $form)->length);
+            $this->assertSame(1, $xpath->query('.//input[@name="phone" and @type="tel" and @autocomplete="tel"]', $form)->length);
+            $this->assertSame(1, $xpath->query('.//input[@name="email" and @data-email-check-url]', $form)->length);
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckInquiryEmailRequest;
 use App\Http\Requests\StoreInquiryRequest;
 use App\Jobs\DeliverInquiryEmail;
 use App\Models\Inquiry;
@@ -13,6 +14,11 @@ use Illuminate\Validation\ValidationException;
 
 class InquiryController extends Controller
 {
+    public function checkEmail(CheckInquiryEmailRequest $request): JsonResponse
+    {
+        return response()->json(['valid' => true])->header('Cache-Control', 'no-store');
+    }
+
     public function store(StoreInquiryRequest $request): JsonResponse|RedirectResponse
     {
         $validated = $request->validated();

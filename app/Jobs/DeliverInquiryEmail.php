@@ -8,7 +8,9 @@ use App\Models\Inquiry;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use RuntimeException;
 
 class DeliverInquiryEmail implements ShouldQueue
 {
@@ -52,10 +54,22 @@ class DeliverInquiryEmail implements ShouldQueue
             return;
         }
 
-        Mail::mailer(config('inquiries.mailer'))
+        $sentMessage = Mail::mailer(config('inquiries.mailer'))
             ->to($this->acknowledgment ? $inquiry->email : config('inquiries.recipient'))
             ->send($this->acknowledgment ? new InquiryAcknowledgment($inquiry) : new InquiryNotification($inquiry));
 
+        if ($sentMessage === null) {
+            throw new RuntimeException('The inquiry email was not accepted by the mail transport.');
+        }
+
         $inquiry->forceFill([$sentAt => now()])->save();
+
+        Log::info('Inquiry email accepted by mail transport.', [
+            'reference' => $inquiry->reference(),
+            'kind' => $inquiry->kind,
+            'delivery' => $this->acknowledgment ? 'acknowledgment' : 'team',
+            'mailer' => config('inquiries.mailer'),
+            'transport_message_id' => $sentMessage->getMessageId(),
+        ]);
     }
 }

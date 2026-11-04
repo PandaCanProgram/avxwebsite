@@ -1,3 +1,5 @@
+@props(['subject' => null, 'briefTitle' => 'Your project brief'])
+
 @php
     $contactDetails = [
         [
@@ -63,10 +65,10 @@
         <form id="quote" action="{{ route('inquiries.contact') }}" method="POST" class="contact-brief bg-white p-6 shadow-sm sm:p-10" aria-describedby="contact-delivery-note" data-reveal="right" data-quote-form data-inquiry-form data-validate>
             @csrf
             <input type="hidden" name="submission_id" value="{{ old('submission_id', (string) Illuminate\Support\Str::uuid()) }}">
-            <input type="hidden" name="source" value="{{ request()->routeIs('projects') ? 'projects' : 'home' }}">
-            <div class="inquiry-honeypot" aria-hidden="true"><label for="contact-website">Leave this empty</label><input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+            <input type="hidden" name="source" value="{{ request()->routeIs('drone-systems') ? 'drone-systems' : (request()->routeIs('projects') ? 'projects' : 'home') }}">
+            <div class="inquiry-honeypot" aria-hidden="true"><label for="contact-extra">Leave this empty</label><input id="contact-extra" name="inquiry_extra" type="text" value="" readonly tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore></div>
             <div class="contact-brief-heading">
-                <p class="font-display text-xs font-semibold tracking-[0.25em] uppercase">Your project brief</p>
+                <p class="font-display text-xs font-semibold tracking-[0.25em] uppercase">{{ $briefTitle }}</p>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" /></svg>
             </div>
             <fieldset class="grid gap-6 sm:grid-cols-2">
@@ -78,7 +80,7 @@
 
                 <div>
                     <label for="contact-email" class="{{ $labelClasses }}">Email Address</label>
-                    <input id="contact-email" name="email" type="email" autocomplete="email" required maxlength="254" value="{{ old('email') }}" data-required-message="Please enter your email address." placeholder="juan@email.com" class="{{ $inputClasses }}">
+                    <input id="contact-email" name="email" type="email" autocomplete="email" required maxlength="254" value="{{ old('email') }}" data-email-check-url="{{ route('inquiries.check-email') }}" data-required-message="Please enter your email address." placeholder="juan@email.com" class="{{ $inputClasses }}">
                 </div>
 
                 <div>
@@ -87,8 +89,13 @@
                 </div>
 
                 <div>
+                    <label for="contact-phone" class="{{ $labelClasses }}">Phone Number <span class="normal-case tracking-normal">(optional)</span></label>
+                    <input id="contact-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" minlength="7" maxlength="40" value="{{ old('phone') }}" placeholder="e.g. +63 917 123 4567" class="{{ $inputClasses }}">
+                </div>
+
+                <div class="sm:col-span-2">
                     <label for="contact-subject" class="{{ $labelClasses }}">Subject</label>
-                    <input id="contact-subject" name="subject" type="text" required maxlength="160" value="{{ old('subject') }}" data-required-message="Please enter a subject." placeholder="Custom Drone Fabrication" class="{{ $inputClasses }}">
+                    <input id="contact-subject" name="subject" type="text" required maxlength="160" value="{{ old('subject', $subject) }}" data-required-message="Please enter a subject." placeholder="Custom Drone Fabrication" class="{{ $inputClasses }}">
                 </div>
 
                 <div class="sm:col-span-2">
