@@ -12,7 +12,9 @@
 
         <x-site-projects />
 
-        <x-site-testimonials :testimonials="$testimonials" />
+        @if (config('testimonials.enabled'))
+            <x-site-testimonials :testimonials="$testimonials" />
+        @endif
 
         <x-site-faq />
 

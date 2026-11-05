@@ -73,7 +73,7 @@ class InvestorInquiryDeliveryTest extends TestCase
         $this->assertStringContainsString('Investor research group', $teamMessage->getOriginalMessage()->getHtmlBody());
         $this->assertStringContainsString($payload['phone'], $teamMessage->getOriginalMessage()->getHtmlBody());
         if ($kind === 'investment') {
-            $this->assertSame('Investor inquiry: Investment inquiry', $teamMessage->getOriginalMessage()->getSubject());
+            $this->assertSame('['.$inquiry->reference().'] Investor inquiry: Investment inquiry', $teamMessage->getOriginalMessage()->getSubject());
             $this->assertStringContainsString('Engineering &amp; product design', $teamMessage->getOriginalMessage()->getHtmlBody());
         }
         $this->assertStringContainsString('We have received your inquiry', $acknowledgment->getOriginalMessage()->getHtmlBody());

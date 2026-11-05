@@ -28,7 +28,7 @@ class InquiryAcknowledgment extends Mailable
         return new Envelope(
             from: new Address(config('mail.from.address'), config('mail.from.name')),
             replyTo: [new Address(config('inquiries.recipient'), config('mail.from.name'))],
-            subject: 'We have received your inquiry | AVX Engineering Solutions',
+            subject: '['.$this->inquiry->reference().'] We have received your inquiry | AVX Engineering Solutions',
         );
     }
 

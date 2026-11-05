@@ -28,7 +28,7 @@ class InquiryNotification extends Mailable
         return new Envelope(
             from: new Address(config('mail.from.address'), config('mail.from.name')),
             replyTo: [new Address($this->inquiry->email, $this->inquiry->name)],
-            subject: ($this->inquiry->kind === 'investment' ? 'Investor inquiry: ' : 'Project inquiry: ').$this->inquiry->subject,
+            subject: '['.$this->inquiry->reference().'] '.($this->inquiry->kind === 'investment' ? 'Investor inquiry: ' : 'Project inquiry: ').$this->inquiry->subject,
         );
     }
 

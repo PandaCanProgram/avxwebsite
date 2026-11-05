@@ -2,7 +2,7 @@
     navigation: auto;
 }
 
-body > header { view-transition-name: avx-header; }
+.site-navigation { view-transition-name: avx-header; }
 ::view-transition-group(root) { animation-duration: 380ms; }
 ::view-transition-old(root) { animation: avx-page-out 200ms ease-out both; mix-blend-mode: normal; }
 ::view-transition-new(root) { animation: avx-page-in 380ms cubic-bezier(0.16, 1, 0.3, 1) both; mix-blend-mode: normal; }

@@ -10,6 +10,39 @@ class TestimonialTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config(['testimonials.enabled' => true]);
+    }
+
+    public function test_disabled_feedback_hides_the_section_and_links_and_closes_submissions_without_deleting_feedback(): void
+    {
+        $testimonial = Testimonial::factory()->create();
+        config(['testimonials.enabled' => false]);
+
+        $response = $this->get(route('home'))->assertOk();
+        $response->assertDontSee('id="testimonials"', false);
+        $response->assertDontSee('#testimonials', false);
+        $response->assertDontSee('Client Feedback');
+        $response->assertDontSee('Zsann');
+
+        $this->post(route('testimonials.store'), [
+            'name' => 'Visitor',
+            'message' => 'This feedback should not be accepted while disabled.',
+            'rating' => 5,
+        ])->assertNotFound();
+
+        $this->assertDatabaseCount('testimonials', 1);
+        $this->assertModelExists($testimonial);
+
+        config(['testimonials.enabled' => true]);
+        $this->get(route('home'))->assertOk()
+            ->assertSee('id="testimonials"', false)
+            ->assertSee('#testimonials', false)
+            ->assertSee('Client Feedback');
+    }
+
     public function test_homepage_shows_static_feedback_when_database_has_no_feedback(): void
     {
         $response = $this->get(route('home'));

@@ -42,15 +42,17 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body @class(['bg-white font-sans antialiased', 'story-page' => $immersive, $pageClass]) data-investor-url="{{ route('investment') }}">
+    <body @class(['site-body bg-white font-sans antialiased', 'story-page' => $immersive, $pageClass]) data-investor-url="{{ route('investment') }}">
         @if ($immersive)
             <a href="#main-content" class="story-skip">Skip to content</a>
         @endif
-        <x-site-header :logo="asset('avx-logo.webp')" />
+        <div class="site-navigation" data-site-navigation>
+            <x-site-header :logo="asset('avx-logo.webp')" />
 
-        @if (config('inquiries.alpha_registration_enabled'))
-            <x-site-alpha-registration />
-        @endif
+            @if (config('inquiries.alpha_registration_enabled'))
+                <x-site-alpha-registration />
+            @endif
+        </div>
 
         {{ $slot }}
 

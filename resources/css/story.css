@@ -5,7 +5,6 @@
     --story-line: rgb(130 217 255 / 24%);
     --story-ease: cubic-bezier(0.16, 1, 0.3, 1);
     background: var(--story-ink);
-    overflow-x: clip;
 }
 
 .story-page header {
@@ -51,7 +50,7 @@
 .story-page [data-scene], .story-page #services { scroll-margin-top: 0; }
 .story-page [data-scene]:focus { outline: none; }
 .story-page h2 { text-wrap: balance; }
-.story-page main { position: relative; }
+.story-page main { position: relative; overflow-x: clip; }
 
 .story-page .scene-panel {
     position: relative;

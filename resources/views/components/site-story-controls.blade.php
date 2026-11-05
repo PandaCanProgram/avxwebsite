@@ -5,7 +5,7 @@
         'services' => 'Drone & UAV',
         'programming' => 'Programming',
         'projects' => 'Featured Projects',
-        'testimonials' => 'Client Feedback',
+        ...(config('testimonials.enabled') ? ['testimonials' => 'Client Feedback'] : []),
         'faq' => 'FAQ',
         'contact' => 'Get in Touch',
         'investment' => 'For Investors',

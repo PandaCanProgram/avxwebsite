@@ -8,7 +8,7 @@
         ['label' => 'Services', 'href' => route('home').'#services'],
         ['label' => 'Drone Packages', 'href' => route('drone-systems')],
         ['label' => 'Projects', 'href' => route('home').'#projects'],
-        ['label' => 'Testimonials', 'href' => route('home').'#testimonials'],
+        ...(config('testimonials.enabled') ? [['label' => 'Testimonials', 'href' => route('home').'#testimonials']] : []),
         ['label' => 'FAQ', 'href' => route('home').'#faq'],
         ['label' => 'Contact', 'href' => route('home').'#contact'],
         ['label' => 'For Investors', 'href' => route('investment')],

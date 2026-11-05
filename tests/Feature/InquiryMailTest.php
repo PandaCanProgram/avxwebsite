@@ -38,6 +38,7 @@ class InquiryMailTest extends TestCase
         $this->assertSame('info@avxengineering.com', $message->getTo()[0]->getAddress());
         $this->assertSame($inquiry->email, $message->getReplyTo()[0]->getAddress());
         $this->assertSame($inquiry->name, $message->getReplyTo()[0]->getName());
+        $this->assertSame('['.$inquiry->reference().'] Project inquiry: '.$inquiry->subject, $message->getSubject());
         $this->assertNotNull($inquiry->fresh()->team_notified_at);
         $this->assertNull($inquiry->fresh()->acknowledged_at);
     }
@@ -55,6 +56,7 @@ class InquiryMailTest extends TestCase
         $this->assertSame('info@avxengineering.com', $message->getFrom()[0]->getAddress());
         $this->assertSame('info@avxengineering.com', $message->getReplyTo()[0]->getAddress());
         $this->assertSame($inquiry->email, $message->getTo()[0]->getAddress());
+        $this->assertSame('['.$inquiry->reference().'] We have received your inquiry | AVX Engineering Solutions', $message->getSubject());
         $this->assertStringContainsString('We have received your inquiry', $message->getHtmlBody());
         $this->assertStringContainsString($inquiry->reference(), $message->getHtmlBody());
         $this->assertStringNotContainsString($inquiry->message, $message->getHtmlBody());

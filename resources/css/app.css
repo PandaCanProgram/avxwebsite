@@ -22,3 +22,14 @@
     --color-brand: #2a6cb0;
     --color-brand-dark: #1f5590;
 }
+
+.site-navigation { position: sticky; top: 0; z-index: 50; }
+.site-header { position: relative; z-index: 2; }
+
+@media (max-width: 1279px) {
+    .site-navigation { position: fixed; inset: var(--site-viewport-top, 0px) 0 auto; width: 100%; padding-top: env(safe-area-inset-top, 0px); background: #071321; view-transition-name: none; }
+    .site-body { padding-top: var(--story-header-height, 80px); }
+    :is(.story-page, .portfolio-page, .investment-page, .drone-packages-page) .site-header { background: #071321; backdrop-filter: none; }
+    .site-header #mobile-nav { position: absolute; inset: 100% 0 auto; max-height: calc(100dvh - var(--site-navbar-height, 80px)); overflow-y: auto; overscroll-behavior: contain; background: inherit; }
+    @view-transition { navigation: none; }
+}

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'enabled' => env('FEEDBACK_ENABLED', false),
     'items' => [
         [
             'name' => 'Zsann',

@@ -1,18 +1,5 @@
-const alphaBanner = document.querySelector('.alpha-registration');
 const alphaDialog = document.querySelector('[data-alpha-registration-dialog]');
 const alphaTrigger = document.querySelector('[data-alpha-registration-open]');
-
-if (alphaBanner) {
-    const updateHeaderHeight = () => {
-        document.documentElement.style.setProperty('--story-header-height', `${80 + Math.ceil(alphaBanner.getBoundingClientRect().height)}px`);
-    };
-    updateHeaderHeight();
-    if ('ResizeObserver' in window) {
-        new ResizeObserver(updateHeaderHeight).observe(alphaBanner);
-    } else {
-        window.addEventListener('resize', updateHeaderHeight);
-    }
-}
 
 if (alphaDialog && alphaTrigger && typeof alphaDialog.showModal === 'function') {
     const openRegistration = () => {

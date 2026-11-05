@@ -27,6 +27,8 @@ class StoreTestimonialRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        abort_unless(config('testimonials.enabled'), 404);
+
         return true;
     }
 

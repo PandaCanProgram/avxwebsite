@@ -12,7 +12,7 @@
     ];
 @endphp
 
-<header class="sticky top-0 z-50 border-b border-gray-100 bg-white">
+<header class="site-header border-b border-gray-100 bg-white">
     <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-4 sm:px-8">
         <a href="{{ route('home') }}#intro" class="flex items-center gap-3" data-home-link>
             @if ($logo)

@@ -125,17 +125,14 @@ for (const [code, message] of [[404, 'closed'], [419, 'expired'], [429, 'wait'],
 
 const setupDialog = (restore = false) => {
     const classes = new Set();
-    const styles = new Map();
     const events = {};
     let openClick;
     let closeClick;
-    let resize;
     const name = { focus() { this.focused = true; } };
     const trigger = {
         addEventListener: (_, callback) => { openClick = callback; },
         focus() { this.focused = true; },
     };
-    const banner = { height: 52, getBoundingClientRect() { return { height: this.height }; } };
     const dialog = {
         open: restore,
         showModal() { this.open = true; },
@@ -150,17 +147,15 @@ const setupDialog = (restore = false) => {
     };
     runInNewContext(source, {
         document: {
-            querySelector: (selector) => selector === '.alpha-registration' ? banner
-                : selector === '[data-alpha-registration-dialog]' ? dialog : trigger,
+            querySelector: (selector) => selector === '[data-alpha-registration-dialog]' ? dialog : trigger,
             querySelectorAll: () => [],
             documentElement: {
-                style: { setProperty: (name, value) => styles.set(name, value) },
                 classList: { add: (name) => classes.add(name), remove: (name) => classes.delete(name) },
             },
         },
-        window: { addEventListener: (_, callback) => { resize = callback; } },
+        window: {},
     });
-    return { dialog, trigger, name, banner, styles, classes, events, open: () => openClick(), close: () => closeClick(), resize: () => resize() };
+    return { dialog, trigger, name, classes, events, open: () => openClick(), close: () => closeClick() };
 };
 
 test('pre-register opens a modal, focuses name, and restores scrolling and trigger focus on close', () => {
@@ -183,12 +178,4 @@ test('server validation restore opens the modal, and backdrop clicks close it wi
     assert.equal(ui.dialog.open, true);
     ui.events.click({ target: ui.dialog, clientX: 20, clientY: 20 });
     assert.equal(ui.dialog.open, false);
-});
-
-test('sticky scroll offsets follow the actual banner height', () => {
-    const ui = setupDialog();
-    assert.equal(ui.styles.get('--story-header-height'), '132px');
-    ui.banner.height = 68;
-    ui.resize();
-    assert.equal(ui.styles.get('--story-header-height'), '148px');
 });

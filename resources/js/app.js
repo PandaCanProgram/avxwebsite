@@ -1,4 +1,5 @@
 import './analytics';
+import './navigation';
 import './alpha-registration';
 import './gallery';
 import './flight-intro';

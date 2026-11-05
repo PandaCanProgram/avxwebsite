@@ -42,8 +42,12 @@ class InquiryReferenceTest extends TestCase
         $this->assertMatchesRegularExpression('/\AAVX-[A-Z]{4}\z/', $reference);
         $this->assertSame($reference, $inquiry->reference());
         $this->assertDatabaseHas('inquiries', ['id' => $inquiry->id, 'reference_code' => substr($reference, 4)]);
-        (new InquiryNotification($inquiry))->assertSeeInHtml($reference);
-        (new InquiryAcknowledgment($inquiry))->assertSeeInHtml($reference);
+        (new InquiryNotification($inquiry))
+            ->assertHasSubject('['.$reference.'] '.($kind === 'investment' ? 'Investor inquiry: ' : 'Project inquiry: ').$inquiry->subject)
+            ->assertSeeInHtml($reference);
+        (new InquiryAcknowledgment($inquiry))
+            ->assertHasSubject('['.$reference.'] We have received your inquiry | AVX Engineering Solutions')
+            ->assertSeeInHtml($reference);
 
         $this->postJson(route('inquiries.'.$kind), $payload)->assertOk()->assertJsonPath('reference', $reference);
         $inquiry->update(['organization' => 'Updated organization']);

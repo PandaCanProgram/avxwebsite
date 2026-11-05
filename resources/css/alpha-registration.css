@@ -2,9 +2,8 @@
 .alpha-registration {
     --alpha-accent: #82d9ff;
     --alpha-highlight: #f6d58c;
-    position: sticky;
-    top: 80px;
-    z-index: 40;
+    position: relative;
+    z-index: 1;
     isolation: isolate;
     background: linear-gradient(105deg, #102e43, #0b1e30 52%, #163b4e);
     border-bottom: 1px solid rgb(130 217 255 / 40%);
