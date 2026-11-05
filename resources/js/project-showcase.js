@@ -1,3 +1,5 @@
+import { getStickyHeaderHeight } from './engagement';
+
 const projectShowcase = document.querySelector('[data-project-showcase]');
 
 if (projectShowcase && 'IntersectionObserver' in window) {
@@ -77,7 +79,7 @@ if (projectShowcase && 'IntersectionObserver' in window) {
         const stageHeight = Math.max(1, stage.clientHeight);
 
         if (bounds) {
-            const distance = Math.max(0, Math.min(totalTravel, (80 - bounds.top) / stageHeight));
+            const distance = Math.max(0, Math.min(totalTravel, (getStickyHeaderHeight() - bounds.top) / stageHeight));
             const slide = smoothStep(distance / introDuration);
             const copy = smoothStep((distance - 0.25) / 0.5);
             let cursor = 0;
@@ -118,7 +120,7 @@ if (projectShowcase && 'IntersectionObserver' in window) {
         const targetIndex = Math.max(0, Math.min(steps.length - 1, index));
         const bounds = journey.getBoundingClientRect();
         const distance = introDuration + targetIndex * (transitionDuration + holdDuration) + holdDuration * 0.5;
-        window.scrollTo({ top: window.scrollY + bounds.top - 80 + distance * stage.clientHeight, behavior });
+        window.scrollTo({ top: window.scrollY + bounds.top - getStickyHeaderHeight() + distance * stage.clientHeight, behavior });
         requestRender();
     };
 
@@ -168,7 +170,7 @@ if (projectShowcase && 'IntersectionObserver' in window) {
                     seekProject(preserveIndex, 'instant');
                 } else {
                     const stepBounds = steps[preserveIndex].getBoundingClientRect();
-                    window.scrollTo({ top: window.scrollY + stepBounds.top - 80, behavior: 'instant' });
+                    window.scrollTo({ top: window.scrollY + stepBounds.top - getStickyHeaderHeight(), behavior: 'instant' });
                 }
             }
         }

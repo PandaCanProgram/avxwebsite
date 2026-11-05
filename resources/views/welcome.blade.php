@@ -1,5 +1,5 @@
 <x-site-layout :immersive="true">
-    @if (! session('testimonialSubmitted') && ! $errors->getBag('testimonial')->any())
+    @if (! session('testimonialSubmitted') && ! $errors->getBag('testimonial')->any() && ! session('alphaRegistrationSubmitted') && ! $errors->getBag('alphaRegistration')->any())
         <x-site-flight-intro />
     @endif
 

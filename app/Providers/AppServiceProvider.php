@@ -22,6 +22,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('alpha-registrations', function (Request $request): array {
+            $email = $request->input('alpha_email');
+            $normalizedEmail = is_string($email) ? strtolower(trim($email)) : '';
+
+            return [
+                Limit::perMinute(30)->by('alpha-ip:'.$request->ip()),
+                Limit::perMinutes(10, 3)->by('alpha-email:'.hash('sha256', $normalizedEmail)),
+            ];
+        });
+
         RateLimiter::for('inquiry-email-checks', fn (Request $request): Limit => Limit::perMinute(30)->by($request->ip()));
 
         RateLimiter::for('inquiries', function (Request $request): array {

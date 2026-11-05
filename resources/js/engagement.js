@@ -1,6 +1,8 @@
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const root = document.documentElement;
 
+export const getStickyHeaderHeight = () => parseFloat(getComputedStyle(root).getPropertyValue('--story-header-height')) || 80;
+
 export const allowsEngagementMotion = () => !reducedMotion.matches
     && (!root.classList.contains('story-ready') || root.classList.contains('story-motion-enabled'));
 

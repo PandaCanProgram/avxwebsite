@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlphaRegistrationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\SeoController;
@@ -9,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+
+Route::post('/alpha-registration', AlphaRegistrationController::class)
+    ->middleware('throttle:alpha-registrations')->name('alpha-registration.store');
 
 Route::view('/projects', 'projects')->name('projects');
 

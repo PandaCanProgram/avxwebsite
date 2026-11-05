@@ -6,11 +6,13 @@ use App\Http\Requests\CheckInquiryEmailRequest;
 use App\Http\Requests\StoreInquiryRequest;
 use App\Jobs\DeliverInquiryEmail;
 use App\Models\Inquiry;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class InquiryController extends Controller
 {
@@ -33,7 +35,7 @@ class InquiryController extends Controller
             'message' => $validated['message'],
         ];
 
-        $inquiry = DB::transaction(function () use ($validated, $details, $request): Inquiry {
+        $inquiry = retry(5, fn (): Inquiry => DB::transaction(function () use ($validated, $details, $request): Inquiry {
             $inquiry = Inquiry::firstOrCreate(['submission_id' => $validated['submission_id']], $details);
 
             if (! $inquiry->wasRecentlyCreated) {
@@ -52,7 +54,7 @@ class InquiryController extends Controller
             DeliverInquiryEmail::dispatch($inquiry->getKey(), true)->beforeCommit();
 
             return $inquiry;
-        });
+        }), when: fn (Throwable $exception): bool => $exception instanceof UniqueConstraintViolationException);
 
         $message = 'Thank you! Your inquiry has been received. A confirmation email will follow.';
 

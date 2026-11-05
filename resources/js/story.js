@@ -1,3 +1,5 @@
+import { getStickyHeaderHeight } from './engagement';
+
 const story = document.querySelector('[data-story]');
 const controls = document.querySelector('[data-story-controls]');
 
@@ -79,8 +81,9 @@ if (story && controls && 'IntersectionObserver' in window) {
             });
 
             if (scene === hero && heroFrame) {
-                const travel = Math.max(1, rect.height - viewportHeight + 80);
-                const progress = Math.max(0, Math.min(1, (80 - rect.top) / travel));
+                const headerHeight = getStickyHeaderHeight();
+                const travel = Math.max(1, rect.height - viewportHeight + headerHeight);
+                const progress = Math.max(0, Math.min(1, (headerHeight - rect.top) / travel));
                 hero.style.setProperty('--hero-progress', progress.toFixed(4));
                 heroFrame.style.setProperty('--hero-zoom', (1 + progress * 0.12 * amplitude).toFixed(4));
                 heroFrame.style.setProperty('--hero-drift', `${(-progress * 30 * amplitude).toFixed(2)}px`);

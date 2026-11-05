@@ -1,3 +1,5 @@
+import './analytics';
+import './alpha-registration';
 import './gallery';
 import './flight-intro';
 import './story';

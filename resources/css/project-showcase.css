@@ -168,8 +168,8 @@
         transform-origin: center top;
         mask-image: radial-gradient(ellipse 42% 55% at 64% 25%, rgb(0 0 0 / 65%), transparent 85%);
     }
-    .project-showcase.is-scroll-showcase .project-showcase-sequence { height: calc((100svh - 80px) * var(--project-screens, 1)); }
-    .project-showcase.is-scroll-showcase .project-sticky-stage { position: sticky; top: 80px; height: calc(100svh - 80px); padding-block: 0; overflow: clip; }
+    .project-showcase.is-scroll-showcase .project-showcase-sequence { height: calc((100svh - var(--story-header-height, 80px)) * var(--project-screens, 1)); }
+    .project-showcase.is-scroll-showcase .project-sticky-stage { position: sticky; top: var(--story-header-height, 80px); height: calc(100svh - var(--story-header-height, 80px)); padding-block: 0; overflow: clip; }
     .project-showcase.is-scroll-showcase .project-stage-inner { height: 100%; }
     .project-showcase.is-scroll-showcase .project-carousel-viewport { position: relative; height: 100%; overflow: clip; }
     .project-showcase.is-scroll-showcase .project-scroll-step {

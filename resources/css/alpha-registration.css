@@ -1,0 +1,69 @@
+:root.has-alpha-registration { --story-header-height: 132px; scroll-padding-top: var(--story-header-height); }
+.alpha-registration {
+    --alpha-accent: #82d9ff;
+    --alpha-highlight: #f6d58c;
+    position: sticky;
+    top: 80px;
+    z-index: 40;
+    isolation: isolate;
+    background: linear-gradient(105deg, #102e43, #0b1e30 52%, #163b4e);
+    border-bottom: 1px solid rgb(130 217 255 / 40%);
+    box-shadow: 0 6px 24px rgb(0 0 0 / 12%);
+    color: #edf7ff;
+}
+.alpha-registration::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 80% 100%, rgb(130 217 255 / 16%), transparent 55%), repeating-linear-gradient(115deg, transparent 0 40px, rgb(130 217 255 / 4%) 40px 41px, transparent 41px 70px); }
+.alpha-registration-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 52px; max-width: 1280px; margin-inline: auto; padding: 4px 32px; }
+.alpha-registration-invite { display: flex; align-items: center; gap: 20px; min-width: 0; }
+.alpha-registration-badge { display: inline-flex; align-items: center; flex-shrink: 0; gap: 8px; border: 1px solid rgb(246 213 140 / 32%); background: rgb(246 213 140 / 6%); padding: 5px 9px; color: var(--alpha-highlight); font: 600 11px/1.2 var(--font-display); letter-spacing: 0.14em; text-transform: uppercase; }
+.alpha-registration-badge > span { width: 5px; height: 5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 10px rgb(246 213 140 / 55%); }
+.alpha-registration-pitch { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 16px; }
+.alpha-registration-pitch strong { font: 600 20px/1.2 var(--font-display); letter-spacing: 0.02em; color: #f0f9ff; }
+.alpha-registration-pitch > span { font-size: 13px; line-height: 1.4; color: #b8d2e2; }
+.alpha-registration-eyebrow { color: #82d9ff; font: 600 11px/1.4 var(--font-display); letter-spacing: 0.16em; text-transform: uppercase; }
+.alpha-registration-trigger, .alpha-registration-submit { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 44px; padding: 8px 16px; background: #82d9ff; color: #071421; border: 1px solid #82d9ff; border-radius: 2px; font: 700 16px/1.2 var(--font-display); letter-spacing: 0.04em; cursor: pointer; }
+.alpha-registration-trigger { flex-shrink: 0; gap: 18px; background: linear-gradient(110deg, #a7e5ff, var(--alpha-accent)); border-color: #b5eaff; color: #071421; padding: 6px 10px 6px 18px; box-shadow: 0 0 18px rgb(130 217 255 / 15%), inset 0 1px rgb(255 255 255 / 35%); transition: box-shadow 180ms, background 180ms; }
+.alpha-registration-arrow { display: grid; place-items: center; width: 28px; height: 28px; border-left: 1px solid rgb(7 20 33 / 20%); padding-left: 8px; }
+.alpha-registration-arrow svg { transition: transform 180ms; }
+.alpha-registration-trigger:is(:hover, :focus-visible) { background: #c3edff; box-shadow: 0 0 24px rgb(130 217 255 / 30%); }
+.alpha-registration-trigger:is(:hover, :focus-visible) .alpha-registration-arrow svg { transform: translateX(2px); }
+.alpha-registration-submit:hover { background: #b5e9ff; }
+.alpha-registration :is(a, button):focus-visible, .alpha-registration-dialog :is(input, button):focus-visible { outline: 2px solid #edf7ff; outline-offset: 3px; }
+.alpha-registration-dialog { position: fixed; inset: 0; width: min(480px, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 28px; overflow-y: auto; overscroll-behavior: contain; background: #0b1d30; color: #edf7ff; border: 1px solid #527185; box-shadow: 0 24px 80px rgb(0 0 0 / 45%); }
+.alpha-registration-dialog::backdrop { background: rgb(2 8 16 / 78%); backdrop-filter: blur(5px); }
+.alpha-registration-dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.alpha-registration-close { display: grid; place-items: center; min-width: 44px; min-height: 44px; margin: -10px -10px -4px 0; color: #b8cbd9; cursor: pointer; }
+.alpha-registration-close:hover { color: #fff; background: rgb(130 217 255 / 10%); }
+.alpha-registration-dialog h2 { margin-top: 14px; font: 700 clamp(28px, 5vw, 36px)/1.1 var(--font-display); }
+.alpha-registration-dialog > p { margin-top: 12px; color: #b8cbd9; font-size: 15px; line-height: 1.6; }
+.alpha-registration-form { margin-top: 24px; }
+.alpha-registration-form > label { display: block; margin: 16px 0 8px; font-size: 14px; font-weight: 600; color: #d9eaf4; }
+.alpha-registration-form > input { display: block; width: 100%; min-height: 48px; border: 1px solid #527185; background: #071421; padding: 12px; color: #edf7ff; border-radius: 2px; font-size: 16px; }
+.alpha-registration-form > input[type='hidden'] { display: none; }
+.alpha-registration-form input::placeholder { color: #9db4c6; }
+.alpha-registration-form input[aria-invalid='true'] { border-color: #ffb4b4; }
+.alpha-registration-submit { width: 100%; margin-top: 20px; }
+.alpha-registration-submit:disabled { opacity: 0.65; cursor: wait; }
+.alpha-registration-note { margin-top: 14px; color: #b8cbd9; font-size: 12px; line-height: 1.5; }
+.alpha-registration-status { margin-top: 14px; font-size: 14px; line-height: 1.5; color: #d9eaf4; }
+.alpha-registration-status[data-state='error'] { color: #ffb4b4; }
+.alpha-registration-status[data-state='success'] { color: #adf0c6; }
+.alpha-registration-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.alpha-registration-dialog-open { overflow: hidden; }
+.has-alpha-registration :is(.portfolio-page, .investor-relations-page) [id] { scroll-margin-top: calc(var(--story-header-height) + 20px); }
+@media (max-width: 1099px) {
+    .alpha-registration-pitch > span { display: none; }
+}
+@media (max-width: 639px) {
+    .alpha-registration-inner { padding-inline: 16px; gap: 12px; }
+    .alpha-registration-invite { display: block; }
+    .alpha-registration-badge { gap: 6px; border: 0; background: transparent; padding: 0; margin-bottom: 3px; font-size: 9px; }
+    .alpha-registration-badge > span { width: 4px; height: 4px; }
+    .alpha-registration-pitch strong { font-size: 16px; line-height: 1.15; }
+    .alpha-registration-trigger { padding-inline: 12px; gap: 8px; font-size: 15px; }
+    .alpha-registration-arrow { width: 18px; border: 0; padding: 0; }
+    .alpha-registration-dialog { padding: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .alpha-registration-trigger, .alpha-registration-arrow svg { transition: none; }
+    .alpha-registration-trigger:is(:hover, :focus-visible) .alpha-registration-arrow svg { transform: none; }
+}
