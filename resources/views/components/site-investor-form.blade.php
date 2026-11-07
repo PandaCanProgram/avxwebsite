@@ -9,12 +9,12 @@
     <input type="hidden" name="source" value="investment">
     <div class="inquiry-honeypot" aria-hidden="true"><label for="investor-extra">Leave this empty</label><input id="investor-extra" name="inquiry_extra" type="text" value="" readonly tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore></div>
     <div class="investment-form-header">
-        <p class="investment-eyebrow">Let's connect</p>
+        <p class="investment-eyebrow">Let's Connect</p>
         <span class="investment-form-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19 19 5M5 5h14v14" /></svg>
         </span>
     </div>
-    <h2 id="investor-form-title" class="investment-form-title">Start a conversation</h2>
+    <h2 id="investor-form-title" class="investment-form-title">Start a Conversation</h2>
     <p id="investor-form-help" class="investment-form-description">Connect with our team about your interest in AVX.</p>
 
     <fieldset class="investment-fields">
@@ -49,7 +49,7 @@
         </div>
     </fieldset>
 
-    <button type="submit" class="investment-submit"><span data-submit-label>Send inquiry</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" /></svg></button>
+    <button type="submit" class="investment-submit"><span data-submit-label>Send Inquiry</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" /></svg></button>
     <p id="investor-delivery-note" class="investment-form-note">Your inquiry goes directly to our team. We'll email you an acknowledgment after submission.</p>
     <div class="inquiry-status" data-inquiry-status role="status" aria-live="polite" @if (! session('inquirySubmitted') && ! $errors->inquiry->any()) hidden @endif>
         @if (session('inquirySubmitted'))

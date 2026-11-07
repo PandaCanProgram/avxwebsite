@@ -89,7 +89,7 @@
 
                     <div class="investor-hero-actions" data-investment-reveal>
                         <a href="#investment-work" class="investor-button">See our work <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6" /></svg></a>
-                        <button type="button" class="investor-text-link" data-investment-open aria-haspopup="dialog" aria-controls="investor-inquiry-dialog">Discuss investing <span aria-hidden="true">&rarr;</span></button>
+                        <button type="button" class="investor-text-link" data-investment-open aria-haspopup="dialog" aria-controls="investor-inquiry-dialog">I Want to Invest <span aria-hidden="true">&rarr;</span></button>
                     </div>
                 </div>
 
@@ -211,7 +211,7 @@
                         <p class="investment-description">Which possibility speaks to you? Connect with AVX to discuss the direction, the engineering work involved, and how you could be part of its development.</p>
                     </div>
                     <div class="investor-conversation-action" data-investment-reveal>
-                        <button type="button" class="investor-button" data-investment-open aria-haspopup="dialog" aria-controls="investor-inquiry-dialog">Inquire about investing <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" /></svg></button>
+                        <button type="button" class="investor-button" data-investment-open aria-haspopup="dialog" aria-controls="investor-inquiry-dialog">I Want to Invest <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" /></svg></button>
                         <p>Start a conversation directly with our team.</p>
                     </div>
                 </div>
