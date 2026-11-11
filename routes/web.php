@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
 
+Route::redirect('/favicon.ico', '/avx-logo.png', 301);
+
 Route::post('/alpha-registration', AlphaRegistrationController::class)
     ->middleware('throttle:alpha-registrations')->name('alpha-registration.store');
 

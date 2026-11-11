@@ -11,6 +11,29 @@ use Tests\TestCase;
 
 class SeoAndSecurityTest extends TestCase
 {
+    public function test_favicon_fallback_redirects_to_the_existing_square_brand_image(): void
+    {
+        $this->assertFileDoesNotExist(public_path('favicon.ico'));
+
+        $this->get('/favicon.ico')
+            ->assertStatus(301)
+            ->assertRedirect('/avx-logo.png');
+
+        $image = getimagesize(public_path('avx-logo.png'));
+
+        $this->assertIsArray($image);
+        $this->assertSame(IMAGETYPE_PNG, $image[2]);
+        $this->assertSame($image[0], $image[1]);
+        $this->assertGreaterThanOrEqual(48, $image[0]);
+    }
+
+    public function test_homepage_declares_the_brand_image_as_its_favicon(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('<link rel="icon" type="image/png" href="'.asset('avx-logo.png').'">', false);
+    }
+
     public function test_sitemap_lists_only_public_pages_on_the_configured_domain(): void
     {
         config(['app.url' => 'https://avx.example/']);
