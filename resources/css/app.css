@@ -10,6 +10,7 @@
 @import './page-transitions.css';
 @import './drone-packages.css';
 @import './alpha-registration.css';
+@import './admin.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';

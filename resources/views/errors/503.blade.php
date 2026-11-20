@@ -3,9 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#071321">
-    <title>Coming Soon | AVX Engineering Solutions</title>
+    <title>Website Maintenance | AVX Engineering Solutions</title>
     <link rel="icon" type="image/png" href="{{ asset('avx-logo.png') }}">
     <style>
         :root {
@@ -149,9 +148,9 @@
 
         <main class="shell hero">
             <div class="copy reveal">
-                <p class="eyebrow">A new flight is taking shape</p>
-                <h1>Engineering<br>what&rsquo;s next.<span>Coming soon.</span></h1>
-                <p class="intro">We&rsquo;re building a new home for our unmanned systems, engineering design, and software projects. While we prepare for launch, our team is here to talk about what you want to build.</p>
+                <p class="eyebrow">Website maintenance</p>
+                <h1>We&rsquo;ll Be<br><span>Back Soon.</span></h1>
+                <p class="intro">We&rsquo;re making a few improvements to our website. Please check back shortly. In the meantime, our team is here to talk about what you want to build.</p>
                 <div class="actions">
                     <a class="contact-button" href="mailto:info@avxengineering.com">
                         Contact our team

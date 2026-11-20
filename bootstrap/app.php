@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureAdministrator;
 use App\Http\Middleware\FrameProtection;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->prepend(FrameProtection::class);
+        $middleware->preventRequestsDuringMaintenance(except: ['admin', 'admin/*']);
+        $middleware->alias(['admin' => EnsureAdministrator::class]);
+        $middleware->redirectGuestsTo(fn (): string => route('admin.login'));
+        $middleware->redirectUsersTo(fn (): string => route('admin.dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

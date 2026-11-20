@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminSessionController;
+use App\Http\Controllers\AdminSettingsController;
 use App\Http\Controllers\AlphaRegistrationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
@@ -10,6 +12,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+
+Route::prefix('admin')->name('admin.')->group(function (): void {
+    Route::middleware('guest')->group(function (): void {
+        Route::get('/login', [AdminSessionController::class, 'create'])->name('login');
+        Route::post('/login', [AdminSessionController::class, 'store'])
+            ->middleware('throttle:20,1')->name('login.store');
+    });
+
+    Route::middleware(['auth', 'auth.session', 'admin'])->group(function (): void {
+        Route::get('/', [AdminSessionController::class, 'dashboard'])->name('dashboard');
+        Route::post('/logout', [AdminSessionController::class, 'destroy'])->name('logout');
+        Route::get('/settings', [AdminSettingsController::class, 'edit'])->name('settings');
+        Route::patch('/settings/password', [AdminSettingsController::class, 'updatePassword'])
+            ->middleware('throttle:10,1')->name('settings.password');
+        Route::patch('/settings/appearance', [AdminSettingsController::class, 'updateAppearance'])->name('settings.appearance');
+        Route::patch('/settings/maintenance', [AdminSettingsController::class, 'updateMaintenance'])
+            ->middleware('throttle:10,1')->name('settings.maintenance');
+    });
+});
 
 Route::redirect('/favicon.ico', '/avx-logo.png', 301);
 
