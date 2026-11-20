@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminJobOrderController;
+use App\Http\Controllers\AdminMessageController;
 use App\Http\Controllers\AdminSessionController;
 use App\Http\Controllers\AdminSettingsController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AlphaRegistrationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
@@ -23,6 +26,15 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
     Route::middleware(['auth', 'auth.session', 'admin'])->group(function (): void {
         Route::get('/', [AdminSessionController::class, 'dashboard'])->name('dashboard');
         Route::post('/logout', [AdminSessionController::class, 'destroy'])->name('logout');
+        Route::resource('users', AdminUserController::class)->only(['index', 'create', 'store', 'edit', 'update']);
+        Route::resource('job-orders', AdminJobOrderController::class)->only(['index', 'create', 'store', 'edit', 'update']);
+        Route::get('/messages/direct/create', [AdminMessageController::class, 'createDirect'])->name('messages.direct.create');
+        Route::post('/messages/direct', [AdminMessageController::class, 'storeDirect'])->name('messages.direct.store');
+        Route::resource('messages', AdminMessageController::class)->parameters(['messages' => 'group'])
+            ->only(['index', 'create', 'store', 'show', 'edit', 'update']);
+        Route::get('/messages/{group}/feed', [AdminMessageController::class, 'feed'])->name('messages.feed');
+        Route::post('/messages/{group}/send', [AdminMessageController::class, 'send'])
+            ->middleware('throttle:60,1')->name('messages.send');
         Route::get('/settings', [AdminSettingsController::class, 'edit'])->name('settings');
         Route::patch('/settings/password', [AdminSettingsController::class, 'updatePassword'])
             ->middleware('throttle:10,1')->name('settings.password');
