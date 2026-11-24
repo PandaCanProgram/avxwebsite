@@ -7,7 +7,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 
 class AdminSessionController extends Controller
 {
@@ -23,11 +22,6 @@ class AdminSessionController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended(route('admin.dashboard'));
-    }
-
-    public function dashboard(): View
-    {
-        return view('admin-dashboard');
     }
 
     public function destroy(Request $request): RedirectResponse

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminJobOrderController;
 use App\Http\Controllers\AdminMessageController;
 use App\Http\Controllers\AdminSessionController;
@@ -24,7 +25,7 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
     });
 
     Route::middleware(['auth', 'auth.session', 'admin'])->group(function (): void {
-        Route::get('/', [AdminSessionController::class, 'dashboard'])->name('dashboard');
+        Route::get('/', AdminDashboardController::class)->name('dashboard');
         Route::post('/logout', [AdminSessionController::class, 'destroy'])->name('logout');
         Route::resource('users', AdminUserController::class)->only(['index', 'create', 'store', 'edit', 'update']);
         Route::resource('job-orders', AdminJobOrderController::class)->only(['index', 'create', 'store', 'edit', 'update']);

@@ -3,6 +3,7 @@
         <p class="admin-eyebrow">AVX Workspace</p>
         <h1>Dashboard</h1>
         <p class="admin-dashboard-intro">Welcome back, {{ auth()->user()->name }}.</p>
+        @include('partials.admin-job-calendar')
         <section class="admin-welcome-panel" aria-labelledby="admin-workspace-title">
             <div class="admin-welcome-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m5 12 4 4L19 6"/></svg></div>
             <div>
